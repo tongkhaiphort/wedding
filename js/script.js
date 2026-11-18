@@ -70,21 +70,21 @@ window.addEventListener('mousemove', (e) => {
   envelopeBody.style.transform = `rotateY(${xNorm * 10}deg) rotateX(${-yNorm * 8}deg)`;
 });
 
-// Spawn floating ambient champagne petals on intro screen
+// Spawn floating ambient champagne petals on intro screen (slow, graceful drift)
 function spawnIntroAmbiance() {
   if (prefersReducedMotion || isWeakDevice) return;
   const layer = document.getElementById('introGoldDustLayer');
   if (!layer) return;
   layer.innerHTML = '';
-  const count = isPhone ? 6 : 12;
+  const count = isPhone ? 8 : 16;
   for (let i = 0; i < count; i++) {
     const petal = document.createElement('div');
     petal.className = 'intro-ambient-petal';
-    const size = 6 + Math.random() * 8;
-    const left = 5 + Math.random() * 90;
-    const dur = 7 + Math.random() * 8;
-    const delay = Math.random() * 6;
-    petal.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + left + '%;bottom:-10px;animation-duration:' + dur + 's;animation-delay:' + delay + 's;';
+    const size = 5 + Math.random() * 8;
+    const left = 3 + Math.random() * 94;
+    const dur = 18 + Math.random() * 14; // Slower: 18s - 32s
+    const delay = Math.random() * 10;
+    petal.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + left + '%;bottom:-15px;animation-duration:' + dur + 's;animation-delay:' + delay + 's;';
     layer.appendChild(petal);
   }
 }
@@ -95,21 +95,44 @@ function playIntroEntrance() {
   const screen = document.getElementById('envelopeScreen');
   if (!screen || isEnvelopeOpened) return;
 
+  // Start everything invisible
   gsap.set(['#envelopeGreeting', '#envelopeBody', '#waxSeal', '#openGuidePill', '#introCtaBtn', '#introAudioCue', '.intro-corner-ornament'], {
     opacity: 0
   });
-  gsap.set('#envelopeGreeting', { y: -24 });
-  gsap.set('#envelopeBody', { scale: 0.92, y: 15 });
-  gsap.set('#waxSeal', { scale: 0.6 });
-  gsap.set(['#introCtaBtn', '#introAudioCue'], { y: 20 });
+  gsap.set('#envelopeGreeting', { y: -30, scale: 0.96 });
+  gsap.set('#envelopeBody', { scale: 0.88, y: 30 });
+  gsap.set('#waxSeal', { scale: 0.5, rotation: -15 });
+  gsap.set(['#introCtaBtn', '#introAudioCue'], { y: 24, scale: 0.95 });
+  gsap.set('#openGuidePill', { y: 16, scale: 0.9 });
 
-  const enterTl = gsap.timeline({ delay: 0.15 });
+  const enterTl = gsap.timeline({ delay: 0.3 });
   enterTl
-    .to('.intro-corner-ornament', { opacity: 0.45, duration: 0.8, ease: 'power2.out', stagger: 0.08 })
-    .to('#envelopeGreeting', { opacity: 1, y: 0, duration: 0.75, ease: 'power2.out' }, '-=0.6')
-    .to('#envelopeBody', { opacity: 1, scale: 1, y: 0, duration: 0.85, ease: 'power2.out' }, '-=0.55')
-    .to('#waxSeal', { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.6)' }, '-=0.45')
-    .to(['#openGuidePill', '#introCtaBtn', '#introAudioCue'], { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.08 }, '-=0.35');
+    // Corner ornaments fade in gently
+    .to('.intro-corner-ornament', {
+      opacity: 0.45, duration: 1.2, ease: 'power2.out', stagger: 0.1
+    })
+    // Greeting text floats down
+    .to('#envelopeGreeting', {
+      opacity: 1, y: 0, scale: 1, duration: 0.9, ease: 'power3.out'
+    }, '-=0.9')
+    // Envelope body scales up elegantly
+    .to('#envelopeBody', {
+      opacity: 1, scale: 1, y: 0, duration: 1.1, ease: 'power3.out'
+    }, '-=0.65')
+    // Wax seal pops in with a satisfying bounce
+    .to('#waxSeal', {
+      opacity: 1, scale: 1, rotation: 0, duration: 0.85, ease: 'back.out(2.2)'
+    }, '-=0.5')
+    // Guide pill, button, audio cue stagger in
+    .to('#openGuidePill', {
+      opacity: 1, y: 0, scale: 1, duration: 0.65, ease: 'power2.out'
+    }, '-=0.3')
+    .to('#introCtaBtn', {
+      opacity: 1, y: 0, scale: 1, duration: 0.65, ease: 'back.out(1.4)'
+    }, '-=0.4')
+    .to('#introAudioCue', {
+      opacity: 1, y: 0, scale: 1, duration: 0.55, ease: 'power2.out'
+    }, '-=0.35');
 }
 
 // Silky Smooth Opening Sequence
@@ -119,43 +142,60 @@ function startOpeningSequence() {
   isIntroAnimating = true;
 
   const screen = document.getElementById('envelopeScreen');
+  const flap = document.getElementById('envelopeFlap');
+  const card = document.getElementById('innerCard');
+  const body = document.getElementById('envelopeBody');
+
   if (screen) {
     screen.classList.add('is-animating');
-    gsap.set(screen, { willChange: 'transform, opacity' });
+    gsap.set(screen, { willChange: 'opacity, transform' });
   }
 
-  // Hardware-accelerate elements & prevent CSS transition fight
+  // Remove CSS transitions that could fight GSAP
+  if (body) {
+    body.style.transition = 'none';
+    body.style.transform = 'none';
+  }
+  if (flap) flap.style.transition = 'none';
+  if (card) card.style.transition = 'none';
+
+  // Hardware-accelerate elements & prevent layout jitter
   gsap.set(['#envelopeFlap', '#innerCard', '#waxSealContainer', '#waxSeal', '#envelopeBody'], {
     force3D: true,
     willChange: 'transform, opacity'
   });
-
-  // Clear any tilt from mousemove
-  if (envelopeBody) {
-    envelopeBody.style.transform = 'none';
-  }
 
   // Unmute & play wedding audio on this valid user gesture
   if (!isPlayingAudio) {
     toggleAudio();
   }
 
-  // Quick fade of button & guides
+  // Smooth fade of UI elements (soft & graceful)
   gsap.to(['#openGuidePill', '#introCtaBtn', '#introAudioCue', '#introFooterInfo'], {
     opacity: 0,
-    y: 12,
-    duration: 0.3,
+    y: 16,
+    scale: 0.94,
+    duration: 0.45,
     pointerEvents: 'none',
-    ease: 'power2.in'
+    ease: 'power2.inOut',
+    stagger: 0.03
   });
   gsap.to('#envelopeGreeting', {
-    opacity: 0.35,
-    y: -12,
-    duration: 0.75,
-    ease: 'power2.out'
+    opacity: 0,
+    y: -16,
+    duration: 0.6,
+    ease: 'power2.inOut'
+  });
+
+  // Fade out ambient petals
+  gsap.to('.intro-ambient-petal', {
+    opacity: 0,
+    duration: 0.7,
+    ease: 'power1.out'
   });
 
   const tl = gsap.timeline({
+    defaults: { force3D: true },
     onComplete: () => {
       isIntroAnimating = false;
       if (screen) {
@@ -178,68 +218,86 @@ function startOpeningSequence() {
       }
 
       if (typeof ScrollTrigger !== 'undefined') {
-        setTimeout(() => ScrollTrigger.refresh(), 250);
+        setTimeout(() => ScrollTrigger.refresh(), 200);
       }
     }
   });
 
-  // Step 1: Wax seal compression & pop
-  tl.to('#waxSeal', { scale: 0.94, duration: 0.16, ease: 'power2.in' })
-    .to('#waxSeal', {
-      scale: 1.25,
-      z: 50,
-      boxShadow: '0 24px 42px rgba(0,0,0,0.85)',
-      duration: 0.45,
-      ease: 'back.out(1.5)'
-    })
-    .to('#waxSealContainer', {
-      x: 230,
-      y: -110,
-      opacity: 0,
-      rotation: 28,
-      duration: 0.65,
-      ease: 'power2.in'
-    }, '-=0.1')
+  // Step 1: Wax seal compression -> gentle bloom & dissolve
+  tl.to('#waxSeal', {
+    scale: 0.92,
+    duration: 0.2,
+    ease: 'power2.in'
+  })
+  .to('#waxSeal', {
+    scale: 1.18,
+    z: 40,
+    duration: 0.45,
+    ease: 'back.out(1.6)'
+  })
+  .to('#waxSealContainer', {
+    y: -35,
+    opacity: 0,
+    scale: 1.05,
+    duration: 0.65,
+    ease: 'power2.out'
+  }, '-=0.1')
 
-    // Step 2: Flap opens smoothly 180deg (z-index flipped at midpoint without onUpdate thrash)
-    .to('#envelopeFlap', {
-      rotateX: 180,
-      duration: 1.05,
-      ease: 'power2.inOut',
-      transformOrigin: 'top center'
-    }, '-=0.35')
-    .set('#envelopeFlap', { zIndex: 5 }, '<0.52')
+  // Step 2: Flap unfolds smoothly 180deg with elegant deceleration
+  .to('#envelopeFlap', {
+    rotateX: 180,
+    duration: 1.25,
+    ease: 'power2.inOut',
+    transformOrigin: 'top center'
+  }, '-=0.35')
+  .set('#envelopeFlap', { zIndex: 5 }, '<0.62')
 
-    // Step 3: Inner Card rises majestically from within envelope
-    .to('#innerCard', {
-      y: -215,
-      rotateZ: -1.5,
-      scale: 1.05,
-      duration: 1.15,
-      ease: 'power3.out'
-    }, '-=0.45')
-    .to('#envelopeBody', {
-      y: 42,
-      opacity: 0.88,
-      duration: 0.95,
-      ease: 'power2.out'
-    }, '<')
+  // Step 3: Inner Card rises majestically from within envelope
+  .to('#innerCard', {
+    y: -215,
+    rotateZ: -1.0,
+    scale: 1.06,
+    duration: 1.35,
+    ease: 'power3.out'
+  }, '-=0.55')
+  .to('#envelopeBody', {
+    y: 38,
+    opacity: 0.82,
+    scale: 0.97,
+    duration: 1.15,
+    ease: 'power2.out'
+  }, '<')
 
-    // Step 4: Card becomes centerpiece
-    .to('#innerCard', {
-      scale: 1.15,
-      y: -95,
-      opacity: 1,
-      duration: 0.7,
-      ease: 'power2.inOut'
-    })
+  // Step 4: Card becomes centerpiece with royal poise
+  .to('#innerCard', {
+    scale: 1.14,
+    y: -105,
+    opacity: 1,
+    rotateZ: 0,
+    duration: 0.85,
+    ease: 'power2.inOut'
+  })
 
-    // Step 5: Screen slides up like a theatre curtain, revealing the cover hero
-    .to('#envelopeScreen', {
-      yPercent: -100,
-      duration: 0.88,
-      ease: 'power3.inOut'
-    }, '-=0.15');
+  // Step 5: Screen gently cross-fades & glides up to reveal cover hero
+  .to('#envelopeScreen', {
+    opacity: 0,
+    yPercent: -15,
+    scale: 1.02,
+    duration: 1.15,
+    ease: 'power3.inOut'
+  }, '+=0.15')
+
+  // Seamlessly cue the hero titles as the intro fades
+  .fromTo('#coverHeroScreen .rosegold-foil-title, #coverHeroScreen .rosegold-foil-couple', {
+    y: 22,
+    opacity: 0
+  }, {
+    y: 0,
+    opacity: 1,
+    duration: 1.05,
+    stagger: 0.12,
+    ease: 'power3.out'
+  }, '-=0.75');
 }
 
 function reopenIntro() {
@@ -956,17 +1014,19 @@ function spawnGoldDust() {
   if (!motionOK || isWeakDevice) return;
   const layer = document.getElementById('goldDustLayer');
   if (!layer) return;
-  for (let i = 0; i < 18; i++) {
+  layer.innerHTML = '';
+  const count = isPhone ? 12 : 24;
+  for (let i = 0; i < count; i++) {
     const s = document.createElement('span');
     const size = 2 + Math.random() * 3.5;
-    const dur = 9 + Math.random() * 9;
+    const dur = 22 + Math.random() * 20; // Slower: 22s - 42s
     const left = Math.random() * 100;
-    const delay = Math.random() * 8;
+    const delay = Math.random() * 14;
     s.className = 'gold-dust';
     s.style.width = size + 'px';
     s.style.height = size + 'px';
     s.style.left = left + '%';
-    s.style.bottom = '-10px';
+    s.style.bottom = '-15px';
     s.style.animationDuration = dur + 's';
     s.style.animationDelay = delay + 's';
     layer.appendChild(s);
@@ -1201,7 +1261,6 @@ function handleWishSubmit(e) {
 
   activeWishes.unshift(newWish);
   saveWishes(activeWishes);
-  renderWishes();
 
   // Reset form inputs
   nameInput.value = '';
@@ -1234,11 +1293,7 @@ function handleWishSubmit(e) {
     }, 12000);
   }
 
-  // Scroll the wishes feed to top smoothly
-  const container = document.getElementById('wishesContainer');
-  if (container) {
-    container.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  // Scroll wishes feed removed (table deleted)
 }
 
 function toggleWishLike(id) {
@@ -1257,9 +1312,4 @@ function toggleWishLike(id) {
   renderWishes();
 }
 
-// Initial render of wishes on script load
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', renderWishes);
-} else {
-  renderWishes();
-}
+// Initial render removed (guestbook table deleted)
