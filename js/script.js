@@ -798,36 +798,47 @@ function updatePageProgress() {
 window.addEventListener('scroll', updatePageProgress, { passive: true });
 updatePageProgress();
 
-// ── Mobile Sidebar Dock ScrollSpy ─────────────────────────────────────────
-function updateSidebarActiveState() {
-  const sidebar = document.getElementById('mobileSidebarDock');
-  if (!sidebar) return;
+// ── Floating Bottom Navigation Dock (Facebook-style Island Dock) ─────────
+function updateBottomNavVisibility() {
+  const dock = document.getElementById('floatingBottomDock');
+  if (!dock) return;
 
-  const sections = [
-    { id: 'invitationSection', el: document.getElementById('invitationSection') },
-    { id: 'countdownSection', el: document.getElementById('countdownSection') },
-    { id: 'programmeSection', el: document.getElementById('programmeSection') },
-    { id: 'venueSection', el: document.getElementById('venueSection') }
-  ];
+  const isIntro = document.body.classList.contains('intro-active') || document.documentElement.classList.contains('intro-active');
+  const scrollY = window.scrollY || window.pageYOffset || 0;
+  // Don't show on first page: wait until user scrolls down past ~320px
+  const threshold = Math.min(360, window.innerHeight * 0.42);
+  const shouldShow = !isIntro && scrollY > threshold;
 
-  const scrollPos = window.scrollY + window.innerHeight * 0.4;
-  let activeId = null;
+  dock.classList.toggle('show', shouldShow);
 
-  for (let i = sections.length - 1; i >= 0; i--) {
-    const s = sections[i];
-    if (s.el && scrollPos >= s.el.offsetTop) {
-      activeId = s.id;
-      break;
+  if (shouldShow) {
+    const sections = [
+      { id: 'coverHeroScreen', el: document.getElementById('coverHeroScreen') },
+      { id: 'invitationSection', el: document.getElementById('invitationSection') },
+      { id: 'countdownSection', el: document.getElementById('countdownSection') },
+      { id: 'programmeSection', el: document.getElementById('programmeSection') },
+      { id: 'venueSection', el: document.getElementById('venueSection') }
+    ];
+
+    const scrollPos = scrollY + window.innerHeight * 0.38;
+    let activeId = 'invitationSection';
+
+    for (let i = sections.length - 1; i >= 0; i--) {
+      const s = sections[i];
+      if (s.el && scrollPos >= s.el.offsetTop) {
+        activeId = s.id;
+        break;
+      }
     }
-  }
 
-  document.querySelectorAll('.sidebar-nav-btn').forEach(btn => {
-    const target = btn.getAttribute('data-sidebar-target');
-    btn.classList.toggle('active', target === activeId);
-  });
+    document.querySelectorAll('.dock-nav-btn').forEach(btn => {
+      const target = btn.getAttribute('data-dock-target');
+      btn.classList.toggle('active', target === activeId);
+    });
+  }
 }
-window.addEventListener('scroll', updateSidebarActiveState, { passive: true });
-updateSidebarActiveState();
+window.addEventListener('scroll', updateBottomNavVisibility, { passive: true });
+updateBottomNavVisibility();
 
 
 function copyInvitationLink() {
