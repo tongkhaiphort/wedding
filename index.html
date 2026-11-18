@@ -1706,150 +1706,179 @@
       <!-- Main Layout: Grid with Left Form & Right Table/Feed -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 w-full items-start">
         
-        <!-- LEFT: Wish Submission Form (5 cols) -->
+        <!-- LEFT: Guest Sign-In & Wish Submission Box (5 cols) -->
         <div class="lg:col-span-5 w-full">
           <div class="bg-[#2b241b]/95 border border-[#d8c49a]/40 rounded-2xl sm:rounded-3xl p-6 sm:p-7 shadow-[0_16px_35px_rgba(0,0,0,0.45)] backdrop-blur-md relative overflow-hidden">
             <div class="absolute -top-16 -right-16 w-36 h-36 bg-[#d8c49a]/10 rounded-full blur-2xl pointer-events-none"></div>
 
-            <div class="flex items-center space-x-3 pb-4 mb-5 border-b border-[#d8c49a]/25">
-              <div class="w-10 h-10 rounded-full bg-[#d8c49a]/15 border border-[#d8c49a]/50 flex items-center justify-center text-[#d8c49a] shadow-inner">
-                <i data-lucide="pen-tool" class="w-5 h-5 text-[#d8c49a]"></i>
-              </div>
-              <div>
-                <h3 class="font-['Noto_Serif_Khmer'] text-base sm:text-lg text-[#fffaf0] leading-snug">
-                  ផ្ញើសារជូនពរ
-                </h3>
-                <span class="text-[11px] text-[#d8c49a] font-['Kantumruy_Pro'] font-light">Send Your Blessing · ម្នាក់បានតែម្ដង (1 Wish Limit)</span>
-              </div>
-            </div>
-
-            <!-- Notice: Already Sent Wish (One-time submission limit) -->
-            <div id="wishAlreadySentBox" class="hidden mb-5 bg-[#1e1912]/95 border border-[#d8c49a]/40 rounded-2xl p-4 sm:p-5 shadow-lg space-y-3 font-['Kantumruy_Pro']">
-              <div class="flex items-center space-x-2.5 text-[#d8c49a]">
-                <div class="w-8 h-8 rounded-full bg-[#7c8b6a]/20 border border-[#7c8b6a]/50 flex items-center justify-center text-[#7c8b6a] shrink-0">
-                  <i data-lucide="check-circle" class="w-4 h-4"></i>
+            <!-- Card Header -->
+            <div class="flex items-center justify-between pb-4 mb-5 border-b border-[#d8c49a]/25">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-[#d8c49a]/15 border border-[#d8c49a]/50 flex items-center justify-center text-[#d8c49a] shadow-inner">
+                  <i data-lucide="pen-tool" class="w-5 h-5 text-[#d8c49a]"></i>
                 </div>
                 <div>
-                  <h4 class="text-xs sm:text-sm font-semibold text-[#fffaf0]">លោកអ្នកបានផ្ញើសារជូនពររួចរាល់ហើយ</h4>
-                  <span class="text-[11px] text-[#d8c49a]/80">You have already submitted your wedding wish (1 wish limit)</span>
+                  <h3 class="font-['Noto_Serif_Khmer'] text-base sm:text-lg text-[#fffaf0] leading-snug">
+                    ផ្ញើសារជូនពរ
+                  </h3>
+                  <span class="text-[11px] text-[#d8c49a] font-['Kantumruy_Pro'] font-light">Guest Blessing · ម្នាក់បានតែម្ដង</span>
                 </div>
               </div>
-              <div id="wishSentSummary" class="text-[11px] sm:text-xs text-[#e5dac3]/90 bg-[#2b241b]/80 p-3 rounded-xl border border-[#d8c49a]/20 space-y-1">
-                <!-- Filled dynamically via JS -->
+              <!-- Status Pill -->
+              <div id="guestLoginBadge" class="hidden">
+                <span class="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-[10.5px] bg-[#7c8b6a]/20 border border-[#7c8b6a]/40 text-[#c2d1b0] font-['Kantumruy_Pro']">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#7c8b6a] animate-pulse"></span>
+                  <span id="guestLoginBadgeName">ភ្ញៀវ</span>
+                </span>
               </div>
-              <a id="wishResendTelegramBtn" href="https://t.me/tongkhai08" target="_blank" rel="noopener noreferrer"
-                class="inline-flex items-center justify-center space-x-2 bg-[#229ED9] hover:bg-[#1c8ec4] text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-all shadow-md w-full">
-                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .26z"/>
-                </svg>
-                <span>មើល ឬផ្ញើទៅកាន់ Telegram ម្ដងទៀត (@tongkhai08)</span>
-                <i data-lucide="external-link" class="w-3.5 h-3.5 opacity-80"></i>
-              </a>
             </div>
 
-            <form id="weddingWishForm" onsubmit="handleWishSubmit(event)" class="space-y-4">
-              <!-- Name Input -->
-              <div>
-                <label for="wishSenderName" class="block text-xs font-medium text-[#f7efdc] mb-1.5 font-['Kantumruy_Pro']">
-                  ឈ្មោះរបស់អ្នក / Your Name <span class="text-[#d8c49a]">*</span>
-                </label>
-                <div class="relative">
-                  <i data-lucide="user" class="w-4 h-4 text-[#d8c49a]/70 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                  <input type="text" id="wishSenderName" required placeholder="សូមបញ្ចូលឈ្មោះរបស់អ្នក..."
-                    class="w-full bg-[#1e1912]/90 border border-[#d8c49a]/35 focus:border-[#d8c49a] focus:ring-1 focus:ring-[#d8c49a] rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-[#fffaf0] placeholder-[#d8c49a]/40 outline-none transition-all" />
-                </div>
-              </div>
-
-              <!-- Phone Number Input (Cambodia +855 only) -->
-              <div>
-                <label for="wishSenderPhone" class="block text-xs font-medium text-[#f7efdc] mb-1.5 font-['Kantumruy_Pro'] flex items-center justify-between">
-                  <span>លេខទូរស័ព្ទ / Phone Number <span class="text-[#d8c49a]">*</span></span>
-                  <span class="text-[10px] text-[#d8c49a] font-mono bg-[#d8c49a]/15 px-2 py-0.5 rounded-full border border-[#d8c49a]/30">🇰🇭 +855 (កម្ពុជា)</span>
-                </label>
-                <div class="relative flex items-center">
-                  <div class="absolute left-3 flex items-center space-x-1.5 pointer-events-none text-[#d8c49a]">
-                    <span class="text-sm">🇰🇭</span>
-                    <span class="text-xs font-mono font-semibold text-[#d8c49a]">+855</span>
-                    <span class="text-[#d8c49a]/40">|</span>
-                  </div>
-                  <input type="tel" id="wishSenderPhone" required placeholder="012 345 678 ឬ 12 345 678"
-                    oninput="document.getElementById('phoneErrorMsg')?.classList.add('hidden'); this.classList.remove('border-rose-500');"
-                    class="w-full bg-[#1e1912]/90 border border-[#d8c49a]/35 focus:border-[#d8c49a] focus:ring-1 focus:ring-[#d8c49a] rounded-xl pl-24 pr-4 py-2.5 text-xs sm:text-sm text-[#fffaf0] placeholder-[#d8c49a]/40 outline-none font-mono transition-all" />
-                </div>
-                <p id="phoneErrorMsg" class="hidden text-[11px] text-rose-400 mt-1 font-['Kantumruy_Pro'] flex items-center space-x-1">
-                  <i data-lucide="alert-circle" class="w-3.5 h-3.5 shrink-0 text-rose-400"></i>
-                  <span>សូមបញ្ចូលលេខទូរស័ព្ទកម្ពុជាឱ្យបានត្រឹមត្រូវ (+855 / 0XX XXX XXX)</span>
+            <!-- STEP 1: GUEST LOGIN / IDENTIFICATION (Shown if guest not entered) -->
+            <div id="guestLoginStep" class="space-y-4">
+              <div class="bg-[#1e1912]/80 border border-[#d8c49a]/25 rounded-xl p-3.5 space-y-1">
+                <p class="text-xs text-[#f7efdc] font-medium font-['Kantumruy_Pro'] flex items-center space-x-1.5">
+                  <i data-lucide="user-check" class="w-4 h-4 text-[#d8c49a]"></i>
+                  <span>សូមបញ្ចូលឈ្មោះ និងលេខទូរស័ព្ទរបស់អ្នក</span>
+                </p>
+                <p class="text-[11px] text-[#d8c49a]/80 font-['Kantumruy_Pro'] font-light leading-relaxed">
+                  ដើម្បីផ្ទៀងផ្ទាត់ និងកត់ត្រាពាក្យជូនពរចូលក្នុងសៀវភៅអនុស្សាវរីយ៍ (ម្នាក់អាចផ្ញើបានតែមួយដងប៉ុណ្ណោះ)
                 </p>
               </div>
 
-              <!-- Relationship / Group Select -->
-              <div>
-                <label for="wishRelationship" class="block text-xs font-medium text-[#f7efdc] mb-1.5 font-['Kantumruy_Pro']">
-                  ទំនាក់ទំនង / Relationship
-                </label>
-                <div class="relative">
-                  <i data-lucide="heart-handshake" class="w-4 h-4 text-[#d8c49a]/70 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                  <select id="wishRelationship"
-                    class="w-full bg-[#1e1912]/90 border border-[#d8c49a]/35 focus:border-[#d8c49a] focus:ring-1 focus:ring-[#d8c49a] rounded-xl pl-10 pr-8 py-2.5 text-xs sm:text-sm text-[#fffaf0] outline-none appearance-none cursor-pointer transition-all">
-                    <option value="ភ្ញៀវខាងកូនកំលោះ">🤵 ភ្ញៀវខាងកូនកំលោះ (Groom's Guest)</option>
-                    <option value="ភ្ញៀវខាងកូនក្រមុំ">👰 ភ្ញៀវខាងកូនក្រមុំ (Bride's Guest)</option>
-                    <option value="មិត្តភក្តិទាំងសងខាង" selected>🤝 មិត្តភក្តិទាំងសងខាង (Mutual Friends)</option>
-                    <option value="សាច់ញាតិបងប្អូន">👨‍👩‍👧‍👦 សាច់ញាតិបងប្អូន (Family &amp; Relatives)</option>
-                  </select>
-                  <i data-lucide="chevron-down" class="w-4 h-4 text-[#d8c49a]/70 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+              <form id="guestLoginForm" onsubmit="handleGuestLogin(event)" class="space-y-4">
+                <!-- Name Input -->
+                <div>
+                  <label for="loginGuestName" class="block text-xs font-medium text-[#f7efdc] mb-1.5 font-['Kantumruy_Pro']">
+                    ឈ្មោះរបស់អ្នក / Your Name <span class="text-[#d8c49a]">*</span>
+                  </label>
+                  <div class="relative">
+                    <i data-lucide="user" class="w-4 h-4 text-[#d8c49a]/70 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                    <input type="text" id="loginGuestName" required placeholder="សូមបញ្ចូលឈ្មោះរបស់អ្នក..."
+                      class="w-full bg-[#1e1912]/90 border border-[#d8c49a]/35 focus:border-[#d8c49a] focus:ring-1 focus:ring-[#d8c49a] rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-[#fffaf0] placeholder-[#d8c49a]/40 outline-none transition-all" />
+                  </div>
                 </div>
-              </div>        
 
-              <!-- Quick Wishes Buttons -->
-              <div>
-                <span class="block text-[11px] text-[#d8c49a]/90 mb-1.5 font-['Kantumruy_Pro']">
-                  ពាក្យជូនពររហ័ស (Quick Blessings):
-                </span>
-                <div class="flex flex-wrap gap-1.5">
-                  <button type="button" onclick="insertQuickWish('សូមជូនពរឱ្យអ្នកទាំងពីរស្រឡាញ់គ្នាដល់ចាស់កោងខ្នង សុភមង្គលរៀងរហូត 💖')"
-                    class="text-[10.5px] bg-[#3b3326]/80 hover:bg-[#d8c49a] hover:text-[#3b3326] text-[#e5dac3] border border-[#d8c49a]/30 px-2.5 py-1 rounded-full transition-colors font-['Kantumruy_Pro']">
-                    💖 ស្រឡាញ់គ្នាដល់ចាស់
-                  </button>
-                  <button type="button" onclick="insertQuickWish('សូមឱ្យគ្រួសារថ្មីមានតែភាពត្រជាក់ត្រជុំ និងរកស៊ីមានបានជានិច្ច 💐')"
-                    class="text-[10.5px] bg-[#3b3326]/80 hover:bg-[#d8c49a] hover:text-[#3b3326] text-[#e5dac3] border border-[#d8c49a]/30 px-2.5 py-1 rounded-full transition-colors font-['Kantumruy_Pro']">
-                    💐 ត្រជាក់ត្រជុំ រកស៊ីមានបាន
-                  </button>
-                  <button type="button" onclick="insertQuickWish('សូមជូនពរជ័យ សិរីសួស្តី ជោគជ័យគ្រប់ភារកិច្ច និងឆាប់បានកូនពូកែ 🕊️')"
-                    class="text-[10.5px] bg-[#3b3326]/80 hover:bg-[#d8c49a] hover:text-[#3b3326] text-[#e5dac3] border border-[#d8c49a]/30 px-2.5 py-1 rounded-full transition-colors font-['Kantumruy_Pro']">
-                    🕊️ ឆាប់បានកូនពូកែ
-                  </button>
+                <!-- Phone Input (Cambodia +855) -->
+                <div>
+                  <label for="loginGuestPhone" class="block text-xs font-medium text-[#f7efdc] mb-1.5 font-['Kantumruy_Pro'] flex items-center justify-between">
+                    <span>លេខទូរស័ព្ទ / Phone Number <span class="text-[#d8c49a]">*</span></span>
+                    <span class="text-[10px] text-[#d8c49a] font-mono bg-[#d8c49a]/15 px-2 py-0.5 rounded-full border border-[#d8c49a]/30">🇰🇭 +855 (កម្ពុជា)</span>
+                  </label>
+                  <div class="relative flex items-center">
+                    <div class="absolute left-3 flex items-center space-x-1.5 pointer-events-none text-[#d8c49a]">
+                      <span class="text-sm">🇰🇭</span>
+                      <span class="text-xs font-mono font-semibold text-[#d8c49a]">+855</span>
+                      <span class="text-[#d8c49a]/40">|</span>
+                    </div>
+                    <input type="tel" id="loginGuestPhone" required placeholder="012 345 678 ឬ 12 345 678"
+                      oninput="document.getElementById('loginPhoneError')?.classList.add('hidden'); this.classList.remove('border-rose-500');"
+                      class="w-full bg-[#1e1912]/90 border border-[#d8c49a]/35 focus:border-[#d8c49a] focus:ring-1 focus:ring-[#d8c49a] rounded-xl pl-24 pr-4 py-2.5 text-xs sm:text-sm text-[#fffaf0] placeholder-[#d8c49a]/40 outline-none font-mono transition-all" />
+                  </div>
+                  <p id="loginPhoneError" class="hidden text-[11px] text-rose-400 mt-1 font-['Kantumruy_Pro'] flex items-center space-x-1">
+                    <i data-lucide="alert-circle" class="w-3.5 h-3.5 shrink-0 text-rose-400"></i>
+                    <span>សូមបញ្ចូលលេខទូរស័ព្ទកម្ពុជាឱ្យបានត្រឹមត្រូវ (+855 / 0XX XXX XXX)</span>
+                  </p>
                 </div>
+
+                <button type="submit"
+                  class="w-full btn-shimmer group relative inline-flex items-center justify-center space-x-2 py-3 rounded-xl text-[#3b3326] font-['Noto_Serif_Khmer'] text-xs sm:text-sm tracking-wider hover:scale-[1.01] active:scale-95 transition-all shadow-md cursor-pointer">
+                  <span>បន្តទៅសរសេរសារជូនពរ · Continue</span>
+                  <i data-lucide="arrow-right" class="w-4 h-4 text-[#3b3326] group-hover:translate-x-1 transition-transform"></i>
+                </button>
+              </form>
+            </div>
+
+            <!-- STEP 2: WRITE WISH (Shown when guest logged in and hasn't sent wish) -->
+            <div id="guestWriteWishStep" class="hidden space-y-4">
+              <!-- Current Guest Header with switch option -->
+              <div class="flex items-center justify-between bg-[#1e1912]/80 border border-[#d8c49a]/25 rounded-xl px-3.5 py-2.5">
+                <div class="flex items-center space-x-2 text-xs">
+                  <i data-lucide="user" class="w-3.5 h-3.5 text-[#d8c49a]"></i>
+                  <span id="activeGuestLabel" class="text-[#f7efdc] font-medium font-['Kantumruy_Pro']">ភ្ញៀវ៖ ...</span>
+                </div>
+                <button type="button" onclick="handleGuestLogout()"
+                  class="text-[11px] text-[#d8c49a] hover:text-[#fffaf0] underline font-['Kantumruy_Pro'] cursor-pointer">
+                  ប្តូរឈ្មោះ / Switch
+                </button>
               </div>
 
-              <!-- Wish Message Textarea -->
-              <div>
-                <label for="wishMessage" class="block text-xs font-medium text-[#f7efdc] mb-1.5 font-['Kantumruy_Pro']">
-                  សារជូនពរ / Your Message <span class="text-[#d8c49a]">*</span>
-                </label>
-                <div class="relative">
-                  <textarea id="wishMessage" rows="3" required placeholder="សូមសរសេរសារជូនពររបស់អ្នកនៅទីនេះ..."
-                    class="w-full bg-[#1e1912]/90 border border-[#d8c49a]/35 focus:border-[#d8c49a] focus:ring-1 focus:ring-[#d8c49a] rounded-xl p-3 text-xs sm:text-sm text-[#fffaf0] placeholder-[#d8c49a]/40 outline-none resize-none transition-all"></textarea>
+              <form id="weddingWishForm" onsubmit="handleWishSubmit(event)" class="space-y-4">
+                <!-- Relationship Select -->
+                <div>
+                  <label for="wishRelationship" class="block text-xs font-medium text-[#f7efdc] mb-1.5 font-['Kantumruy_Pro']">
+                    ទំនាក់ទំនងរបស់អ្នក / Relationship
+                  </label>
+                  <div class="relative">
+                    <i data-lucide="heart-handshake" class="w-4 h-4 text-[#d8c49a]/70 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                    <select id="wishRelationship"
+                      class="w-full bg-[#1e1912]/90 border border-[#d8c49a]/35 focus:border-[#d8c49a] focus:ring-1 focus:ring-[#d8c49a] rounded-xl pl-10 pr-8 py-2.5 text-xs sm:text-sm text-[#fffaf0] outline-none appearance-none cursor-pointer transition-all">
+                      <option value="ភ្ញៀវខាងកូនកំលោះ">🤵 ភ្ញៀវខាងកូនកំលោះ (Groom's Guest)</option>
+                      <option value="ភ្ញៀវខាងកូនក្រមុំ">👰 ភ្ញៀវខាងកូនក្រមុំ (Bride's Guest)</option>
+                      <option value="មិត្តភក្តិទាំងសងខាង" selected>🤝 មិត្តភក្តិទាំងសងខាង (Mutual Friends)</option>
+                      <option value="សាច់ញាតិបងប្អូន">👨‍👩‍👧‍👦 សាច់ញាតិបងប្អូន (Family &amp; Relatives)</option>
+                    </select>
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-[#d8c49a]/70 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                  </div>
                 </div>
-              </div>
 
-              <!-- Submit Button -->
-              <button type="submit" id="wishSubmitBtn"
-                class="w-full btn-shimmer group relative inline-flex items-center justify-center space-x-2 py-3 rounded-xl text-[#3b3326] font-['Noto_Serif_Khmer'] text-xs sm:text-sm tracking-wider hover:scale-[1.01] active:scale-95 transition-all shadow-md cursor-pointer">
-                <i data-lucide="send" class="w-4 h-4 text-[#3b3326] group-hover:translate-x-0.5 transition-transform"></i>
-                <span>ផ្ញើសារជូនពរ · Send Wish</span>
-              </button>
+                <!-- Quick Wishes Buttons -->
+                <div>
+                  <span class="block text-[11px] text-[#d8c49a]/90 mb-1.5 font-['Kantumruy_Pro']">
+                    ពាក្យជូនពររហ័ស (Quick Blessings):
+                  </span>
+                  <div class="flex flex-wrap gap-1.5">
+                    <button type="button" onclick="insertQuickWish('សូមជូនពរឱ្យអ្នកទាំងពីរស្រឡាញ់គ្នាដល់ចាស់កោងខ្នង សុភមង្គលរៀងរហូត 💖')"
+                      class="text-[10.5px] bg-[#3b3326]/80 hover:bg-[#d8c49a] hover:text-[#3b3326] text-[#e5dac3] border border-[#d8c49a]/30 px-2.5 py-1 rounded-full transition-colors font-['Kantumruy_Pro']">
+                      💖 ស្រឡាញ់គ្នាដល់ចាស់
+                    </button>
+                    <button type="button" onclick="insertQuickWish('សូមឱ្យគ្រួសារថ្មីមានតែភាពត្រជាក់ត្រជុំ និងរកស៊ីមានបានជានិច្ច 💐')"
+                      class="text-[10.5px] bg-[#3b3326]/80 hover:bg-[#d8c49a] hover:text-[#3b3326] text-[#e5dac3] border border-[#d8c49a]/30 px-2.5 py-1 rounded-full transition-colors font-['Kantumruy_Pro']">
+                      💐 ត្រជាក់ត្រជុំ រកស៊ីមានបាន
+                    </button>
+                    <button type="button" onclick="insertQuickWish('សូមជូនពរជ័យ សិរីសួស្តី ជោគជ័យគ្រប់ភារកិច្ច និងឆាប់បានកូនពូកែ 🕊️')"
+                      class="text-[10.5px] bg-[#3b3326]/80 hover:bg-[#d8c49a] hover:text-[#3b3326] text-[#e5dac3] border border-[#d8c49a]/30 px-2.5 py-1 rounded-full transition-colors font-['Kantumruy_Pro']">
+                      🕊️ ឆាប់បានកូនពូកែ
+                    </button>
+                  </div>
+                </div>
 
-              <!-- Success Alert Message -->
-              <!-- Success Alert & Telegram Action -->
-              <div id="wishSuccessToast" class="hidden text-center text-xs bg-[#1f1911] border border-[#d8c49a]/50 rounded-xl p-3.5 shadow-xl font-['Kantumruy_Pro'] space-y-2.5">
-                <div class="text-[#7c8b6a] font-medium flex items-center justify-center space-x-1.5">
-                  <i data-lucide="check-circle-2" class="w-4 h-4 text-[#7c8b6a]"></i>
-                  <span>សារជូនពររបស់អ្នកត្រូវបានផ្ញើជោគជ័យ!</span>
+                <!-- Wish Message Textarea -->
+                <div>
+                  <label for="wishMessage" class="block text-xs font-medium text-[#f7efdc] mb-1.5 font-['Kantumruy_Pro']">
+                    សារជូនពរ / Your Message <span class="text-[#d8c49a]">*</span>
+                  </label>
+                  <div class="relative">
+                    <textarea id="wishMessage" rows="3" required placeholder="សូមសរសេរសារជូនពររបស់អ្នកនៅទីនេះ..."
+                      class="w-full bg-[#1e1912]/90 border border-[#d8c49a]/35 focus:border-[#d8c49a] focus:ring-1 focus:ring-[#d8c49a] rounded-xl p-3 text-xs sm:text-sm text-[#fffaf0] placeholder-[#d8c49a]/40 outline-none resize-none transition-all"></textarea>
+                  </div>
                 </div>
-                <div class="text-[11px] text-[#e5dac3]/80">
-                  សូមចុចប៊ូតុងខាងក្រោមដើម្បីផ្ញើសារជូនពរនេះទៅកាន់ Telegram ដោយផ្ទាល់៖
+
+                <button type="submit" id="wishSubmitBtn"
+                  class="w-full btn-shimmer group relative inline-flex items-center justify-center space-x-2 py-3 rounded-xl text-[#3b3326] font-['Noto_Serif_Khmer'] text-xs sm:text-sm tracking-wider hover:scale-[1.01] active:scale-95 transition-all shadow-md cursor-pointer">
+                  <i data-lucide="send" class="w-4 h-4 text-[#3b3326] group-hover:translate-x-0.5 transition-transform"></i>
+                  <span>ផ្ញើសារជូនពរ · Send Wish (1 លើកប៉ុណ្ណោះ)</span>
+                </button>
+              </form>
+            </div>
+
+            <!-- STEP 3: ALREADY SENT CARD (Shown when current guest already sent wish) -->
+            <div id="guestAlreadySentStep" class="hidden space-y-4 font-['Kantumruy_Pro']">
+              <div class="bg-[#1e1912]/95 border border-[#d8c49a]/40 rounded-2xl p-4 sm:p-5 shadow-lg space-y-3">
+                <div class="flex items-center space-x-2.5 text-[#d8c49a]">
+                  <div class="w-9 h-9 rounded-full bg-[#7c8b6a]/20 border border-[#7c8b6a]/50 flex items-center justify-center text-[#7c8b6a] shrink-0">
+                    <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-xs sm:text-sm font-semibold text-[#fffaf0]">លោកអ្នកបានផ្ញើសារជូនពររួចរាល់ហើយ</h4>
+                    <span class="text-[11px] text-[#d8c49a]/80">You have already submitted your wedding wish</span>
+                  </div>
                 </div>
-                <a id="wishTelegramBtn" href="https://t.me/tongkhai08" target="_blank" rel="noopener noreferrer"
+
+                <div id="guestSentSummaryCard" class="text-[11px] sm:text-xs text-[#e5dac3]/90 bg-[#2b241b]/80 p-3.5 rounded-xl border border-[#d8c49a]/20 space-y-1.5">
+                  <!-- Rendered dynamically -->
+                </div>
+
+                <a id="wishTelegramBtnStep3" href="https://t.me/tongkhai08" target="_blank" rel="noopener noreferrer"
                   class="inline-flex items-center justify-center space-x-2 bg-[#229ED9] hover:bg-[#1c8ec4] text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-all shadow-md w-full">
                   <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .26z"/>
@@ -1857,42 +1886,68 @@
                   <span>ផ្ញើទៅកាន់ Telegram (@tongkhai08)</span>
                   <i data-lucide="external-link" class="w-3.5 h-3.5 opacity-80"></i>
                 </a>
+
+                <div class="text-center pt-1 border-t border-[#d8c49a]/15">
+                  <button type="button" onclick="handleGuestLogout()"
+                    class="text-[11px] text-[#d8c49a]/70 hover:text-[#d8c49a] underline cursor-pointer">
+                    ចូលដោយលេខទូរស័ព្ទផ្សេង (Sign in with another number)
+                  </button>
+                </div>
               </div>
-            </form>
+            </div>
+
           </div>
         </div>
 
-        <!-- RIGHT: Pre-wedding Video (7 cols) -->
+        <!-- RIGHT: Clean Wish Table & Pre-Wedding Video Tabs (7 cols) -->
         <div class="lg:col-span-7 w-full">
-          <div class="bg-[#2b241b]/95 border border-[#d8c49a]/40 rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_16px_35px_rgba(0,0,0,0.45)] backdrop-blur-md flex flex-col h-full">
-
-            <!-- Video Header -->
-            <div class="flex items-center space-x-3 px-6 py-4 border-b border-[#d8c49a]/25">
-              <div class="w-9 h-9 rounded-full bg-[#d8c49a]/15 border border-[#d8c49a]/50 flex items-center justify-center text-[#d8c49a] shadow-inner shrink-0">
-                <i data-lucide="film" class="w-4 h-4 text-[#d8c49a]"></i>
+          <div class="bg-[#2b241b]/95 border border-[#d8c49a]/40 rounded-2xl sm:rounded-3xl p-5 sm:p-7 shadow-[0_16px_35px_rgba(0,0,0,0.45)] backdrop-blur-md flex flex-col h-full min-h-[520px]">
+            
+            <!-- Navigation Tabs: Wishes Table vs Video -->
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-[#d8c49a]/25 flex-wrap gap-2">
+              <div class="inline-flex p-1 bg-[#1e1912]/80 border border-[#d8c49a]/30 rounded-xl space-x-1">
+                <button type="button" id="tabBtnWishes" onclick="switchWishTab('wishes')"
+                  class="px-3.5 py-1.5 rounded-lg text-xs font-['Kantumruy_Pro'] font-medium transition-all flex items-center space-x-1.5 bg-[#d8c49a] text-[#3b3326] shadow-sm cursor-pointer">
+                  <i data-lucide="message-square-heart" class="w-3.5 h-3.5"></i>
+                  <span>តារាងពាក្យជូនពរ</span>
+                </button>
+                <button type="button" id="tabBtnVideo" onclick="switchWishTab('video')"
+                  class="px-3.5 py-1.5 rounded-lg text-xs font-['Kantumruy_Pro'] font-medium transition-all flex items-center space-x-1.5 text-[#d8c49a] hover:text-[#fffaf0] cursor-pointer">
+                  <i data-lucide="film" class="w-3.5 h-3.5"></i>
+                  <span>វីដេអូព្រឺវែឌីង</span>
+                </button>
               </div>
-              <div>
-                <h3 class="font-['Noto_Serif_Khmer'] text-base sm:text-lg text-[#fffaf0] leading-snug">វីដេអូព្រឺវែឌីង</h3>
-                <span class="text-[11px] text-[#d8c49a] font-['Kantumruy_Pro'] font-light">Pre-Wedding Video</span>
+
+              <!-- Counter pill -->
+              <div id="wishesCounterBadge">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#d8c49a]/15 border border-[#d8c49a]/40 text-[#f7efdc]">
+                  <span id="wishesCountNumber">5</span>&nbsp;ពាក្យជូនពរ
+                </span>
               </div>
             </div>
 
-            <!-- Video Player -->
-            <div class="relative flex-1 bg-black" style="aspect-ratio:16/9;">
-              <video
-                id="preweddingVideo"
-                class="absolute inset-0 w-full h-full object-contain"
-                controls
-                preload="metadata"
-                playsinline>
-                <source src="Timeline 1.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+            <!-- TAB 1: Clean Wish Table Content -->
+            <div id="tabContentWishes" class="flex-1 flex flex-col">
+              <!-- Scrollable Table Container -->
+              <div id="wishesTableContainer" class="space-y-2.5 overflow-y-auto max-h-[520px] pr-1.5 custom-scrollbar flex-1">
+                <!-- Dynamically rendered via JS with clean, luxury rows -->
+              </div>
             </div>
 
-            <!-- Video Caption -->
-            <div class="px-6 py-3 text-center border-t border-[#d8c49a]/20">
-              <p class="font-['Kantumruy_Pro'] text-[11px] text-[#d8c49a]/80 tracking-wide">
+            <!-- TAB 2: Pre-wedding Video Content (Hidden by default, shown on tab click) -->
+            <div id="tabContentVideo" class="hidden flex-1 flex flex-col">
+              <div class="relative flex-1 bg-black rounded-xl overflow-hidden shadow-inner flex items-center justify-center min-h-[300px]" style="aspect-ratio:16/9;">
+                <video
+                  id="preweddingVideo"
+                  class="w-full h-full object-contain"
+                  controls
+                  preload="metadata"
+                  playsinline>
+                  <source src="Timeline 1.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              <p class="font-['Kantumruy_Pro'] text-[11px] text-[#d8c49a]/80 text-center mt-3 tracking-wide">
                 ភត សុភ័ក្រ &amp; កេត សុភាវី · Pre-Wedding Story
               </p>
             </div>

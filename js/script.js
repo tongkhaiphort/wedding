@@ -1166,147 +1166,12 @@ function saveWishes(wishes) {
 
 let activeWishes = getStoredWishes();
 
-function renderWishes() {
-  const container = document.getElementById('wishesContainer');
-  const countEl = document.getElementById('wishesCountNumber');
-  if (!container) return;
-
-  if (countEl) countEl.textContent = activeWishes.length;
-
-  if (activeWishes.length === 0) {
-    container.innerHTML = '<div class="text-center py-8 text-[#d8c49a]/60 text-xs font-sans">មិនទាន់មានពាក្យជូនពរនៅឡើយទេ។ សូមក្លាយជាអ្នកជូនពរដំបូងគេ!</div>';
-    return;
-  }
-
-  container.innerHTML = activeWishes.map((w) => {
-    const firstChar = (w.name || 'ភ្').trim().charAt(0);
-    const relTag = w.relationship || 'មិត្តភក្តិ';
-    const isLiked = !!w.liked;
-    const likeCount = w.likes || 0;
-
-    return `
-      <div class="wish-card-enter bg-[#241e16]/85 hover:bg-[#241e16] border border-[#d8c49a]/25 hover:border-[#d8c49a]/45 rounded-xl sm:rounded-2xl p-4 transition-all shadow-sm">
-        <div class="flex items-start justify-between gap-3 mb-2">
-          <div class="flex items-center space-x-2.5">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#d8c49a] to-[#a38b5b] text-[#241e16] font-['Noto_Serif_Khmer'] font-bold text-xs flex items-center justify-center shadow-sm shrink-0">
-              ${firstChar}
-            </div>
-            <div>
-              <h4 class="font-['Kantumruy_Pro'] font-medium text-xs sm:text-sm text-[#f7efdc] leading-tight">
-                ${w.name}
-              </h4>
-              <div class="flex items-center space-x-2 mt-0.5">
-                <span class="text-[10px] text-[#d8c49a] bg-[#d8c49a]/15 border border-[#d8c49a]/30 px-2 py-0.5 rounded-full font-['Kantumruy_Pro']">
-                  ${relTag}
-                </span>
-                <span class="text-[10px] text-[#e5dac3]/50 font-['Kantumruy_Pro']">
-                  ${w.time || 'ទើបតែផ្ញើ'}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <button type="button" onclick="toggleWishLike('${w.id}')"
-            class="flex items-center space-x-1 text-xs px-2.5 py-1 rounded-full border transition-all cursor-pointer ${isLiked ? 'bg-rose-500/20 border-rose-400/50 text-rose-300' : 'bg-[#3b3326]/60 hover:bg-[#3b3326] border-[#d8c49a]/30 text-[#e5dac3]'}"
-            title="ចូលចិត្តពាក្យជូនពរនេះ">
-            <i data-lucide="heart" class="w-3.5 h-3.5 ${isLiked ? 'fill-rose-400 text-rose-400' : 'text-[#d8c49a]'}"></i>
-            <span class="text-[11px] font-sans font-medium">${likeCount}</span>
-          </button>
-        </div>
-
-        <p class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#fffaf0]/95 leading-relaxed font-light pl-10 pr-2">
-          ${w.message}
-        </p>
-      </div>
-    `;
-  }).join('');
-
-  if (typeof lucide !== 'undefined' && lucide.createIcons) {
-    lucide.createIcons();
-  }
-}
-
-function insertQuickWish(text) {
-  const textarea = document.getElementById('wishMessage');
-  if (textarea) {
-    textarea.value = text;
-    textarea.focus();
-  }
-}
-
-function displayUserWishSent(data) {
-  const box = document.getElementById('wishAlreadySentBox');
-  const summary = document.getElementById('wishSentSummary');
-  const resendBtn = document.getElementById('wishResendTelegramBtn');
-  const form = document.getElementById('weddingWishForm');
-  const submitBtn = document.getElementById('wishSubmitBtn');
-
-  if (box && summary) {
-    summary.innerHTML = `
-      <div class="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#d8c49a]/20">
-        <span class="text-[#d8c49a] font-medium">👤 ឈ្មោះ៖</span>
-        <span class="text-[#fffaf0]">${data.name || ''} (${data.relationship || ''})</span>
-      </div>
-      <div class="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#d8c49a]/20">
-        <span class="text-[#d8c49a] font-medium">📞 លេខទូរស័ព្ទ៖</span>
-        <span class="text-[#fffaf0] font-mono">${data.phone || ''}</span>
-      </div>
-      <div>
-        <span class="text-[#d8c49a] font-medium block mb-1">💌 សារជូនពរ៖</span>
-        <p class="text-[#f7efdc] italic bg-[#1e1912]/80 p-2.5 rounded-lg border border-[#d8c49a]/15">"${data.message || ''}"</p>
-      </div>
-    `;
-    box.classList.remove('hidden');
-
-    if (resendBtn) {
-      const tgMsg = `🎉 សារជូនពរអាពាហ៍ពិពាហ៍ (Wedding Blessing) 🎉\n🤵 ភត សុភ័ក្រ & 👰 កេត សុភាវី\n-----------------------------------------\n👤 ពីភ្ញៀវ៖ ${data.name || ''} (${data.relationship || ''})\n📞 លេខទូរស័ព្ទ៖ ${data.phone || ''}\n💌 សារជូនពរ៖ ${data.message || ''}\n-----------------------------------------\nសូមអរគុណ!`;
-      resendBtn.href = 'https://t.me/tongkhai08?text=' + encodeURIComponent(tgMsg);
-    }
-  }
-
-  if (form) {
-    const inputs = form.querySelectorAll('input, select, textarea, button[type="button"]');
-    inputs.forEach(el => {
-      el.disabled = true;
-      el.classList.add('opacity-50', 'cursor-not-allowed');
-    });
-  }
-
-  if (submitBtn) {
-    submitBtn.disabled = true;
-    submitBtn.classList.remove('btn-shimmer');
-    submitBtn.classList.add('opacity-60', 'cursor-not-allowed', 'bg-[#4a3f2d]', 'text-[#d8c49a]');
-    submitBtn.innerHTML = `
-      <i data-lucide="check" class="w-4 h-4 text-[#7c8b6a]"></i>
-      <span>បានផ្ញើសារជូនពររួចរាល់ (Only 1 Wish Allowed)</span>
-    `;
-  }
-
-  if (typeof lucide !== 'undefined' && lucide.createIcons) {
-    lucide.createIcons();
-  }
-}
-
-function checkExistingUserWish() {
-  try {
-    const saved = localStorage.getItem('wedding_user_wish_sent');
-    if (saved) {
-      const data = JSON.parse(saved);
-      if (data && data.name) {
-        displayUserWishSent(data);
-      }
-    }
-  } catch (_) {}
-}
-
 // Validate Cambodian (+855) mobile phone numbers
 function validateKhmerPhoneNumber(rawPhone) {
   if (!rawPhone) return { isValid: false, formatted: '' };
 
-  // Strip spaces, dashes, dots, parentheses
   let cleaned = rawPhone.trim().replace(/[\s\-\(\)\.]/g, '');
 
-  // Strip prefix +855 or 855 or leading 0
   if (cleaned.startsWith('+855')) {
     cleaned = cleaned.substring(4);
   } else if (cleaned.startsWith('855')) {
@@ -1315,20 +1180,15 @@ function validateKhmerPhoneNumber(rawPhone) {
     cleaned = cleaned.substring(1);
   }
 
-  // Cambodian mobile numbers have 8 or 9 digits after country code:
-  // e.g. 12 345 678 (8 digits) or 97 123 4567 (9 digits). First digit cannot be 0.
   const khmerMobileRegex = /^[1-9]\d{7,8}$/;
-
   if (!khmerMobileRegex.test(cleaned)) {
     return { isValid: false, formatted: '' };
   }
 
-  // Format into standard Cambodian representation: +855 XX XXX XXX or +855 XX XXX XXXX
   let formatted = '';
   if (cleaned.length === 8) {
     formatted = `+855 ${cleaned.substring(0, 2)} ${cleaned.substring(2, 5)} ${cleaned.substring(5)}`;
   } else {
-    // 9 digits (e.g. 097 123 4567)
     formatted = `+855 ${cleaned.substring(0, 3)} ${cleaned.substring(3, 6)} ${cleaned.substring(6)}`;
   }
 
@@ -1340,124 +1200,324 @@ function validateKhmerPhoneNumber(rawPhone) {
   };
 }
 
-function handleWishSubmit(e) {
-  e.preventDefault();
+function maskPhoneNumber(phone) {
+  if (!phone) return '';
+  const digits = phone.replace(/\D/g, '');
+  if (digits.length >= 8) {
+    const last3 = digits.slice(-3);
+    const prefix2 = digits.slice(-8, -6);
+    return `+855 ${prefix2} *** ${last3}`;
+  }
+  return phone;
+}
 
-  // Check if user has already sent a wish (one-wish limit)
-  const existing = localStorage.getItem('wedding_user_wish_sent');
-  if (existing) {
-    alert('លោកអ្នកបានផ្ញើសារជូនពររួចរាល់ហើយ! អាចផ្ញើបានតែម្ដងប៉ុណ្ណោះ។ សូមអរគុណ!\n(You have already submitted your wedding wish. Only 1 wish is allowed.)');
-    try {
-      displayUserWishSent(JSON.parse(existing));
-    } catch (_) {}
+function renderWishTable() {
+  const container = document.getElementById('wishesTableContainer');
+  const countEl = document.getElementById('wishesCountNumber');
+  if (!container) return;
+
+  if (countEl) countEl.textContent = activeWishes.length;
+
+  if (activeWishes.length === 0) {
+    container.innerHTML = `
+      <div class="text-center py-12 text-[#d8c49a]/60 text-xs font-['Kantumruy_Pro'] flex flex-col items-center justify-center space-y-2">
+        <i data-lucide="message-square-dashed" class="w-8 h-8 text-[#d8c49a]/40"></i>
+        <span>មិនទាន់មានពាក្យជូនពរនៅឡើយទេ។ សូមក្លាយជាអ្នកជូនពរដំបូងគេ!</span>
+      </div>`;
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
     return;
   }
 
-  const nameInput = document.getElementById('wishSenderName');
-  const phoneInput = document.getElementById('wishSenderPhone');
-  const phoneError = document.getElementById('phoneErrorMsg');
-  const relInput = document.getElementById('wishRelationship');
-  const messageInput = document.getElementById('wishMessage');
-  const toast = document.getElementById('wishSuccessToast');
+  container.innerHTML = activeWishes.map((w) => {
+    const name = w.name || 'ភ្ញៀវកិត្តិយស';
+    const relTag = w.relationship || 'មិត្តភក្តិទាំងសងខាង';
+    const displayPhone = maskPhoneNumber(w.phone || w.rawPhone || '');
+    const time = w.time || w.date || 'ថ្មីៗនេះ';
+    const message = w.message || '';
 
-  if (!nameInput || !messageInput) return;
+    return `
+      <div class="wish-card-enter bg-[#1e1912]/90 hover:bg-[#1e1912] border border-[#d8c49a]/25 hover:border-[#d8c49a]/50 rounded-xl sm:rounded-2xl p-4 transition-all shadow-sm group">
+        <!-- Top Row: Guest Name, Relationship, and Masked Phone -->
+        <div class="flex items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-[#d8c49a]/15">
+          <div class="flex items-center space-x-2.5 min-w-0">
+            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-[#d8c49a] to-[#a38b5b] text-[#241e16] font-['Noto_Serif_Khmer'] font-bold text-[11px] flex items-center justify-center shadow-inner shrink-0">
+              ${name.trim().charAt(0)}
+            </div>
+            <div class="truncate">
+              <h4 class="font-['Kantumruy_Pro'] font-semibold text-xs sm:text-sm text-[#fffaf0] truncate leading-tight">
+                ${name}
+              </h4>
+              <span class="text-[10px] text-[#d8c49a] font-['Kantumruy_Pro'] font-light">
+                ${relTag}
+              </span>
+            </div>
+          </div>
+
+          <div class="text-right shrink-0">
+            <span class="block text-[10.5px] text-[#d8c49a]/80 font-mono">
+              ${displayPhone}
+            </span>
+            <span class="block text-[9.5px] text-[#e5dac3]/40 font-['Kantumruy_Pro'] mt-0.5">
+              ${time}
+            </span>
+          </div>
+        </div>
+
+        <!-- Message Body -->
+        <div class="relative pl-3 border-l-2 border-[#d8c49a]/40 group-hover:border-[#d8c49a] transition-colors">
+          <p class="font-['Kantumruy_Pro'] text-xs sm:text-[13px] text-[#f7efdc]/95 leading-relaxed font-light">
+            "${message}"
+          </p>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  if (typeof lucide !== 'undefined' && lucide.createIcons) {
+    lucide.createIcons();
+  }
+}
+
+function switchWishTab(tab) {
+  const btnWishes = document.getElementById('tabBtnWishes');
+  const btnVideo = document.getElementById('tabBtnVideo');
+  const contentWishes = document.getElementById('tabContentWishes');
+  const contentVideo = document.getElementById('tabContentVideo');
+
+  if (!btnWishes || !btnVideo || !contentWishes || !contentVideo) return;
+
+  if (tab === 'wishes') {
+    btnWishes.className = 'px-3.5 py-1.5 rounded-lg text-xs font-["Kantumruy_Pro"] font-medium transition-all flex items-center space-x-1.5 bg-[#d8c49a] text-[#3b3326] shadow-sm cursor-pointer';
+    btnVideo.className = 'px-3.5 py-1.5 rounded-lg text-xs font-["Kantumruy_Pro"] font-medium transition-all flex items-center space-x-1.5 text-[#d8c49a] hover:text-[#fffaf0] cursor-pointer';
+    contentWishes.classList.remove('hidden');
+    contentVideo.classList.add('hidden');
+  } else {
+    btnVideo.className = 'px-3.5 py-1.5 rounded-lg text-xs font-["Kantumruy_Pro"] font-medium transition-all flex items-center space-x-1.5 bg-[#d8c49a] text-[#3b3326] shadow-sm cursor-pointer';
+    btnWishes.className = 'px-3.5 py-1.5 rounded-lg text-xs font-["Kantumruy_Pro"] font-medium transition-all flex items-center space-x-1.5 text-[#d8c49a] hover:text-[#fffaf0] cursor-pointer';
+    contentWishes.classList.add('hidden');
+    contentVideo.classList.remove('hidden');
+  }
+}
+
+function insertQuickWish(text) {
+  const textarea = document.getElementById('wishMessage');
+  if (textarea) {
+    textarea.value = text;
+    textarea.focus();
+  }
+}
+
+// Current Guest Session Management
+function getCurrentGuest() {
+  try {
+    const raw = localStorage.getItem('wedding_current_guest_v1');
+    if (raw) return JSON.parse(raw);
+  } catch (_) {}
+  return null;
+}
+
+function setCurrentGuest(guest) {
+  try {
+    if (guest) {
+      localStorage.setItem('wedding_current_guest_v1', JSON.stringify(guest));
+    } else {
+      localStorage.removeItem('wedding_current_guest_v1');
+    }
+  } catch (_) {}
+}
+
+function findWishByGuestPhone(rawPhone) {
+  if (!rawPhone) return null;
+  const cleanTarget = rawPhone.replace(/\D/g, '').slice(-8);
+  return activeWishes.find(w => {
+    const cleanW = (w.rawPhone || w.phone || '').replace(/\D/g, '').slice(-8);
+    return cleanW && cleanW === cleanTarget;
+  });
+}
+
+function updateWishUIState() {
+  const currentGuest = getCurrentGuest();
+  const step1 = document.getElementById('guestLoginStep');
+  const step2 = document.getElementById('guestWriteWishStep');
+  const step3 = document.getElementById('guestAlreadySentStep');
+  const badge = document.getElementById('guestLoginBadge');
+  const badgeName = document.getElementById('guestLoginBadgeName');
+  const activeLabel = document.getElementById('activeGuestLabel');
+  const summaryCard = document.getElementById('guestSentSummaryCard');
+  const resendBtn = document.getElementById('wishTelegramBtnStep3');
+
+  if (!step1 || !step2 || !step3) return;
+
+  if (!currentGuest) {
+    // Show Step 1: Login Form
+    step1.classList.remove('hidden');
+    step2.classList.add('hidden');
+    step3.classList.add('hidden');
+    if (badge) badge.classList.add('hidden');
+  } else {
+    if (badge) {
+      badge.classList.remove('hidden');
+      if (badgeName) badgeName.textContent = currentGuest.name || 'ភ្ញៀវ';
+    }
+
+    // Check if this guest has already submitted a wish
+    const existingWish = findWishByGuestPhone(currentGuest.rawPhone || currentGuest.phone);
+
+    if (existingWish) {
+      // Show Step 3: Already submitted card
+      step1.classList.add('hidden');
+      step2.classList.add('hidden');
+      step3.classList.remove('hidden');
+
+      if (summaryCard) {
+        summaryCard.innerHTML = `
+          <div class="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#d8c49a]/20">
+            <span class="text-[#d8c49a] font-medium">👤 ឈ្មោះភ្ញៀវ៖</span>
+            <span class="text-[#fffaf0]">${existingWish.name} (${existingWish.relationship || 'ភ្ញៀវ'})</span>
+          </div>
+          <div class="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#d8c49a]/20">
+            <span class="text-[#d8c49a] font-medium">📞 លេខទូរស័ព្ទ៖</span>
+            <span class="text-[#fffaf0] font-mono">${existingWish.phone || currentGuest.phone}</span>
+          </div>
+          <div>
+            <span class="text-[#d8c49a] font-medium block mb-1">💌 សារជូនពររបស់អ្នក៖</span>
+            <p class="text-[#f7efdc] italic bg-[#1e1912]/80 p-2.5 rounded-lg border border-[#d8c49a]/15">
+              "${existingWish.message}"
+            </p>
+          </div>
+        `;
+      }
+
+      if (resendBtn) {
+        const tgMsg = `🎉 សារជូនពរអាពាហ៍ពិពាហ៍ (Wedding Blessing) 🎉\n🤵 ភត សុភ័ក្រ & 👰 កេត សុភាវី\n-----------------------------------------\n👤 ពីភ្ញៀវ៖ ${existingWish.name} (${existingWish.relationship || 'ភ្ញៀវ'})\n📞 លេខទូរស័ព្ទ៖ ${existingWish.phone || currentGuest.phone}\n💌 សារជូនពរ៖ ${existingWish.message}\n-----------------------------------------\nសូមអរគុណ!`;
+        resendBtn.href = 'https://t.me/tongkhai08?text=' + encodeURIComponent(tgMsg);
+      }
+    } else {
+      // Show Step 2: Write Wish Form
+      step1.classList.add('hidden');
+      step2.classList.remove('hidden');
+      step3.classList.add('hidden');
+
+      if (activeLabel) {
+        activeLabel.textContent = `ភ្ញៀវ៖ ${currentGuest.name} (${currentGuest.phone})`;
+      }
+    }
+  }
+
+  if (typeof lucide !== 'undefined' && lucide.createIcons) {
+    lucide.createIcons();
+  }
+}
+
+function handleGuestLogin(e) {
+  e.preventDefault();
+  const nameInput = document.getElementById('loginGuestName');
+  const phoneInput = document.getElementById('loginGuestPhone');
+  const phoneError = document.getElementById('loginPhoneError');
+
+  if (!nameInput || !phoneInput) return;
 
   const name = nameInput.value.trim();
-  const rawPhone = phoneInput ? phoneInput.value.trim() : '';
-  const relationship = relInput ? relInput.value : 'មិត្តភក្តិទាំងសងខាង';
-  const message = messageInput.value.trim();
+  const rawPhone = phoneInput.value.trim();
 
-  if (!name || !rawPhone || !message) {
-    alert('សូមបំពេញឈ្មោះ លេខទូរស័ព្ទ និងសារជូនពររបស់អ្នកឱ្យបានគ្រប់គ្រាន់!\n(Please fill in your name, phone number, and message.)');
+  if (!name || !rawPhone) {
+    alert('សូមបញ្ចូលឈ្មោះ និងលេខទូរស័ព្ទរបស់អ្នក!');
     return;
   }
 
-  // Strictly check Khmer (+855) phone number
   const phoneCheck = validateKhmerPhoneNumber(rawPhone);
   if (!phoneCheck.isValid) {
     if (phoneError) phoneError.classList.remove('hidden');
-    if (phoneInput) {
-      phoneInput.focus();
-      phoneInput.classList.add('border-rose-500');
-    }
+    phoneInput.focus();
+    phoneInput.classList.add('border-rose-500');
     alert('សូមបញ្ចូលលេខទូរស័ព្ទកម្ពុជា (+855) ឱ្យបានត្រឹមត្រូវ! (ឧទាហរណ៍៖ 012 345 678 ឬ +855 12 345 678)\n(Please enter a valid Cambodian phone number).');
     return;
   }
 
   if (phoneError) phoneError.classList.add('hidden');
-  if (phoneInput) phoneInput.classList.remove('border-rose-500');
+  phoneInput.classList.remove('border-rose-500');
 
-  const standardPhone = phoneCheck.formatted;
-
-  const userWishData = {
-    id: 'w-' + Date.now(),
+  const guest = {
     name: name,
-    phone: standardPhone,
+    phone: phoneCheck.formatted,
+    rawPhone: phoneCheck.rawLocal
+  };
+
+  setCurrentGuest(guest);
+  updateWishUIState();
+}
+
+function handleGuestLogout() {
+  setCurrentGuest(null);
+  updateWishUIState();
+}
+
+function handleWishSubmit(e) {
+  e.preventDefault();
+  const currentGuest = getCurrentGuest();
+  if (!currentGuest) {
+    alert('សូមបញ្ចូលឈ្មោះ និងលេខទូរស័ព្ទរបស់អ្នកជាមុនសិន!');
+    updateWishUIState();
+    return;
+  }
+
+  // Check if this guest already sent a wish (1 wish limit!)
+  const existingWish = findWishByGuestPhone(currentGuest.rawPhone || currentGuest.phone);
+  if (existingWish) {
+    alert('លោកអ្នកបានផ្ញើសារជូនពររួចរាល់ហើយ! អាចផ្ញើបានតែម្ដងប៉ុណ្ណោះ។\n(You have already submitted your wedding wish. Only 1 wish is allowed.)');
+    updateWishUIState();
+    return;
+  }
+
+  const relInput = document.getElementById('wishRelationship');
+  const messageInput = document.getElementById('wishMessage');
+
+  if (!messageInput) return;
+  const relationship = relInput ? relInput.value : 'មិត្តភក្តិទាំងសងខាង';
+  const message = messageInput.value.trim();
+
+  if (!message) {
+    alert('សូមសរសេរសារជូនពររបស់អ្នក!');
+    return;
+  }
+
+  const newWish = {
+    id: 'w-' + Date.now(),
+    name: currentGuest.name,
+    phone: currentGuest.phone,
+    rawPhone: currentGuest.rawPhone,
     relationship: relationship,
     message: message,
     time: 'ទើបតែផ្ញើ (Just now)',
-    date: new Date().toLocaleDateString('km-KH'),
-    likes: 1,
-    liked: true
+    date: new Date().toLocaleDateString('km-KH')
   };
 
-  // Save to active list & record single-wish lock
-  activeWishes.unshift(userWishData);
+  // Add to wishes list and save
+  activeWishes.unshift(newWish);
   saveWishes(activeWishes);
 
-  try {
-    localStorage.setItem('wedding_user_wish_sent', JSON.stringify(userWishData));
-  } catch (err) {
-    console.warn('localStorage error:', err);
-  }
+  // Update wish table live
+  renderWishTable();
 
-  // Format message for Telegram with verified +855 phone number
-  const telegramMessage = `🎉 សារជូនពរអាពាហ៍ពិពាហ៍ (Wedding Blessing) 🎉\n🤵 ភត សុភ័ក្រ & 👰 កេត សុភាវី\n-----------------------------------------\n👤 ពីភ្ញៀវ៖ ${name} (${relationship})\n📞 លេខទូរស័ព្ទ៖ ${standardPhone}\n💌 សារជូនពរ៖ ${message}\n-----------------------------------------\nសូមអរគុណ!`;
-
+  // Telegram direct URL
+  const telegramMessage = `🎉 សារជូនពរអាពាហ៍ពិពាហ៍ (Wedding Blessing) 🎉\n🤵 ភត សុភ័ក្រ & 👰 កេត សុភាវី\n-----------------------------------------\n👤 ពីភ្ញៀវ៖ ${currentGuest.name} (${relationship})\n📞 លេខទូរស័ព្ទ៖ ${currentGuest.phone}\n💌 សារជូនពរ៖ ${message}\n-----------------------------------------\nសូមអរគុណ!`;
   const tgUrl = 'https://t.me/tongkhai08?text=' + encodeURIComponent(telegramMessage);
 
-  // Automatically attempt to open Telegram
   try {
     window.open(tgUrl, '_blank');
   } catch (_) {}
 
-  // Update button link inside toast
-  const tgBtn = document.getElementById('wishTelegramBtn');
-  if (tgBtn) {
-    tgBtn.href = tgUrl;
-  }
-
-  // Show Toast
-  if (toast) {
-    toast.classList.remove('hidden');
-    if (typeof lucide !== 'undefined' && lucide.createIcons) {
-      lucide.createIcons();
-    }
-  }
-
-  // Lock form immediately so user cannot send again
-  displayUserWishSent(userWishData);
+  // Update to Step 3 (already sent)
+  updateWishUIState();
 }
 
-function toggleWishLike(id) {
-  const wish = activeWishes.find(w => w.id === id);
-  if (!wish) return;
-
-  if (wish.liked) {
-    wish.liked = false;
-    wish.likes = Math.max(0, (wish.likes || 1) - 1);
-  } else {
-    wish.liked = true;
-    wish.likes = (wish.likes || 0) + 1;
-  }
-
-  saveWishes(activeWishes);
-  renderWishes();
+function initWishSystem() {
+  renderWishTable();
+  updateWishUIState();
 }
 
-// Initial check for existing single-wish submission on load
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', checkExistingUserWish);
+  document.addEventListener('DOMContentLoaded', initWishSystem);
 } else {
-  checkExistingUserWish();
+  initWishSystem();
 }
