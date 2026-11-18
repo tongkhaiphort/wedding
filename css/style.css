@@ -915,3 +915,23 @@ body.intro-active {
   will-change: transform, opacity;
   pointer-events: none;
 }
+
+
+/* ── 3D Flower Petals Flying Canvas ─────────────────────────── */
+#flowerPetalsCanvas {
+  pointer-events: none !important;
+  user-select: none;
+  -webkit-user-select: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 35;
+  transition: opacity 0.8s ease-in-out;
+}
+
+#petalsToggleBtn.active {
+  border-color: rgba(216, 196, 154, 0.85);
+  box-shadow: 0 0 12px rgba(216, 196, 154, 0.35);
+}

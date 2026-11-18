@@ -43,6 +43,7 @@ const I18N = {
     // Top Bar
     music_label_on: "តន្ត្រីអាពាហ៍ពិពាហ៍",
     music_label_off: "បិទតន្ត្រី",
+    petals_label: "ផ្កាហោះ",
     // Intro
     intro_greeting: "សូមគោរពអញ្ជើញ · Cordially Invited",
     intro_guests: "ឯកឧត្តម លោកជំទាវ លោក លោកស្រី អ្នកនាងកញ្ញា",
@@ -155,6 +156,7 @@ const I18N = {
     // Top Bar
     music_label_on: "Wedding Music",
     music_label_off: "Mute Music",
+    petals_label: "Flowers",
     // Intro
     intro_greeting: "Cordially Invited",
     intro_guests: "Excellencies, Ladies & Gentlemen, Dear Family & Friends",
@@ -301,6 +303,12 @@ function switchLanguage(lang) {
   if (khHours) khHours.textContent = lang === 'en' ? 'Hours' : 'ម៉ោង';
   if (khMins) khMins.textContent = lang === 'en' ? 'Mins' : 'នាទី';
   if (khSecs) khSecs.textContent = lang === 'en' ? 'Secs' : 'វិនាទី';
+
+  // Petals Toggle Label
+  const petalsLabel = document.getElementById('petalsLabel');
+  if (petalsLabel) {
+    petalsLabel.textContent = lang === 'en' ? 'Flowers' : 'ផ្កាហោះ';
+  }
 
   // Audio Toggle Label
   const musicLabel = document.getElementById('musicLabel');
@@ -1711,6 +1719,10 @@ function handleWishSubmit(e) {
     window.open(tgUrl, '_blank');
   } catch (_) {}
 
+  if (typeof window.burstFlowerPetals === 'function') {
+    window.burstFlowerPetals(window.innerWidth / 2, window.innerHeight * 0.6, 30);
+  }
+
   // Transition to Step 3 (already sent)
   updateWishUIState();
 }
@@ -1725,3 +1737,360 @@ if (document.readyState === 'loading') {
   initSavedLanguage();
   initWishSystem();
 }
+
+
+/* ========================================================================= */
+/* 3D ROMANTIC FLYING FLOWER PETALS ENGINE (HTML5 Canvas 60fps)              */
+/* ========================================================================= */
+(function() {
+  const canvas = document.getElementById('flowerPetalsCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+  let animationFrameId = null;
+  let isRunning = false;
+  let isEnabled = true;
+  let lastTime = performance.now();
+  let scrollWind = 0;
+  let lastScrollY = window.scrollY;
+
+  const pointer = { x: -9999, y: -9999 };
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768;
+  const MAX_PETALS = isMobile ? 24 : 45;
+  const particles = [];
+
+  const TYPE_DIST = ['rose', 'rose', 'rose', 'gold', 'blossom'];
+
+  function createPetal(burst = false, burstX = 0, burstY = 0) {
+    const type = TYPE_DIST[Math.floor(Math.random() * TYPE_DIST.length)];
+    const z = 0.45 + Math.random() * 0.95;
+    const baseSize = (type === 'blossom' ? 10 : 14) + Math.random() * 6;
+
+    let x, y, vx, vy;
+    if (burst) {
+      x = burstX + (Math.random() - 0.5) * 40;
+      y = burstY + (Math.random() - 0.5) * 40;
+      const angle = Math.random() * Math.PI * 2;
+      const speed = (2.5 + Math.random() * 5.5) * (z * 0.9);
+      vx = Math.cos(angle) * speed;
+      vy = Math.sin(angle) * speed - 1.5;
+    } else {
+      x = Math.random() * (width + 60) - 30;
+      y = -30 - Math.random() * (height * 0.3);
+      vx = (Math.random() - 0.5) * 0.9;
+      vy = (0.75 + Math.random() * 1.35) * z;
+    }
+
+    return {
+      x, y, z,
+      vx, vy,
+      baseVy: (0.75 + Math.random() * 1.35) * z,
+      type,
+      size: baseSize * z,
+      width: (type === 'blossom' ? baseSize : baseSize * 0.85) * z,
+      length: (type === 'blossom' ? baseSize : baseSize * 1.45) * z,
+      curl: (Math.random() - 0.5) * 0.42,
+      opacity: (type === 'gold' ? 0.65 : 0.75) + Math.random() * 0.22,
+      rotX: Math.random() * Math.PI * 2,
+      rotY: Math.random() * Math.PI * 2,
+      rotZ: Math.random() * Math.PI * 2,
+      vRotX: (Math.random() - 0.5) * 0.038,
+      vRotY: (Math.random() - 0.5) * 0.038,
+      vRotZ: (Math.random() - 0.5) * 0.022,
+      phase: Math.random() * Math.PI * 2,
+      swayAmp: 0.9 + Math.random() * 1.3,
+      isBurst: burst,
+      burstDecay: burst ? (0.94 + Math.random() * 0.03) : 1
+    };
+  }
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function initParticles() {
+    particles.length = 0;
+    for (let i = 0; i < MAX_PETALS; i++) {
+      const p = createPetal(false);
+      p.y = Math.random() * height;
+      particles.push(p);
+    }
+  }
+
+  function drawPetal(p, isFront, scale) {
+    const w = p.width * scale;
+    const h = p.length * scale;
+    const curl = p.curl;
+
+    ctx.beginPath();
+    ctx.moveTo(0, h * 0.48);
+    ctx.bezierCurveTo(w * 0.65, h * 0.35, w * (0.75 + curl), -h * 0.1, 0, -h * 0.5);
+    ctx.bezierCurveTo(-w * (0.75 - curl), -h * 0.1, -w * 0.65, h * 0.35, 0, h * 0.48);
+    ctx.closePath();
+
+    const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, Math.max(w, h));
+    if (p.type === 'gold') {
+      if (isFront) {
+        grad.addColorStop(0, 'rgba(255, 252, 240, ' + p.opacity + ')');
+        grad.addColorStop(0.45, 'rgba(228, 204, 158, ' + (p.opacity * 0.95) + ')');
+        grad.addColorStop(1, 'rgba(188, 154, 98, ' + (p.opacity * 0.85) + ')');
+      } else {
+        grad.addColorStop(0, 'rgba(220, 192, 142, ' + p.opacity + ')');
+        grad.addColorStop(0.5, 'rgba(180, 148, 92, ' + (p.opacity * 0.95) + ')');
+        grad.addColorStop(1, 'rgba(142, 110, 62, ' + (p.opacity * 0.85) + ')');
+      }
+    } else {
+      if (isFront) {
+        grad.addColorStop(0, 'rgba(255, 244, 246, ' + p.opacity + ')');
+        grad.addColorStop(0.5, 'rgba(248, 190, 202, ' + (p.opacity * 0.95) + ')');
+        grad.addColorStop(1, 'rgba(224, 140, 156, ' + (p.opacity * 0.85) + ')');
+      } else {
+        grad.addColorStop(0, 'rgba(242, 182, 195, ' + p.opacity + ')');
+        grad.addColorStop(0.55, 'rgba(216, 128, 146, ' + (p.opacity * 0.95) + ')');
+        grad.addColorStop(1, 'rgba(178, 92, 112, ' + (p.opacity * 0.85) + ')');
+      }
+    }
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    if (scale > 0.82) {
+      ctx.beginPath();
+      ctx.moveTo(0, h * 0.4);
+      ctx.quadraticCurveTo(w * curl * 0.3, 0, 0, -h * 0.36);
+      ctx.strokeStyle = isFront
+        ? (p.type === 'gold' ? 'rgba(255, 255, 255, ' + (p.opacity * 0.5) + ')' : 'rgba(255, 255, 255, ' + (p.opacity * 0.45) + ')')
+        : 'rgba(140, 60, 80, ' + (p.opacity * 0.3) + ')';
+      ctx.lineWidth = 0.8;
+      ctx.stroke();
+    }
+  }
+
+  function drawBlossom(p, isFront, scale) {
+    const r = (p.size * 0.5) * scale;
+    const numPetals = 5;
+    for (let i = 0; i < numPetals; i++) {
+      const angle = (i * Math.PI * 2) / numPetals;
+      ctx.save();
+      ctx.rotate(angle);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(r * 0.4, -r * 0.5, r * 0.45, -r * 0.92, 0, -r);
+      ctx.bezierCurveTo(-r * 0.45, -r * 0.92, -r * 0.4, -r * 0.5, 0, 0);
+      ctx.closePath();
+
+      const grad = ctx.createRadialGradient(0, 0, 0, 0, -r * 0.5, r);
+      if (isFront) {
+        grad.addColorStop(0, 'rgba(255, 248, 248, ' + p.opacity + ')');
+        grad.addColorStop(0.55, 'rgba(250, 198, 208, ' + (p.opacity * 0.92) + ')');
+        grad.addColorStop(1, 'rgba(226, 145, 164, ' + (p.opacity * 0.82) + ')');
+      } else {
+        grad.addColorStop(0, 'rgba(242, 190, 202, ' + p.opacity + ')');
+        grad.addColorStop(0.6, 'rgba(220, 132, 152, ' + (p.opacity * 0.92) + ')');
+        grad.addColorStop(1, 'rgba(182, 94, 116, ' + (p.opacity * 0.82) + ')');
+      }
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.restore();
+    }
+    ctx.beginPath();
+    ctx.arc(0, 0, r * 0.22, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(228, 194, 110, ' + (p.opacity * 0.95) + ')';
+    ctx.fill();
+  }
+
+  function render(now) {
+    if (!isRunning || !isEnabled) return;
+    const delta = Math.min((now - lastTime) / 1000, 0.1);
+    lastTime = now;
+
+    ctx.clearRect(0, 0, width, height);
+    scrollWind *= 0.92;
+    const timeSec = now * 0.001;
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+
+      p.rotX += p.vRotX;
+      p.rotY += p.vRotY;
+      p.rotZ += p.vRotZ;
+
+      if (p.isBurst) {
+        p.vx *= p.burstDecay;
+        p.vy = p.vy * p.burstDecay + p.baseVy * (1 - p.burstDecay);
+        if (Math.abs(p.vx) < 0.8 && Math.abs(p.vy - p.baseVy) < 0.4) {
+          p.isBurst = false;
+        }
+      }
+
+      const sway = Math.sin(timeSec * 1.4 + p.phase) * p.swayAmp * (p.z * 0.8);
+      p.x += (p.vx + sway + scrollWind * 0.6);
+      p.y += p.vy;
+
+      const dx = p.x - pointer.x;
+      const dy = p.y - pointer.y;
+      const distSq = dx * dx + dy * dy;
+      if (distSq < 14400) {
+        const dist = Math.sqrt(distSq);
+        const force = (1 - dist / 120) * 1.6;
+        p.x += (dx / dist) * force * 3;
+        p.y += (dy / dist) * force * 1.5;
+        p.rotZ += 0.04;
+      }
+
+      if (p.y > height + 40 || p.x < -60 || p.x > width + 60) {
+        if (p.isBurst) {
+          particles.splice(i, 1);
+          continue;
+        } else {
+          p.x = Math.random() * (width + 60) - 30;
+          p.y = -35;
+          p.vx = (Math.random() - 0.5) * 0.9;
+          p.rotX = Math.random() * Math.PI * 2;
+          p.rotY = Math.random() * Math.PI * 2;
+          p.rotZ = Math.random() * Math.PI * 2;
+        }
+      }
+
+      const cosX = Math.cos(p.rotX);
+      const cosY = Math.cos(p.rotY);
+      const isFront = (cosX * cosY) >= 0;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotZ);
+
+      const scaleX = Math.max(Math.abs(cosX), 0.08) * p.z;
+      const scaleY = Math.max(Math.abs(cosY), 0.08) * p.z;
+      ctx.scale(scaleX, scaleY);
+
+      if (p.type === 'blossom') {
+        drawBlossom(p, isFront, 1.0);
+      } else {
+        drawPetal(p, isFront, 1.0);
+      }
+
+      ctx.restore();
+    }
+
+    animationFrameId = requestAnimationFrame(render);
+  }
+
+  function start() {
+    if (isRunning) return;
+    isRunning = true;
+    lastTime = performance.now();
+    animationFrameId = requestAnimationFrame(render);
+  }
+
+  function stop() {
+    isRunning = false;
+    if (animationFrameId) {
+      cancelAnimationFrame(animationFrameId);
+      animationFrameId = null;
+    }
+  }
+
+  window.burstFlowerPetals = function(x, y, count = 35) {
+    if (!isEnabled) return;
+    const cx = x !== undefined ? x : width / 2;
+    const cy = y !== undefined ? y : height * 0.45;
+    for (let i = 0; i < count; i++) {
+      particles.push(createPetal(true, cx, cy));
+    }
+  };
+
+  window.toggleFlowerPetals = function() {
+    isEnabled = !isEnabled;
+    try {
+      localStorage.setItem('wedding_petals_enabled', isEnabled ? 'true' : 'false');
+    } catch (_) {}
+
+    const btn = document.getElementById('petalsToggleBtn');
+    const icon = document.getElementById('petalsIcon');
+    if (canvas) {
+      canvas.style.opacity = isEnabled ? '1' : '0';
+    }
+    if (btn) {
+      btn.classList.toggle('opacity-50', !isEnabled);
+      btn.classList.toggle('active', isEnabled);
+    }
+    if (icon) {
+      icon.textContent = isEnabled ? '🌸' : '🍃';
+    }
+
+    if (isEnabled) {
+      start();
+      window.burstFlowerPetals(window.innerWidth / 2, window.innerHeight * 0.4, 25);
+    }
+  };
+
+  window.addEventListener('resize', resize, { passive: true });
+
+  window.addEventListener('scroll', () => {
+    const currentY = window.scrollY;
+    const dy = currentY - lastScrollY;
+    scrollWind = Math.max(-4, Math.min(4, dy * 0.12));
+    lastScrollY = currentY;
+  }, { passive: true });
+
+  window.addEventListener('mousemove', (e) => {
+    pointer.x = e.clientX;
+    pointer.y = e.clientY;
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]) {
+      pointer.x = e.touches[0].clientX;
+      pointer.y = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    pointer.x = -9999;
+    pointer.y = -9999;
+  }, { passive: true });
+
+  window.addEventListener('click', (e) => {
+    const tag = e.target && e.target.tagName ? e.target.tagName.toLowerCase() : '';
+    if (tag !== 'button' && tag !== 'a' && tag !== 'input' && tag !== 'select' && tag !== 'textarea') {
+      if (isEnabled && Math.random() < 0.45) {
+        window.burstFlowerPetals(e.clientX, e.clientY, 5);
+      }
+    }
+  }, { passive: true });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stop();
+    } else if (isEnabled) {
+      start();
+    }
+  });
+
+  try {
+    const saved = localStorage.getItem('wedding_petals_enabled');
+    if (saved === 'false') {
+      isEnabled = false;
+      if (canvas) canvas.style.opacity = '0';
+      const btn = document.getElementById('petalsToggleBtn');
+      if (btn) btn.classList.add('opacity-50');
+    }
+  } catch (_) {}
+
+  resize();
+  initParticles();
+  if (isEnabled) {
+    start();
+  }
+})();
