@@ -1234,9 +1234,86 @@ function insertQuickWish(text) {
   }
 }
 
+function displayUserWishSent(data) {
+  const box = document.getElementById('wishAlreadySentBox');
+  const summary = document.getElementById('wishSentSummary');
+  const resendBtn = document.getElementById('wishResendTelegramBtn');
+  const form = document.getElementById('weddingWishForm');
+  const submitBtn = document.getElementById('wishSubmitBtn');
+
+  if (box && summary) {
+    summary.innerHTML = `
+      <div class="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#d8c49a]/20">
+        <span class="text-[#d8c49a] font-medium">👤 ឈ្មោះ៖</span>
+        <span class="text-[#fffaf0]">${data.name || ''} (${data.relationship || ''})</span>
+      </div>
+      <div class="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#d8c49a]/20">
+        <span class="text-[#d8c49a] font-medium">📞 លេខទូរស័ព្ទ៖</span>
+        <span class="text-[#fffaf0] font-mono">${data.phone || ''}</span>
+      </div>
+      <div>
+        <span class="text-[#d8c49a] font-medium block mb-1">💌 សារជូនពរ៖</span>
+        <p class="text-[#f7efdc] italic bg-[#1e1912]/80 p-2.5 rounded-lg border border-[#d8c49a]/15">"${data.message || ''}"</p>
+      </div>
+    `;
+    box.classList.remove('hidden');
+
+    if (resendBtn) {
+      const tgMsg = `🎉 សារជូនពរអាពាហ៍ពិពាហ៍ (Wedding Blessing) 🎉\n🤵 ភត សុភ័ក្រ & 👰 កេត សុភាវី\n-----------------------------------------\n👤 ពីភ្ញៀវ៖ ${data.name || ''} (${data.relationship || ''})\n📞 លេខទូរស័ព្ទ៖ ${data.phone || ''}\n💌 សារជូនពរ៖ ${data.message || ''}\n-----------------------------------------\nសូមអរគុណ!`;
+      resendBtn.href = 'https://t.me/tongkhai08?text=' + encodeURIComponent(tgMsg);
+    }
+  }
+
+  if (form) {
+    const inputs = form.querySelectorAll('input, select, textarea, button[type="button"]');
+    inputs.forEach(el => {
+      el.disabled = true;
+      el.classList.add('opacity-50', 'cursor-not-allowed');
+    });
+  }
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.classList.remove('btn-shimmer');
+    submitBtn.classList.add('opacity-60', 'cursor-not-allowed', 'bg-[#4a3f2d]', 'text-[#d8c49a]');
+    submitBtn.innerHTML = `
+      <i data-lucide="check" class="w-4 h-4 text-[#7c8b6a]"></i>
+      <span>បានផ្ញើសារជូនពររួចរាល់ (Only 1 Wish Allowed)</span>
+    `;
+  }
+
+  if (typeof lucide !== 'undefined' && lucide.createIcons) {
+    lucide.createIcons();
+  }
+}
+
+function checkExistingUserWish() {
+  try {
+    const saved = localStorage.getItem('wedding_user_wish_sent');
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (data && data.name) {
+        displayUserWishSent(data);
+      }
+    }
+  } catch (_) {}
+}
+
 function handleWishSubmit(e) {
   e.preventDefault();
+
+  // Check if user has already sent a wish (one-wish limit)
+  const existing = localStorage.getItem('wedding_user_wish_sent');
+  if (existing) {
+    alert('លោកអ្នកបានផ្ញើសារជូនពររួចរាល់ហើយ! អាចផ្ញើបានតែម្ដងប៉ុណ្ណោះ។ សូមអរគុណ!\n(You have already submitted your wedding wish. Only 1 wish is allowed.)');
+    try {
+      displayUserWishSent(JSON.parse(existing));
+    } catch (_) {}
+    return;
+  }
+
   const nameInput = document.getElementById('wishSenderName');
+  const phoneInput = document.getElementById('wishSenderPhone');
   const relInput = document.getElementById('wishRelationship');
   const messageInput = document.getElementById('wishMessage');
   const toast = document.getElementById('wishSuccessToast');
@@ -1244,30 +1321,39 @@ function handleWishSubmit(e) {
   if (!nameInput || !messageInput) return;
 
   const name = nameInput.value.trim();
+  const phone = phoneInput ? phoneInput.value.trim() : '';
   const relationship = relInput ? relInput.value : 'មិត្តភក្តិទាំងសងខាង';
   const message = messageInput.value.trim();
 
-  if (!name || !message) return;
+  if (!name || !phone || !message) {
+    alert('សូមបំពេញឈ្មោះ លេខទូរស័ព្ទ និងសារជូនពររបស់អ្នកឱ្យបានគ្រប់គ្រាន់!\n(Please fill in your name, phone number, and message.)');
+    return;
+  }
 
-  const newWish = {
+  const userWishData = {
     id: 'w-' + Date.now(),
     name: name,
+    phone: phone,
     relationship: relationship,
     message: message,
     time: 'ទើបតែផ្ញើ (Just now)',
+    date: new Date().toLocaleDateString('km-KH'),
     likes: 1,
     liked: true
   };
 
-  activeWishes.unshift(newWish);
+  // Save to active list & record single-wish lock
+  activeWishes.unshift(userWishData);
   saveWishes(activeWishes);
 
-  // Reset form inputs
-  nameInput.value = '';
-  messageInput.value = '';
+  try {
+    localStorage.setItem('wedding_user_wish_sent', JSON.stringify(userWishData));
+  } catch (err) {
+    console.warn('localStorage error:', err);
+  }
 
-  // Format message for Telegram
-  const telegramMessage = `🎉 សារជូនពរអាពាហ៍ពិពាហ៍ (Wedding Blessing) 🎉\n🤵 ភត សុភ័ក្រ & 👰 កេត សុភាវី\n-----------------------------------------\n👤 ពីភ្ញៀវ៖ ${name} (${relationship})\n💌 សារជូនពរ៖ ${message}\n-----------------------------------------\nសូមអរគុណ!`;
+  // Format message for Telegram with phone number
+  const telegramMessage = `🎉 សារជូនពរអាពាហ៍ពិពាហ៍ (Wedding Blessing) 🎉\n🤵 ភត សុភ័ក្រ & 👰 កេត សុភាវី\n-----------------------------------------\n👤 ពីភ្ញៀវ៖ ${name} (${relationship})\n📞 លេខទូរស័ព្ទ៖ ${phone}\n💌 សារជូនពរ៖ ${message}\n-----------------------------------------\nសូមអរគុណ!`;
 
   const tgUrl = 'https://t.me/tongkhai08?text=' + encodeURIComponent(telegramMessage);
 
@@ -1288,12 +1374,10 @@ function handleWishSubmit(e) {
     if (typeof lucide !== 'undefined' && lucide.createIcons) {
       lucide.createIcons();
     }
-    setTimeout(() => {
-      toast.classList.add('hidden');
-    }, 12000);
   }
 
-  // Scroll wishes feed removed (table deleted)
+  // Lock form immediately so user cannot send again
+  displayUserWishSent(userWishData);
 }
 
 function toggleWishLike(id) {
@@ -1312,4 +1396,9 @@ function toggleWishLike(id) {
   renderWishes();
 }
 
-// Initial render removed (guestbook table deleted)
+// Initial check for existing single-wish submission on load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', checkExistingUserWish);
+} else {
+  checkExistingUserWish();
+}
