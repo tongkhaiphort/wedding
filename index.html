@@ -406,9 +406,12 @@
 
       <!-- Date & Time Capsule -->
       <div
-        class="inline-flex items-center space-x-2 text-xs sm:text-sm text-[#f7efdc] font-['Kantumruy_Pro'] bg-[#252017]/80 backdrop-blur-md px-5 sm:px-6 py-2 rounded-full border border-[#d8c49a]/45 shadow-lg">
-        <i class="w-4 h-4 text-[#d8c49a]" data-lucide="calendar"></i>
-        <span class="font-medium">ថ្ងៃអាទិត្យ ទី២០ ខែធ្នូ ឆ្នាំ២០២៦ · ម៉ោង ៥:០០ ល្ងាច</span>
+        class="inline-flex flex-col items-center justify-center text-xs sm:text-sm text-[#f7efdc] font-['Kantumruy_Pro'] bg-[#252017]/80 backdrop-blur-md px-5 sm:px-7 py-2.5 rounded-2xl border border-[#d8c49a]/45 shadow-lg text-center">
+        <div class="inline-flex items-center space-x-2">
+          <i class="w-4 h-4 text-[#d8c49a]" data-lucide="calendar"></i>
+          <span class="font-medium" data-i18n="hero_date">ថ្ងៃអាទិត្យ ទី២០ ខែធ្នូ ឆ្នាំ២០២៦ · ម៉ោង ៥:០០ ល្ងាច</span>
+        </div>
+        <span class="text-[11px] text-[#d8c49a] font-['Cormorant_Garamond'] tracking-widest uppercase mt-0.5 font-semibold" data-i18n="hero_date_en">Sunday, December 20, 2026 · 5:00 PM</span>
       </div>
 
       <!-- Lunar Date -->
@@ -466,16 +469,16 @@
             <!-- Honorific Invitation Text -->
             <div
               class="text-center font-['Kantumruy_Pro'] text-xs sm:text-[13px] md:text-sm text-[#ded5c5] font-light leading-[2.1] max-w-xl mx-auto mb-7 sm:mb-8 space-y-1">
-              <p>ឯកឧត្តម អ្នកឧកញ៉ា លោកជំទាវ លោក លោកស្រី អ្នកនាង កញ្ញា និងប្រិយមិត្តជិតឆ្ងាយទាំងអស់</p>
-              <p>អញ្ជើញចូលរួមជាអធិបតី និងជាភ្ញៀវកិត្តិយស ដើម្បីប្រសិទ្ធពរជ័យសិរីសួស្តី</p>
-              <p>ជ័យមង្គលក្នុង ពិធីរៀបអាពាហ៍ពិពាហ៍ កូនប្រុស-ស្រី របស់យើងខ្ញុំ</p>
+              <p data-i18n="invitation_p1">ឯកឧត្តម អ្នកឧកញ៉ា លោកជំទាវ លោក លោកស្រី អ្នកនាង កញ្ញា និងប្រិយមិត្តជិតឆ្ងាយទាំងអស់</p>
+              <p data-i18n="invitation_p2">អញ្ជើញចូលរួមជាអធិបតី និងជាភ្ញៀវកិត្តិយស ដើម្បីប្រសិទ្ធពរជ័យសិរីសួស្តី</p>
+              <p data-i18n="invitation_p3">ជ័យមង្គលក្នុង ពិធីរៀបអាពាហ៍ពិពាហ៍ កូនប្រុស-ស្រី របស់យើងខ្ញុំ</p>
             </div>
 
             <!-- Couple Names & Khmer Golden Lotus Rosette -->
             <div class="flex items-center justify-between gap-3 sm:gap-6 my-3">
               <!-- Groom -->
               <div class="flex-1 text-center">
-                <span class="block font-['Kantumruy_Pro'] text-xs text-[#d8c49a] mb-1 font-light">កូនប្រុសនាម</span>
+                <span class="block font-['Kantumruy_Pro'] text-xs text-[#d8c49a] mb-1 font-light" data-i18n="invitation_groom_label">កូនប្រុសនាម · Groom</span>
                 <h4
                   class="font-['Moul'] text-base sm:text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-[#f7efdc] via-[#e5cf9f] to-[#d8c49a] leading-relaxed whitespace-nowrap">
                   ភត សុភ័ក្រ
@@ -497,7 +500,7 @@
 
               <!-- Bride -->
               <div class="flex-1 text-center">
-                <span class="block font-['Kantumruy_Pro'] text-xs text-[#d8c49a] mb-1 font-light">កូនស្រីនាម</span>
+                <span class="block font-['Kantumruy_Pro'] text-xs text-[#d8c49a] mb-1 font-light" data-i18n="invitation_bride_label">កូនស្រីនាម · Bride</span>
                 <h4
                   class="font-['Moul'] text-base sm:text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-[#f7efdc] via-[#e5cf9f] to-[#d8c49a] leading-relaxed whitespace-nowrap">
                   កេត សុភាវី
@@ -513,10 +516,10 @@
             <!-- Reception Schedule & Venue Details -->
             <div
               class="text-center font-['Kantumruy_Pro'] text-xs sm:text-[13px] md:text-sm text-[#e0d6c4] leading-[2] space-y-1">
-              <p>ពិសាភោជនាហារប្រព្រឹត្តទៅ ថ្ងៃអាទិត្យ ១១កើត ខែមិគសិរ ឆ្នាំមមី អដ្ឋស័ក ព.ស. ២៥៧០</p>
+              <p data-i18n="invitation_reception_lunar">ពិសាភោជនាហារប្រព្រឹត្តទៅ ថ្ងៃអាទិត្យ ១១កើត ខែមិគសិរ ឆ្នាំមមី អដ្ឋស័ក ព.ស. ២៥៧០</p>
               <p>ត្រូវនឹងថ្ងៃ ទី២០ ខែធ្នូ ឆ្នាំ២០២៦ វេលាម៉ោង ៥:០០ ល្ងាច ស្ថិតនៅបាត់ដំបងស៊ីធីហល៍ (Battambang City Hall)
               </p>
-              <p class="text-[#f7efdc] font-medium pt-1">ដោយមេត្រីភាព! សូមអរគុណ!</p>
+              <p class="text-[#f7efdc] font-medium pt-1" data-i18n="invitation_gratitude">ដោយមេត្រីភាព! សូមអរគុណ! · With Warmest Gratitude</p>
             </div>
           </div>
         </div>
@@ -756,10 +759,10 @@
                 ០៧:០០ ព្រឹក
               </span>
               <h3 class="font-['Noto_Serif_Khmer'] text-base md:text-lg text-[#fffaf0] leading-[1.8] pt-1">
-                ពិធីហែជំនូនចូលរោងជ័យ
+                <span data-i18n="prog_m1_title">ពិធីហែជំនូនចូលរោងជ័យ</span>
               </h3>
               <p class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#c5b89e] leading-relaxed">
-                ក្បួនហែជំនូន និងផ្លែឈើ៣៦មុខ ដើម្បីគោរពដល់មាតាបិតា និងចាស់ទុំទាំងសងខាង
+                <span data-i18n="prog_m1_desc">ក្បួនហែជំនូន និងផ្លែឈើ៣៦មុខ ដើម្បីគោរពដល់មាតាបិតា និងចាស់ទុំទាំងសងខាង</span>
               </p>
             </div>
             <div
@@ -787,10 +790,10 @@
                 ០៨:៣០ ព្រឹក
               </span>
               <h3 class="font-['Noto_Serif_Khmer'] text-base md:text-lg text-[#fffaf0] leading-[1.8] pt-1">
-                ពិធីសែនព្រេន ជើងការ និងកាត់សក់បង្កក់សិរី
+                <span data-i18n="prog_m2_title">ពិធីសែនព្រេន ជើងការ និងកាត់សក់បង្កក់សិរី</span>
               </h3>
               <p class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#c5b89e] leading-relaxed">
-                ពិធីកាត់សក់កម្ចាត់ភាពអពមង្គល និងទទួលពរជ័យសិរីសួស្តីពីជីដូនជីតា
+                <span data-i18n="prog_m2_desc">ពិធីកាត់សក់កម្ចាត់ភាពអពមង្គល និងទទួលពរជ័យសិរីសួស្តីពីជីដូនជីតា</span>
               </p>
             </div>
           </div>
@@ -802,10 +805,10 @@
                 ១១:០០ ថ្ងៃត្រង់
               </span>
               <h3 class="font-['Noto_Serif_Khmer'] text-base md:text-lg text-[#fffaf0] leading-[1.8] pt-1">
-                ពិធីពិសាភោជនាហារពេលថ្ងៃត្រង់
+                <span data-i18n="prog_m3_title">ពិធីពិសាភោជនាហារពេលថ្ងៃត្រង់</span>
               </h3>
               <p class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#c5b89e] leading-relaxed">
-                ទទួលភ្ញៀវកិត្តិយស និងញាតិមិត្តជិតឆ្ងាយពិសាអាហារពេលថ្ងៃត្រង់នៅគេហដ្ឋានរោងជ័យ
+                <span data-i18n="prog_m3_desc">ទទួលភ្ញៀវកិត្តិយស និងញាតិមិត្តជិតឆ្ងាយពិសាអាហារពេលថ្ងៃត្រង់នៅគេហដ្ឋានរោងជ័យ</span>
               </p>
             </div>
             <div
@@ -832,10 +835,10 @@
                 ០៤:៣០ រសៀល
               </span>
               <h3 class="font-['Noto_Serif_Khmer'] text-base md:text-lg text-[#fffaf0] leading-[1.8] pt-1">
-                ពិធីបង្វិលពពិល
+                <span data-i18n="prog_m4_title">ពិធីបង្វិលពពិល</span>
               </h3>
               <p class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#c5b89e] leading-relaxed">
-                ពិធីសក្ការៈបង្វិលពពិល ៧ ជុំ ដើម្បីប្រសិទ្ធពរជ័យ ភាពរុងរឿង និងសេចក្តីស្ងប់ក្នុងជីវិត
+                <span data-i18n="prog_m4_desc">ពិធីសក្ការៈបង្វិលពពិល ៧ ជុំ ដើម្បីប្រសិទ្ធពរជ័យ ភាពរុងរឿង និងសេចក្តីស្ងប់ក្នុងជីវិត</span>
               </p>
             </div>
           </div>
@@ -847,10 +850,10 @@
                 ០៥:០០ ល្ងាច
               </span>
               <h3 class="font-['Noto_Serif_Khmer'] text-base md:text-lg text-[#f7efdc] leading-[1.8] pt-1">
-                ពិធីទទួលបដិសណ្ឋារកិច្ច និងពិសាភោជនាហារពេលល្ងាច
+                <span data-i18n="prog_m5_title">ពិធីទទួលបដិសណ្ឋារកិច្ច និងពិសាភោជនាហារពេលល្ងាច</span>
               </h3>
               <p class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#fffaf0] leading-relaxed font-normal">
-                ពិធីជប់លៀងអាពាហ៍ពិពាហ៍យ៉ាងមហោឡារិក នៅបាត់ដំបងសុីធីហល៍ (Battambang City Hall)
+                <span data-i18n="prog_m5_desc">ពិធីជប់លៀងអាពាហ៍ពិពាហ៍យ៉ាងមហោឡារិក នៅបាត់ដំបងសុីធីហល៍ (Battambang City Hall)</span>
               </p>
             </div>
             <div
@@ -979,7 +982,7 @@
             <div class="mt-3 flex items-baseline justify-between px-1">
               <span class="font-['Cormorant_Garamond'] text-[#d8c49a] text-sm tracking-widest font-semibold">០១</span>
               <span
-                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors">ប្រាសាទអង្គរវត្ត</span>
+                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"><span data-i18n="story_item_1_km">ប្រាសាទអង្គរវត្ត</span> <span class="text-[10px] text-[#d8c49a]/80 font-['Cormorant_Garamond'] tracking-wide ml-1 font-semibold" data-i18n="story_item_1_en">· Angkor Wat Sanctuary</span></span>
             </div>
           </div>
 
@@ -997,7 +1000,7 @@
             <div class="mt-3 flex items-baseline justify-between px-1">
               <span class="font-['Cormorant_Garamond'] text-[#d8c49a] text-sm tracking-widest font-semibold">០២</span>
               <span
-                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors">ដើមឈើចំណាស់</span>
+                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"><span data-i18n="story_item_2_km">ដើមឈើចំណាស់</span> <span class="text-[10px] text-[#d8c49a]/80 font-['Cormorant_Garamond'] tracking-wide ml-1 font-semibold" data-i18n="story_item_2_en">· Ancient Banyan Tree</span></span>
             </div>
           </div>
 
@@ -1015,7 +1018,7 @@
             <div class="mt-3 flex items-baseline justify-between px-1">
               <span class="font-['Cormorant_Garamond'] text-[#d8c49a] text-sm tracking-widest font-semibold">០៣</span>
               <span
-                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"></span>
+                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"><span data-i18n="story_item_3_km">ស្នាមញញឹមស្រស់ស្រាយ</span> <span class="text-[10px] text-[#d8c49a]/80 font-['Cormorant_Garamond'] tracking-wide ml-1 font-semibold" data-i18n="story_item_3_en">· Radiant Smiles</span></span>
             </div>
           </div>
 
@@ -1033,7 +1036,7 @@
             <div class="mt-3 flex items-baseline justify-between px-1">
               <span class="font-['Cormorant_Garamond'] text-[#d8c49a] text-sm tracking-widest font-semibold">០៤</span>
               <span
-                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"></span>
+                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"><span data-i18n="story_item_4_km">ក្រោមម្លប់ដើមឈើធំ</span> <span class="text-[10px] text-[#d8c49a]/80 font-['Cormorant_Garamond'] tracking-wide ml-1 font-semibold" data-i18n="story_item_4_en">· Shade of Eternal Love</span></span>
             </div>
           </div>
 
@@ -1051,7 +1054,7 @@
             <div class="mt-3 flex items-baseline justify-between px-1">
               <span class="font-['Cormorant_Garamond'] text-[#d8c49a] text-sm tracking-widest font-semibold">០៥</span>
               <span
-                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"></span>
+                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"><span data-i18n="story_item_5_km">ផ្ទះបុរាណខ្មែរ</span> <span class="text-[10px] text-[#d8c49a]/80 font-['Cormorant_Garamond'] tracking-wide ml-1 font-semibold" data-i18n="story_item_5_en">· Traditional Khmer Home</span></span>
             </div>
           </div>
 
@@ -1069,7 +1072,7 @@
             <div class="mt-3 flex items-baseline justify-between px-1">
               <span class="font-['Cormorant_Garamond'] text-[#d8c49a] text-sm tracking-widest font-semibold">០៦</span>
               <span
-                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"></span>
+                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"><span data-i18n="story_item_6_km">ផ្អែមល្ហែមជាមួយគ្នា</span> <span class="text-[10px] text-[#d8c49a]/80 font-['Cormorant_Garamond'] tracking-wide ml-1 font-semibold" data-i18n="story_item_6_en">· Sweet Romance</span></span>
             </div>
           </div>
 
@@ -1087,7 +1090,7 @@
             <div class="mt-3 flex items-baseline justify-between px-1">
               <span class="font-['Cormorant_Garamond'] text-[#d8c49a] text-sm tracking-widest font-semibold">០៧</span>
               <span
-                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"></span>
+                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"><span data-i18n="story_item_7_km">រូបថតអនុស្សាវរីយ៍</span> <span class="text-[10px] text-[#d8c49a]/80 font-['Cormorant_Garamond'] tracking-wide ml-1 font-semibold" data-i18n="story_item_7_en">· Timeless Keepsake</span></span>
             </div>
           </div>
 
@@ -1105,7 +1108,7 @@
             <div class="mt-3 flex items-baseline justify-between px-1">
               <span class="font-['Cormorant_Garamond'] text-[#d8c49a] text-sm tracking-widest font-semibold">០៨</span>
               <span
-                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"></span>
+                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"><span data-i18n="story_item_8_km">បួងសួងសុំសេចក្តីសុខ</span> <span class="text-[10px] text-[#d8c49a]/80 font-['Cormorant_Garamond'] tracking-wide ml-1 font-semibold" data-i18n="story_item_8_en">· Lotus Blessings & Prayer</span></span>
             </div>
           </div>
 
@@ -1123,7 +1126,7 @@
             <div class="mt-3 flex items-baseline justify-between px-1">
               <span class="font-['Cormorant_Garamond'] text-[#d8c49a] text-sm tracking-widest font-semibold">០៩</span>
               <span
-                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"></span>
+                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"><span data-i18n="story_item_9_km">បណ្តែតគោមផ្កាឈូក</span> <span class="text-[10px] text-[#d8c49a]/80 font-['Cormorant_Garamond'] tracking-wide ml-1 font-semibold" data-i18n="story_item_9_en">· Floating Lantern</span></span>
             </div>
           </div>
 
@@ -1141,7 +1144,7 @@
             <div class="mt-3 flex items-baseline justify-between px-1">
               <span class="font-['Cormorant_Garamond'] text-[#d8c49a] text-sm tracking-widest font-semibold">១០</span>
               <span
-                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"></span>
+                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"><span data-i18n="story_item_10_km">ពន្លឺទៀនជ័យ</span> <span class="text-[10px] text-[#d8c49a]/80 font-['Cormorant_Garamond'] tracking-wide ml-1 font-semibold" data-i18n="story_item_10_en">· Auspicious Candlelight</span></span>
             </div>
           </div>
 
@@ -1159,7 +1162,7 @@
             <div class="mt-3 flex items-baseline justify-between px-1">
               <span class="font-['Cormorant_Garamond'] text-[#d8c49a] text-sm tracking-widest font-semibold">១១</span>
               <span
-                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"></span>
+                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"><span data-i18n="story_item_11_km">ព្រលប់ដ៏សែនមនោរម្យ</span> <span class="text-[10px] text-[#d8c49a]/80 font-['Cormorant_Garamond'] tracking-wide ml-1 font-semibold" data-i18n="story_item_11_en">· Sweet Twilight Hour</span></span>
             </div>
           </div>
 
@@ -1177,8 +1180,7 @@
             <div class="mt-3 flex items-baseline justify-between px-1">
               <span class="font-['Cormorant_Garamond'] text-[#d8c49a] text-sm tracking-widest font-semibold">១២</span>
               <span
-                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors">
-                និងចិញ្ចៀន</span>
+                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"><span data-i18n="story_item_12_km">ផ្កាឈូក និងចិញ្ចៀន</span> <span class="text-[10px] text-[#d8c49a]/80 font-['Cormorant_Garamond'] tracking-wide ml-1 font-semibold" data-i18n="story_item_12_en">· Lotus & Sacred Rings</span></span>
             </div>
           </div>
 
@@ -1196,7 +1198,7 @@
             <div class="mt-3 flex items-baseline justify-between px-1">
               <span class="font-['Cormorant_Garamond'] text-[#d8c49a] text-sm tracking-widest font-semibold">១៣</span>
               <span
-                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"></span>
+                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"><span data-i18n="story_item_13_km">ស្រឡាញ់ស្មោះស្ម័គ្រ</span> <span class="text-[10px] text-[#d8c49a]/80 font-['Cormorant_Garamond'] tracking-wide ml-1 font-semibold" data-i18n="story_item_13_en">· Devoted True Love</span></span>
             </div>
           </div>
 
@@ -1214,7 +1216,7 @@
             <div class="mt-3 flex items-baseline justify-between px-1">
               <span class="font-['Cormorant_Garamond'] text-[#d8c49a] text-sm tracking-widest font-semibold">១៤</span>
               <span
-                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"></span>
+                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"><span data-i18n="story_item_14_km">កាន់ដៃគ្នារហូត</span> <span class="text-[10px] text-[#d8c49a]/80 font-['Cormorant_Garamond'] tracking-wide ml-1 font-semibold" data-i18n="story_item_14_en">· Hand in Hand Forever</span></span>
             </div>
           </div>
 
@@ -1232,7 +1234,7 @@
             <div class="mt-3 flex items-baseline justify-between px-1">
               <span class="font-['Cormorant_Garamond'] text-[#d8c49a] text-sm tracking-widest font-semibold">១៥</span>
               <span
-                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"></span>
+                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"><span data-i18n="story_item_15_km">សុភមង្គលពិត</span> <span class="text-[10px] text-[#d8c49a]/80 font-['Cormorant_Garamond'] tracking-wide ml-1 font-semibold" data-i18n="story_item_15_en">· Pure Happiness</span></span>
             </div>
           </div>
 
@@ -1250,7 +1252,7 @@
             <div class="mt-3 flex items-baseline justify-between px-1">
               <span class="font-['Cormorant_Garamond'] text-[#d8c49a] text-sm tracking-widest font-semibold">១៦</span>
               <span
-                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"></span>
+                class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#f7efdc]/90 font-light group-hover:text-white transition-colors"><span data-i18n="story_item_16_km">សេចក្តីស្រឡាញ់ដ៏បរិសុទ្ធ</span> <span class="text-[10px] text-[#d8c49a]/80 font-['Cormorant_Garamond'] tracking-wide ml-1 font-semibold" data-i18n="story_item_16_en">· Eternal Pure Love</span></span>
             </div>
           </div>
 
@@ -1531,15 +1533,15 @@
             <div class="space-y-3 font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#e5dac3] leading-relaxed">
               <div class="flex items-start">
                 <i class="w-4 h-4 text-[#d8c49a] mr-2.5 mt-1 shrink-0" data-lucide="map-pin"></i>
-                <span>ផ្លូវជាតិលេខ ៥ ក្រុងបាត់ដំបង ខេត្តបាត់ដំបង (Battambang Province)</span>
+                <span data-i18n="venue_address">ផ្លូវជាតិលេខ ៥ ក្រុងបាត់ដំបង ខេត្តបាត់ដំបង (Battambang Province)</span>
               </div>
               <div class="flex items-start">
                 <i class="w-4 h-4 text-[#d8c49a] mr-2.5 mt-1 shrink-0" data-lucide="clock"></i>
-                <span>វេលាម៉ោង ០៥:០០ ល្ងាច តទៅ (Evening Reception)</span>
+                <span data-i18n="venue_time">វេលាម៉ោង ០៥:០០ ល្ងាច តទៅ (Evening Reception)</span>
               </div>
               <div class="flex items-start">
                 <i class="w-4 h-4 text-[#d8c49a] mr-2.5 mt-1 shrink-0" data-lucide="phone"></i>
-                <span>ទំនាក់ទំនង ៖ 012 345 678 / 098 765 432</span>
+                <span data-i18n="venue_contact">ទំនាក់ទំនង ៖ 012 345 678 / 098 765 432</span>
               </div>
             </div>
           </div>
@@ -1547,13 +1549,13 @@
             <a class="flex-1 flex items-center justify-center space-x-2 bg-gradient-to-r from-[#a38b5b] via-[#d8c49a] to-[#f7efdc] text-[#3b3326] font-bold text-xs py-2.5 px-4 rounded-xl shadow hover:brightness-110 transition-all"
               href="https://maps.app.goo.gl/yqMHdzLVnJ2mmC1D8" rel="noopener noreferrer" target="_blank">
               <i class="w-4 h-4" data-lucide="navigation"></i>
-              <span>បើកក្នុង Google Maps</span>
+              <span data-i18n="venue_map_btn">បើកក្នុង Google Maps</span>
             </a>
             <button
               class="flex-1 flex items-center justify-center space-x-2 bg-[#443a2b] hover:bg-[#4d4231] border border-[#d8c49a]/60 text-[#fffaf0] text-xs font-semibold py-2.5 px-4 rounded-xl shadow transition-all"
               onclick="downloadWeddingICS()">
               <i class="w-4 h-4 text-[#d8c49a]" data-lucide="calendar"></i>
-              <span>កត់ត្រាក្នុងប្រតិទិន</span>
+              <span data-i18n="venue_ics_btn">កត់ត្រាក្នុងប្រតិទិន</span>
             </button>
           </div>
         </div>
@@ -1599,7 +1601,7 @@
           <div class="w-10 h-10 rounded-full bg-[#3b3326] text-[#d8c49a] flex items-center justify-center mb-3">
             <i class="w-5 h-5" data-lucide="qr-code"></i>
           </div>
-          <span class="text-xs text-[#7c8b6a] font-semibold">គណនីកូនកំលោះ (Groom)</span>
+          <span class="text-xs text-[#7c8b6a] font-semibold" data-i18n="gift_groom_acc">គណនីកូនកំលោះ (Groom)</span>
           <h4 class="font-['Noto_Serif_Khmer'] text-base text-[#3b3326] mt-0.5">ភត សុភ័ក្រ</h4>
           <p class="text-xs font-mono font-bold text-[#7c8b6a] mb-4">PHORT SOPHEAK · 001 234 567</p>
           <div
@@ -1628,7 +1630,7 @@
           <a class="inline-flex items-center space-x-1.5 text-xs bg-[#3b3326] hover:bg-[#4d4231] text-[#fffaf0] font-medium px-4 py-2 rounded-xl transition-all shadow"
             href="#" onclick="alert('បានរក្សាទុក QR Code កូនកំលោះក្នុងទូរស័ព្ទ'); return false;">
             <i class="w-3.5 h-3.5 text-[#d8c49a]" data-lucide="download"></i>
-            <span>រក្សាទុក QR Code</span>
+            <span data-i18n="gift_save_qr">រក្សាទុក QR Code</span>
           </a>
         </div>
         <!-- Account 2: Bride -->
@@ -1641,7 +1643,7 @@
           <div class="w-10 h-10 rounded-full bg-[#3b3326] text-[#d8c49a] flex items-center justify-center mb-3">
             <i class="w-5 h-5" data-lucide="qr-code"></i>
           </div>
-          <span class="text-xs text-[#7c8b6a] font-semibold">គណនីកូនក្រមុំ (Bride)</span>
+          <span class="text-xs text-[#7c8b6a] font-semibold" data-i18n="gift_bride_acc">គណនីកូនក្រមុំ (Bride)</span>
           <h4 class="font-['Noto_Serif_Khmer'] text-base text-[#3b3326] mt-0.5">កេត សុភាវី</h4>
           <p class="text-xs font-mono font-bold text-[#7c8b6a] mb-4">KETH SOPHEAVY · 008 765 432</p>
           <div
@@ -1670,7 +1672,7 @@
           <a class="inline-flex items-center space-x-1.5 text-xs bg-[#3b3326] hover:bg-[#4d4231] text-[#fffaf0] font-medium px-4 py-2 rounded-xl transition-all shadow"
             href="#" onclick="alert('បានរក្សាទុក QR Code កូនក្រមុំក្នុងទូរស័ព្ទ'); return false;">
             <i class="w-3.5 h-3.5 text-[#d8c49a]" data-lucide="download"></i>
-            <span>រក្សាទុក QR Code</span>
+            <span data-i18n="gift_save_qr">រក្សាទុក QR Code</span>
           </a>
         </div>
       </div>
@@ -1685,7 +1687,7 @@
       <!-- Section Header -->
       <div class="text-center mb-10 sm:mb-14">
         <span class="font-['Cormorant_Garamond'] text-[#d8c49a] tracking-[0.3em] text-xs uppercase block mb-1">Wedding Wishes &amp; Blessings</span>
-        <span class="font-['Kantumruy_Pro'] text-xs text-[#d8c49a]/80 tracking-widest block mb-2">សារជូនពរដល់គូស្វាមីភរិយាថ្មី</span>
+        <span class="font-['Kantumruy_Pro'] text-xs text-[#d8c49a]/80 tracking-widest block mb-2" data-i18n="wishes_subtitle">សារជូនពរដល់គូស្វាមីភរិយាថ្មី</span>
         <h2 class="rosegold-foil-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-wide font-normal mb-1">
           ពាក្យជូនពរដល់កូនកំលោះ និងកូនក្រមុំ
         </h2>
@@ -1721,7 +1723,7 @@
                   <h3 class="font-['Noto_Serif_Khmer'] text-base sm:text-lg text-[#fffaf0] leading-snug">
                     ផ្ញើសារជូនពរ
                   </h3>
-                  <span class="text-[11px] text-[#d8c49a] font-['Kantumruy_Pro'] font-light">Guest Blessing · ម្នាក់បានតែម្ដង</span>
+                  <span class="text-[11px] text-[#d8c49a] font-['Kantumruy_Pro'] font-light" data-i18n="wish_card_sub">Guest Blessing · ម្នាក់បានតែម្ដង</span>
                 </div>
               </div>
               <!-- Status Pill -->
@@ -1753,7 +1755,7 @@
                 <!-- Phone Input (Cambodia +855) -->
                 <div>
                   <label for="loginGuestPhone" class="block text-xs font-medium text-[#f7efdc] mb-1.5 font-['Kantumruy_Pro'] flex items-center justify-between">
-                    <span>លេខទូរស័ព្ទ / Phone Number <span class="text-[#d8c49a]">*</span></span>
+                    <span><span data-i18n="wish_phone_label">លេខទូរស័ព្ទ / Phone Number</span> <span class="text-[#d8c49a]">*</span></span>
                   </label>
                   <div class="relative flex items-center">
                     <div class="absolute left-3 flex items-center space-x-1.5 pointer-events-none text-[#d8c49a]">
@@ -1767,13 +1769,13 @@
                   </div>
                   <p id="loginPhoneError" class="hidden text-[11px] text-rose-400 mt-1 font-['Kantumruy_Pro'] flex items-center space-x-1">
                     <i data-lucide="alert-circle" class="w-3.5 h-3.5 shrink-0 text-rose-400"></i>
-                    <span>សូមបញ្ចូលលេខទូរស័ព្ទកម្ពុជាឱ្យបានត្រឹមត្រូវ (+855 / 0XX XXX XXX)</span>
+                    <span data-i18n="wish_phone_err">សូមបញ្ចូលលេខទូរស័ព្ទកម្ពុជាឱ្យបានត្រឹមត្រូវ (+855 / 0XX XXX XXX)</span>
                   </p>
                 </div>
 
                 <button type="submit"
                   class="w-full btn-shimmer group relative inline-flex items-center justify-center space-x-2 py-3 rounded-xl text-[#3b3326] font-['Noto_Serif_Khmer'] text-xs sm:text-sm tracking-wider hover:scale-[1.01] active:scale-95 transition-all shadow-md cursor-pointer">
-                  <span>បន្តទៅសរសេរសារជូនពរ · Continue</span>
+                  <span data-i18n="wish_login_btn">បន្តទៅសរសេរសារជូនពរ · Continue</span>
                   <i data-lucide="arrow-right" class="w-4 h-4 text-[#3b3326] group-hover:translate-x-1 transition-transform"></i>
                 </button>
               </form>
@@ -1789,7 +1791,7 @@
                 </div>
                 <button type="button" onclick="handleGuestLogout()"
                   class="text-[11px] text-[#d8c49a] hover:text-[#fffaf0] underline font-['Kantumruy_Pro'] cursor-pointer">
-                  ប្តូរឈ្មោះ / Switch
+                  <span data-i18n="wish_switch_user">ប្តូរឈ្មោះ / Switch</span>
                 </button>
               </div>
 
@@ -1847,7 +1849,7 @@
                 <button type="submit" id="wishSubmitBtn"
                   class="w-full btn-shimmer group relative inline-flex items-center justify-center space-x-2 py-3 rounded-xl text-[#3b3326] font-['Noto_Serif_Khmer'] text-xs sm:text-sm tracking-wider hover:scale-[1.01] active:scale-95 transition-all shadow-md cursor-pointer">
                   <i data-lucide="send" class="w-4 h-4 text-[#3b3326] group-hover:translate-x-0.5 transition-transform"></i>
-                  <span>ផ្ញើសារជូនពរ · Send Wish (1 លើកប៉ុណ្ណោះ)</span>
+                  <span data-i18n="wish_send_btn">ផ្ញើសារជូនពរ · Send Wish (1 លើកប៉ុណ្ណោះ)</span>
                 </button>
               </form>
             </div>
@@ -1860,7 +1862,7 @@
                     <i data-lucide="check-circle-2" class="w-5 h-5"></i>
                   </div>
                   <div>
-                    <h4 class="text-xs sm:text-sm font-semibold text-[#fffaf0]">លោកអ្នកបានផ្ញើសារជូនពររួចរាល់ហើយ</h4>
+                    <h4 class="text-xs sm:text-sm font-semibold text-[#fffaf0]" data-i18n="wish_sent_title">លោកអ្នកបានផ្ញើសារជូនពររួចរាល់ហើយ</h4>
                     <span class="text-[11px] text-[#d8c49a]/80">You have already submitted your wedding wish</span>
                   </div>
                 </div>
@@ -1874,14 +1876,14 @@
                   <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .26z"/>
                   </svg>
-                  <span>ផ្ញើទៅកាន់ Telegram (@tongkhai08)</span>
+                  <span data-i18n="wish_tg_btn">ផ្ញើទៅកាន់ Telegram (@tongkhai08)</span>
                   <i data-lucide="external-link" class="w-3.5 h-3.5 opacity-80"></i>
                 </a>
 
                 <div class="text-center pt-1 border-t border-[#d8c49a]/15">
                   <button type="button" onclick="handleGuestLogout()"
                     class="text-[11px] text-[#d8c49a]/70 hover:text-[#d8c49a] underline cursor-pointer">
-                    ចូលដោយលេខទូរស័ព្ទផ្សេង (Sign in with another number)
+                    <span data-i18n="wish_other_num">ចូលដោយលេខទូរស័ព្ទផ្សេង (Sign in with another number)</span>
                   </button>
                 </div>
               </div>
@@ -1900,7 +1902,7 @@
                 <i data-lucide="film" class="w-4.5 h-4.5 text-[#d8c49a]"></i>
               </div>
               <div>
-                <h3 class="font-['Noto_Serif_Khmer'] text-base sm:text-lg text-[#fffaf0] leading-snug">
+                <h3 class="font-['Noto_Serif_Khmer'] text-base sm:text-lg text-[#fffaf0] leading-snug" data-i18n="video_title">
                   វីដេអូអនុស្សាវរីយ៍អាពាហ៍ពិពាហ៍
                 </h3>
                 <span class="text-[11px] text-[#d8c49a] font-['Kantumruy_Pro'] font-light">Pre-Wedding Story &amp; Video</span>

@@ -7,18 +7,295 @@ if (bgm) {
   bgm.volume = 0.35; // Soft background music volume (under 50%)
 }
 
+let currentLang = 'km';
+
+const I18N = {
+  km: {
+    // Top Bar
+    music_label_on: "តន្ត្រីអាពាហ៍ពិពាហ៍",
+    music_label_off: "បិទតន្ត្រី",
+    // Intro
+    intro_greeting: "សូមគោរពអញ្ជើញ · Cordially Invited",
+    intro_guests: "ឯកឧត្តម លោកជំទាវ លោក លោកស្រី អ្នកនាងកញ្ញា",
+    intro_celebration: "ពិធីសិរីមង្គលអាពាហ៍ពិពាហ៍",
+    intro_guide: "សូមចុចលើស្រោមសំបុត្រ ឬប៊ូតុងខាងក្រោមដើម្បីបើកលិខិត",
+    intro_open_btn: "បើកសំបុត្រអាពាហ៍ពិពាហ៍",
+    intro_audio_hint: "បទភ្លេងនឹងបន្លឺឡើងដោយស្វ័យប្រវត្តិពេលបើក",
+    card_invitation_title: "លិខិតអញ្ជើញអាពាហ៍ពិពាហ៍",
+    card_invitation_date: "ថ្ងៃអាទិត្យ ទី២០ ខែធ្នូ ឆ្នាំ២០២៦",
+    card_invitation_venue: "បាត់ដំបងសុីធីហល៍",
+    card_invitation_touch: "ចុចដើម្បីបើក",
+
+    // Hero
+    hero_title: "សិរីសួស្តីអាពាហ៍ពិពាហ៍",
+    hero_date: "ថ្ងៃអាទិត្យ ទី២០ ខែធ្នូ ឆ្នាំ២០២៦ · ម៉ោង ៥:០០ ល្ងាច",
+    hero_date_en: "Sunday, December 20, 2026 · 5:00 PM",
+    hero_lunar: "ត្រូវនឹងថ្ងៃ១១កើត ខែមិគសិរ ឆ្នាំមមី អដ្ឋស័ក ព.ស.២៥៧០",
+    hero_map_link: "មើលផែនទី · View Map",
+
+    // Invitation
+    invitation_title: "មានកិត្តិយសសូមគោរពអញ្ជើញ",
+    invitation_title_en: "Cordially Request the Honor of Your Presence",
+    invitation_p1: "ឯកឧត្តម អ្នកឧកញ៉ា លោកជំទាវ លោក លោកស្រី អ្នកនាង កញ្ញា និងប្រិយមិត្តជិតឆ្ងាយទាំងអស់",
+    invitation_p2: "អញ្ជើញចូលរួមជាអធិបតី និងជាភ្ញៀវកិត្តិយស ដើម្បីប្រសិទ្ធពរជ័យសិរីសួស្តី",
+    invitation_p3: "ជ័យមង្គលក្នុង ពិធីរៀបអាពាហ៍ពិពាហ៍ កូនប្រុស-ស្រី របស់យើងខ្ញុំ",
+    invitation_groom_label: "កូនប្រុសនាម · Groom",
+    invitation_bride_label: "កូនស្រីនាម · Bride",
+    invitation_reception_lunar: "ពិសាភោជនាហារប្រព្រឹត្តទៅ ថ្ងៃអាទិត្យ ១១កើត ខែមិគសិរ ឆ្នាំមមី អដ្ឋស័ក ព.ស. ២៥៧០",
+    invitation_reception_solar: "ត្រូវនឹងថ្ងៃ ទី២០ ខែធ្នូ ឆ្នាំ២០២៦ វេលាម៉ោង ៥:០០ ល្ងាច ស្ថិតនៅបាត់ដំបងស៊ីធីហល៍ (Battambang City Hall)",
+    invitation_gratitude: "ដោយមេត្រីភាព! សូមអរគុណ! · With Warmest Gratitude",
+
+    // Couple & Parents
+    groom_parents_label: "កូនប្រុសរបស់",
+    bride_parents_label: "កូនស្រីរបស់",
+    groom_father: "លោក ទី ភត",
+    groom_mother: "និងលោកស្រី គង់ សឿន",
+    bride_father: "លោក កេត សុជាតិ",
+    bride_mother: "និងលោកស្រី នួន នាវ័ន្ត",
+
+    // Countdown
+    countdown_title: "រាប់ថយក្រោយឆ្ពោះទៅកាន់ថ្ងៃមង្គល",
+    countdown_days: "ថ្ងៃ",
+    countdown_hours: "ម៉ោង",
+    countdown_mins: "នាទី",
+    countdown_secs: "វិនាទី",
+    countdown_ics: "កត់ត្រាក្នុងប្រតិទិន (.ics)",
+
+    // Programme
+    programme_title: "កម្មវិធីសិរីមង្គលអាពាហ៍ពិពាហ៍",
+    programme_desc: "កម្មវិធីសិរីមង្គលអាពាហ៍ពិពាហ៍តាមប្រពៃណីទំនៀមទម្លាប់ខ្មែរ",
+    prog_m1_title: "ពិធីហែជំនូនចូលរោងជ័យ",
+    prog_m1_desc: "ក្បួនហែជំនូន និងផ្លែឈើ៣៦មុខ ដើម្បីគោរពដល់មាតាបិតា និងចាស់ទុំទាំងសងខាង",
+    prog_m2_title: "ពិធីសែនព្រេន ជើងការ និងកាត់សក់បង្កក់សិរី",
+    prog_m2_desc: "ពិធីកាត់សក់កម្ចាត់ភាពអពមង្គល និងទទួលពរជ័យសិរីសួស្តីពីជីដូនជីតា",
+    prog_m3_title: "ពិធីពិសាភោជនាហារពេលថ្ងៃត្រង់",
+    prog_m3_desc: "ទទួលភ្ញៀវកិត្តិយស និងញាតិមិត្តជិតឆ្ងាយពិសាអាហារពេលថ្ងៃត្រង់នៅគេហដ្ឋានរោងជ័យ",
+    prog_m4_title: "ពិធីបង្វិលពពិល",
+    prog_m4_desc: "ពិធីសក្ការៈបង្វិលពពិល ៧ ជុំ ដើម្បីប្រសិទ្ធពរជ័យ ភាពរុងរឿង និងសេចក្តីស្ងប់ក្នុងជីវិត",
+    prog_m5_title: "ពិធីទទួលបដិសណ្ឋារកិច្ច និងពិសាភោជនាហារពេលល្ងាច",
+    prog_m5_desc: "ពិធីជប់លៀងអាពាហ៍ពិពាហ៍យ៉ាងមហោឡារិក នៅបាត់ដំបងសុីធីហល៍ (Battambang City Hall)",
+
+    // Story
+    story_title: "ដំណើរ<br class=\"hidden sm:inline\" />នៃក្តីស្រឡាញ់",
+    story_title_en: "Our Love Story &amp; Journey",
+    story_desc: "អនុស្សាវរីយ៍ និងកម្ររូបភាព​សម្រាប់ថ្ងៃអាពាហ៍ពិពាហ៍",
+
+    // Gallery
+    gallery_title: "អនុស្សាវរីយ៍មុនថ្ងៃមង្គល",
+
+    // Venue
+    venue_title: "ទីតាំងប្រារព្ធពិធី",
+    venue_address: "ផ្លូវជាតិលេខ ៥ ក្រុងបាត់ដំបង ខេត្តបាត់ដំបង (Battambang Province)",
+    venue_time: "វេលាម៉ោង ០៥:០០ ល្ងាច តទៅ (Evening Reception)",
+    venue_contact: "ទំនាក់ទំនង ៖ 012 345 678 / 098 765 432",
+    venue_map_btn: "បើកក្នុង Google Maps",
+    venue_ics_btn: "កត់ត្រាក្នុងប្រតិទិន",
+
+    // Gift
+    gift_title: "ចំណងដៃអាពាហ៍ពិពាហ៍",
+    gift_desc: "វត្តមាន និងពរជ័យរបស់លោកអ្នក គឺជាកាដូដ៏មានតម្លៃបំផុតសម្រាប់ពួកយើង។ ប្រសិនបើលោកអ្នកមានបំណងជូនចំណងដៃតាមប្រព័ន្ធឌីជីថល៖",
+    gift_groom_acc: "គណនីកូនកំលោះ (Groom)",
+    gift_bride_acc: "គណនីកូនក្រមុំ (Bride)",
+    gift_save_qr: "រក្សាទុក QR Code",
+
+    // Wishes
+    wishes_subtitle: "សារជូនពរដល់គូស្វាមីភរិយាថ្មី",
+    wishes_title: "ពាក្យជូនពរដល់កូនកំលោះ និងកូនក្រមុំ",
+    wishes_desc: "សូមចូលរួមផ្ញើសារជូនពរជ័យ សិរីសួស្តី និងសេចក្តីស្រឡាញ់ ដល់គូស្វាមីភរិយាថ្មី ដើម្បីជាអនុស្សាវរីយ៍ដ៏មានតម្លៃក្នុងថ្ងៃមង្គលដ៏ឧត្តុង្គឧត្តមនេះ",
+    wish_card_title: "ផ្ញើសារជូនពរ",
+    wish_card_sub: "Guest Blessing · ម្នាក់បានតែម្ដង",
+    wish_name_label: "ឈ្មោះរបស់អ្នក / Your Name",
+    wish_phone_label: "លេខទូរស័ព្ទ / Phone Number",
+    wish_phone_err: "សូមបញ្ចូលលេខទូរស័ព្ទកម្ពុជាឱ្យបានត្រឹមត្រូវ (+855 / 0XX XXX XXX)",
+    wish_login_btn: "បន្តទៅសរសេរសារជូនពរ · Continue",
+    wish_switch_user: "ប្តូរឈ្មោះ / Switch",
+    wish_rel_label: "ទំនាក់ទំនងរបស់អ្នក / Relationship",
+    wish_quick_label: "ពាក្យជូនពររហ័ស (Quick Blessings):",
+    wish_msg_label: "សារជូនពរ / Your Message",
+    wish_send_btn: "ផ្ញើសារជូនពរ · Send Wish (1 លើកប៉ុណ្ណោះ)",
+    wish_sent_title: "លោកអ្នកបានផ្ញើសារជូនពររួចរាល់ហើយ",
+    wish_tg_btn: "ផ្ញើទៅកាន់ Telegram (@tongkhai08)",
+    wish_other_num: "ចូលដោយលេខទូរស័ព្ទផ្សេង (Sign in with another number)",
+    video_title: "វីដេអូអនុស្សាវរីយ៍អាពាហ៍ពិពាហ៍",
+
+    // Footer
+    footer_thanks: "សូមថ្លែងអំណរគុណយ៉ាងជ្រាលជ្រៅ",
+    footer_contact: "ទំនាក់ទំនង · Contact Us"
+  },
+  en: {
+    // Top Bar
+    music_label_on: "Wedding Music",
+    music_label_off: "Mute Music",
+    // Intro
+    intro_greeting: "Cordially Invited",
+    intro_guests: "Excellencies, Ladies & Gentlemen, Dear Family & Friends",
+    intro_celebration: "The Wedding Celebration of",
+    intro_guide: "Touch or click the envelope to open the invitation",
+    intro_open_btn: "Open Wedding Invitation",
+    intro_audio_hint: "Music will play gently upon opening",
+    card_invitation_title: "Wedding Invitation",
+    card_invitation_date: "Sunday, December 20, 2026",
+    card_invitation_venue: "Battambang City Hall",
+    card_invitation_touch: "Tap to open",
+
+    // Hero
+    hero_title: "The Wedding Celebration",
+    hero_date: "Sunday, December 20, 2026 · 5:00 PM",
+    hero_date_en: "The Blessed Wedding Celebration",
+    hero_lunar: "11th Waxing Moon of Migasira, Year of the Horse, B.E. 2570",
+    hero_map_link: "View Location Map",
+
+    // Invitation
+    invitation_title: "Cordially Request the Honor of Your Presence",
+    invitation_title_en: "At The Wedding Celebration of Our Beloved Children",
+    invitation_p1: "Excellencies, Neak Oknha, Lok Chumteav, Ladies and Gentlemen, Esteemed Relatives and Friends",
+    invitation_p2: "To honor us with your gracious presence and bless the newly married couple with lifelong joy and happiness",
+    invitation_p3: "On the joyous occasion of the Holy Wedding of our son and daughter",
+    invitation_groom_label: "Groom",
+    invitation_bride_label: "Bride",
+    invitation_reception_lunar: "Wedding Reception Celebration on Sunday, December 20, 2026",
+    invitation_reception_solar: "At 5:00 PM at Battambang City Hall, Battambang Province",
+    invitation_gratitude: "With Warmest Regards & Heartfelt Gratitude",
+
+    // Couple & Parents
+    groom_parents_label: "Son of",
+    bride_parents_label: "Daughter of",
+    groom_father: "Mr. Ty Phort",
+    groom_mother: "& Mrs. Kong Soeun",
+    bride_father: "Mr. Keth Socheat",
+    bride_mother: "& Mrs. Nuon Neavon",
+
+    // Countdown
+    countdown_title: "Countdown to The Blessed Day",
+    countdown_days: "Days",
+    countdown_hours: "Hours",
+    countdown_mins: "Mins",
+    countdown_secs: "Secs",
+    countdown_ics: "Add to Calendar (.ics)",
+
+    // Programme
+    programme_title: "Wedding Programme & Rituals",
+    programme_desc: "Traditional Khmer Wedding Ceremony & Evening Banquet Schedule",
+    prog_m1_title: "Dowry & Engagement Procession",
+    prog_m1_desc: "Traditional procession of 36 fruit trays honoring parents, ancestors, and elders",
+    prog_m2_title: "Hair Cutting & Cleansing Blessing Ritual",
+    prog_m2_desc: "Sacred cleansing ceremony to wash away misfortune and receive elders' holy blessings",
+    prog_m3_title: "Midday Family Celebration Feast",
+    prog_m3_desc: "Welcoming honored guests, family, and close friends for lunch at the wedding residence",
+    prog_m4_title: "Sacred Candle Rotation Ceremony (Ga-Vil Popil)",
+    prog_m4_desc: "Passing 7 sacred candles in circles to bless the union with peace, harmony, and prosperity",
+    prog_m5_title: "Evening Grand Banquet Reception",
+    prog_m5_desc: "Grand celebratory dinner reception and toast to the newlyweds at Battambang City Hall",
+
+    // Story
+    story_title: "Our Love<br class=\"hidden sm:inline\" />Story",
+    story_title_en: "Cherished Memories on Our Journey to \"I Do\"",
+    story_desc: "Unforgettable moments and photographic memories leading to our wedding day",
+
+    // Gallery
+    gallery_title: "Pre-Wedding Photo Gallery",
+
+    // Venue
+    venue_title: "Reception & Venue Location",
+    venue_address: "National Road 5, Battambang City, Battambang Province, Cambodia",
+    venue_time: "From 05:00 PM Onwards (Evening Banquet)",
+    venue_contact: "Contact: 012 345 678 / 098 765 432",
+    venue_map_btn: "Open in Google Maps",
+    venue_ics_btn: "Save to Calendar",
+
+    // Gift
+    gift_title: "Traditional Wedding Gifts",
+    gift_desc: "Your gracious presence and heartfelt blessings are our greatest gift. For guests wishing to send a digital blessing gift:",
+    gift_groom_acc: "Groom's Account (ABA)",
+    gift_bride_acc: "Bride's Account (ABA)",
+    gift_save_qr: "Save QR Code",
+
+    // Wishes
+    wishes_subtitle: "Blessings for the Newlyweds",
+    wishes_title: "Send Your Blessings to the Bride & Groom",
+    wishes_desc: "Join us in sending your love, prayers, and blessings to the newlyweds to commemorate this milestone celebration",
+    wish_card_title: "Write Your Blessing",
+    wish_card_sub: "Guest Blessing · 1 Wish per Guest",
+    wish_name_label: "Your Full Name",
+    wish_phone_label: "Cambodian Phone Number (+855)",
+    wish_phone_err: "Please enter a valid Cambodian mobile phone number (+855 / 0XX XXX XXX)",
+    wish_login_btn: "Continue to Write Blessing",
+    wish_switch_user: "Switch Guest",
+    wish_rel_label: "Your Relationship to the Couple",
+    wish_quick_label: "Quick Blessing Phrases:",
+    wish_msg_label: "Your Wedding Blessing",
+    wish_send_btn: "Submit Blessing (Once Only)",
+    wish_sent_title: "You Have Submitted Your Wedding Wish",
+    wish_tg_btn: "Send via Telegram (@tongkhai08)",
+    wish_other_num: "Sign in with another phone number",
+    video_title: "Pre-Wedding Memorial Story Video",
+
+    // Footer
+    footer_thanks: "Heartfelt Thanks & Deepest Appreciation",
+    footer_contact: "Contact & Social Media"
+  }
+};
+
 function switchLanguage(lang) {
+  currentLang = lang;
+  try {
+    localStorage.setItem('wedding_lang_pref', lang);
+  } catch (_) {}
+
   const btnKm = document.getElementById('btnLangKm');
   const btnEn = document.getElementById('btnLangEn');
+
   if (lang === 'en') {
-    btnEn.className = "px-2.5 py-1 text-xs rounded-full bg-gradient-to-r from-[#d8c49a] to-[#f7efdc] text-[#3b3326] font-bold transition-all";
-    btnKm.className = "px-2.5 py-1 text-xs rounded-full text-[#e2d7be] hover:text-white transition-all";
+    if (btnEn) btnEn.className = "px-2.5 py-1 text-xs rounded-full bg-gradient-to-r from-[#d8c49a] to-[#f7efdc] text-[#3b3326] font-bold transition-all shadow-sm";
+    if (btnKm) btnKm.className = "px-2.5 py-1 text-xs rounded-full text-[#e2d7be] hover:text-white transition-all";
+    document.documentElement.lang = 'en';
   } else {
-    btnKm.className = "px-2.5 py-1 text-xs rounded-full bg-gradient-to-r from-[#d8c49a] to-[#f7efdc] text-[#3b3326] font-bold transition-all";
-    btnEn.className = "px-2.5 py-1 text-xs rounded-full text-[#e2d7be] hover:text-white transition-all";
+    if (btnKm) btnKm.className = "px-2.5 py-1 text-xs rounded-full bg-gradient-to-r from-[#d8c49a] to-[#f7efdc] text-[#3b3326] font-bold transition-all shadow-sm";
+    if (btnEn) btnEn.className = "px-2.5 py-1 text-xs rounded-full text-[#e2d7be] hover:text-white transition-all";
+    document.documentElement.lang = 'km';
+  }
+
+  // Apply all data-i18n replacements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (I18N[lang] && I18N[lang][key] !== undefined) {
+      el.innerHTML = I18N[lang][key];
+    }
+  });
+
+  // Countdown units
+  const khDays = document.querySelector('#countdownSection #khmerDays + div + span');
+  const khHours = document.querySelector('#countdownSection #khmerHours + div + span');
+  const khMins = document.querySelector('#countdownSection #khmerMins + div + span');
+  const khSecs = document.querySelector('#countdownSection #khmerSecs + div + span');
+  if (khDays) khDays.textContent = lang === 'en' ? 'Days' : 'ថ្ងៃ';
+  if (khHours) khHours.textContent = lang === 'en' ? 'Hours' : 'ម៉ោង';
+  if (khMins) khMins.textContent = lang === 'en' ? 'Mins' : 'នាទី';
+  if (khSecs) khSecs.textContent = lang === 'en' ? 'Secs' : 'វិនាទី';
+
+  // Audio Toggle Label
+  const musicLabel = document.getElementById('musicLabel');
+  if (musicLabel) {
+    musicLabel.textContent = isPlayingAudio 
+      ? (lang === 'en' ? I18N.en.music_label_off : I18N.km.music_label_off)
+      : (lang === 'en' ? I18N.en.music_label_on : I18N.km.music_label_on);
+  }
+
+  // Update Wish System labels
+  if (typeof updateWishUIState === 'function') {
+    updateWishUIState();
   }
 }
 
+// Check saved language on startup
+function initSavedLanguage() {
+  try {
+    const saved = localStorage.getItem('wedding_lang_pref');
+    if (saved === 'en') {
+      switchLanguage('en');
+    }
+  } catch (_) {}
+}
 function toggleAudio() {
   const musicDot = document.getElementById('musicDot');
   const musicPulse = document.getElementById('musicPulse');
@@ -33,7 +310,7 @@ function toggleAudio() {
           isPlayingAudio = true;
           if (musicDot) musicDot.classList.replace('bg-[#7c8b6a]', 'bg-[#d8c49a]');
           if (musicPulse) musicPulse.classList.remove('hidden');
-          if (musicLabel) musicLabel.textContent = "បិទតន្ត្រី";
+          if (musicLabel) musicLabel.textContent = (currentLang === "en" ? "Mute Music" : "បិទតន្ត្រី");
         }).catch(e => {
           console.log("Audio play error:", e);
         });
@@ -44,7 +321,7 @@ function toggleAudio() {
     isPlayingAudio = false;
     if (musicDot) musicDot.classList.replace('bg-[#d8c49a]', 'bg-[#7c8b6a]');
     if (musicPulse) musicPulse.classList.add('hidden');
-    if (musicLabel) musicLabel.textContent = "តន្ត្រីអាពាហ៍ពិពាហ៍";
+    if (musicLabel) musicLabel.textContent = (currentLang === "en" ? "Wedding Music" : "តន្ត្រីអាពាហ៍ពិពាហ៍");
   }
 }
 
@@ -1271,17 +1548,18 @@ function updateWishUIState() {
       step3.classList.remove('hidden');
 
       if (summaryCard) {
+        const isEn = (currentLang === 'en');
         summaryCard.innerHTML = `
           <div class="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#d8c49a]/20">
-            <span class="text-[#d8c49a] font-medium">👤 ឈ្មោះភ្ញៀវ៖</span>
-            <span class="text-[#fffaf0]">${existingWish.name} (${existingWish.relationship || 'ភ្ញៀវ'})</span>
+            <span class="text-[#d8c49a] font-medium">${isEn ? '👤 Guest Name:' : '👤 ឈ្មោះភ្ញៀវ៖'}</span>
+            <span class="text-[#fffaf0]">${existingWish.name} (${existingWish.relationship || (isEn ? 'Guest' : 'ភ្ញៀវ')})</span>
           </div>
           <div class="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#d8c49a]/20">
-            <span class="text-[#d8c49a] font-medium">📞 លេខទូរស័ព្ទ៖</span>
+            <span class="text-[#d8c49a] font-medium">${isEn ? '📞 Phone Number:' : '📞 លេខទូរស័ព្ទ៖'}</span>
             <span class="text-[#fffaf0] font-mono">${existingWish.phone || currentGuest.phone}</span>
           </div>
           <div>
-            <span class="text-[#d8c49a] font-medium block mb-1">💌 សារជូនពររបស់អ្នក៖</span>
+            <span class="text-[#d8c49a] font-medium block mb-1">${isEn ? '💌 Your Blessing:' : '💌 សារជូនពររបស់អ្នក៖'}</span>
             <p class="text-[#f7efdc] italic bg-[#1e1912]/80 p-2.5 rounded-lg border border-[#d8c49a]/15">
               "${existingWish.message}"
             </p>
@@ -1300,7 +1578,7 @@ function updateWishUIState() {
       step3.classList.add('hidden');
 
       if (activeLabel) {
-        activeLabel.textContent = `ភ្ញៀវ៖ ${currentGuest.name} (${currentGuest.phone})`;
+        activeLabel.textContent = (currentLang === "en" ? `Guest: ${currentGuest.name} (${currentGuest.phone})` : `ភ្ញៀវ៖ ${currentGuest.name} (${currentGuest.phone})`);
       }
     }
   }
@@ -1413,7 +1691,8 @@ function initWishSystem() {
 }
 
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initWishSystem);
+  document.addEventListener('DOMContentLoaded', () => { initSavedLanguage(); initWishSystem(); });
 } else {
+  initSavedLanguage();
   initWishSystem();
 }
