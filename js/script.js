@@ -1200,105 +1200,6 @@ function validateKhmerPhoneNumber(rawPhone) {
   };
 }
 
-function maskPhoneNumber(phone) {
-  if (!phone) return '';
-  const digits = phone.replace(/\D/g, '');
-  if (digits.length >= 8) {
-    const last3 = digits.slice(-3);
-    const prefix2 = digits.slice(-8, -6);
-    return `+855 ${prefix2} *** ${last3}`;
-  }
-  return phone;
-}
-
-function renderWishTable() {
-  const container = document.getElementById('wishesTableContainer');
-  const countEl = document.getElementById('wishesCountNumber');
-  if (!container) return;
-
-  if (countEl) countEl.textContent = activeWishes.length;
-
-  if (activeWishes.length === 0) {
-    container.innerHTML = `
-      <div class="text-center py-12 text-[#d8c49a]/60 text-xs font-['Kantumruy_Pro'] flex flex-col items-center justify-center space-y-2">
-        <i data-lucide="message-square-dashed" class="w-8 h-8 text-[#d8c49a]/40"></i>
-        <span>មិនទាន់មានពាក្យជូនពរនៅឡើយទេ។ សូមក្លាយជាអ្នកជូនពរដំបូងគេ!</span>
-      </div>`;
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
-    return;
-  }
-
-  container.innerHTML = activeWishes.map((w) => {
-    const name = w.name || 'ភ្ញៀវកិត្តិយស';
-    const relTag = w.relationship || 'មិត្តភក្តិទាំងសងខាង';
-    const displayPhone = maskPhoneNumber(w.phone || w.rawPhone || '');
-    const time = w.time || w.date || 'ថ្មីៗនេះ';
-    const message = w.message || '';
-
-    return `
-      <div class="wish-card-enter bg-[#1e1912]/90 hover:bg-[#1e1912] border border-[#d8c49a]/25 hover:border-[#d8c49a]/50 rounded-xl sm:rounded-2xl p-4 transition-all shadow-sm group">
-        <!-- Top Row: Guest Name, Relationship, and Masked Phone -->
-        <div class="flex items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-[#d8c49a]/15">
-          <div class="flex items-center space-x-2.5 min-w-0">
-            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-[#d8c49a] to-[#a38b5b] text-[#241e16] font-['Noto_Serif_Khmer'] font-bold text-[11px] flex items-center justify-center shadow-inner shrink-0">
-              ${name.trim().charAt(0)}
-            </div>
-            <div class="truncate">
-              <h4 class="font-['Kantumruy_Pro'] font-semibold text-xs sm:text-sm text-[#fffaf0] truncate leading-tight">
-                ${name}
-              </h4>
-              <span class="text-[10px] text-[#d8c49a] font-['Kantumruy_Pro'] font-light">
-                ${relTag}
-              </span>
-            </div>
-          </div>
-
-          <div class="text-right shrink-0">
-            <span class="block text-[10.5px] text-[#d8c49a]/80 font-mono">
-              ${displayPhone}
-            </span>
-            <span class="block text-[9.5px] text-[#e5dac3]/40 font-['Kantumruy_Pro'] mt-0.5">
-              ${time}
-            </span>
-          </div>
-        </div>
-
-        <!-- Message Body -->
-        <div class="relative pl-3 border-l-2 border-[#d8c49a]/40 group-hover:border-[#d8c49a] transition-colors">
-          <p class="font-['Kantumruy_Pro'] text-xs sm:text-[13px] text-[#f7efdc]/95 leading-relaxed font-light">
-            "${message}"
-          </p>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  if (typeof lucide !== 'undefined' && lucide.createIcons) {
-    lucide.createIcons();
-  }
-}
-
-function switchWishTab(tab) {
-  const btnWishes = document.getElementById('tabBtnWishes');
-  const btnVideo = document.getElementById('tabBtnVideo');
-  const contentWishes = document.getElementById('tabContentWishes');
-  const contentVideo = document.getElementById('tabContentVideo');
-
-  if (!btnWishes || !btnVideo || !contentWishes || !contentVideo) return;
-
-  if (tab === 'wishes') {
-    btnWishes.className = 'px-3.5 py-1.5 rounded-lg text-xs font-["Kantumruy_Pro"] font-medium transition-all flex items-center space-x-1.5 bg-[#d8c49a] text-[#3b3326] shadow-sm cursor-pointer';
-    btnVideo.className = 'px-3.5 py-1.5 rounded-lg text-xs font-["Kantumruy_Pro"] font-medium transition-all flex items-center space-x-1.5 text-[#d8c49a] hover:text-[#fffaf0] cursor-pointer';
-    contentWishes.classList.remove('hidden');
-    contentVideo.classList.add('hidden');
-  } else {
-    btnVideo.className = 'px-3.5 py-1.5 rounded-lg text-xs font-["Kantumruy_Pro"] font-medium transition-all flex items-center space-x-1.5 bg-[#d8c49a] text-[#3b3326] shadow-sm cursor-pointer';
-    btnWishes.className = 'px-3.5 py-1.5 rounded-lg text-xs font-["Kantumruy_Pro"] font-medium transition-all flex items-center space-x-1.5 text-[#d8c49a] hover:text-[#fffaf0] cursor-pointer';
-    contentWishes.classList.add('hidden');
-    contentVideo.classList.remove('hidden');
-  }
-}
-
 function insertQuickWish(text) {
   const textarea = document.getElementById('wishMessage');
   if (textarea) {
@@ -1307,7 +1208,7 @@ function insertQuickWish(text) {
   }
 }
 
-// Current Guest Session Management
+// Current Guest Session Management (1 Wish per Guest/Phone)
 function getCurrentGuest() {
   try {
     const raw = localStorage.getItem('wedding_current_guest_v1');
@@ -1349,7 +1250,7 @@ function updateWishUIState() {
   if (!step1 || !step2 || !step3) return;
 
   if (!currentGuest) {
-    // Show Step 1: Login Form
+    // Step 1: Login Form
     step1.classList.remove('hidden');
     step2.classList.add('hidden');
     step3.classList.add('hidden');
@@ -1360,11 +1261,11 @@ function updateWishUIState() {
       if (badgeName) badgeName.textContent = currentGuest.name || 'ភ្ញៀវ';
     }
 
-    // Check if this guest has already submitted a wish
+    // Check if this guest already submitted a wish
     const existingWish = findWishByGuestPhone(currentGuest.rawPhone || currentGuest.phone);
 
     if (existingWish) {
-      // Show Step 3: Already submitted card
+      // Step 3: Already submitted
       step1.classList.add('hidden');
       step2.classList.add('hidden');
       step3.classList.remove('hidden');
@@ -1393,7 +1294,7 @@ function updateWishUIState() {
         resendBtn.href = 'https://t.me/tongkhai08?text=' + encodeURIComponent(tgMsg);
       }
     } else {
-      // Show Step 2: Write Wish Form
+      // Step 2: Write Wish Form
       step1.classList.add('hidden');
       step2.classList.remove('hidden');
       step3.classList.add('hidden');
@@ -1492,12 +1393,8 @@ function handleWishSubmit(e) {
     date: new Date().toLocaleDateString('km-KH')
   };
 
-  // Add to wishes list and save
   activeWishes.unshift(newWish);
   saveWishes(activeWishes);
-
-  // Update wish table live
-  renderWishTable();
 
   // Telegram direct URL
   const telegramMessage = `🎉 សារជូនពរអាពាហ៍ពិពាហ៍ (Wedding Blessing) 🎉\n🤵 ភត សុភ័ក្រ & 👰 កេត សុភាវី\n-----------------------------------------\n👤 ពីភ្ញៀវ៖ ${currentGuest.name} (${relationship})\n📞 លេខទូរស័ព្ទ៖ ${currentGuest.phone}\n💌 សារជូនពរ៖ ${message}\n-----------------------------------------\nសូមអរគុណ!`;
@@ -1507,12 +1404,11 @@ function handleWishSubmit(e) {
     window.open(tgUrl, '_blank');
   } catch (_) {}
 
-  // Update to Step 3 (already sent)
+  // Transition to Step 3 (already sent)
   updateWishUIState();
 }
 
 function initWishSystem() {
-  renderWishTable();
   updateWishUIState();
 }
 
