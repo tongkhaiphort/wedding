@@ -847,7 +847,20 @@ function initSectionReveals() {
     }
   } catch (e) { console.warn('Gift reveal error:', e); }
 
-  // SECTION 12: Footer & Platform Share
+  
+      // SECTION 11: Wedding Wishes & Guestbook
+      try {
+        const wishes = one('#wishesSection');
+        if (wishes) {
+          reveal(one('#wishesSection .text-center.mb-10, #wishesSection .text-center.mb-14'), { y: 30 }, wishes, 'top 85%');
+          const wishCols = q('#wishesSection .grid > div');
+          if (wishCols.length) {
+            reveal(wishCols, { y: 35, stagger: 0.12, duration: 0.8 }, wishes, 'top 82%');
+          }
+        }
+      } catch (e) { console.warn('Wishes reveal error:', e); }
+
+      // SECTION 12: Footer & Platform Share
   try {
     const footer = one('footer');
     if (footer) {
@@ -1019,3 +1032,234 @@ window.addEventListener('resize', () => {
     ScrollTrigger.refresh();
   }, 180);
 });
+
+
+// ── Wedding Wishes & Guestbook Logic ──────────────────────────────────────────
+const DEFAULT_WISHES = [
+  {
+    id: 'w-1',
+    name: 'ពូ សុខុម & មីង ចិន្តា',
+    relationship: 'សាច់ញាតិបងប្អូន',
+    message: 'សូមជូនពរក្មួយទាំងពីរឱ្យមានសុភមង្គលពេញលេញ ស្រឡាញ់គ្នារហូតដល់ចាស់កោងខ្នង រកស៊ីមានបាន ត្រជាក់ត្រជុំដូចទឹកអម្រឹត!',
+    time: '១ ម៉ោងមុន',
+    likes: 18,
+    liked: false
+  },
+  {
+    id: 'w-2',
+    name: 'ចាន់ វណ្ណា (Vanna)',
+    relationship: 'ភ្ញៀវខាងកូនកំលោះ',
+    message: 'Happy Wedding to Phort Sopheak & Keth Sopheavy! ជូនពរមិត្តសម្លាញ់ជួបតែសំណាងល្អ សុខភាពមាំមួន និងឆាប់បានក្មួយបីឆាប់ៗណា៎!',
+    time: '៣ ម៉ោងមុន',
+    likes: 14,
+    liked: false
+  },
+  {
+    id: 'w-3',
+    name: 'លីដា & ក្រុមការងារ',
+    relationship: 'មិត្តភក្តិទាំងសងខាង',
+    message: 'អបអរសាទរគូស្នេហ៍ដ៏ស័ក្តិសមបំផុត! សូមឱ្យជីវិតអាពាហ៍ពិពាហ៍ពោរពេញដោយស្នាមញញឹម ភាពចម្រុងចម្រើន និងសេចក្តីសុខជានិរន្តរ៍។',
+    time: '៥ ម៉ោងមុន',
+    likes: 21,
+    liked: false
+  },
+  {
+    id: 'w-4',
+    name: 'កញ្ញា ម៉ាលីកា',
+    relationship: 'ភ្ញៀវខាងកូនក្រមុំ',
+    message: 'ថ្ងៃនេះកូនក្រមុំស្អាតខ្លាំងណាស់! ជូនពរប្អូនស្រីមានក្តីសុខក្នុងជីវិតគូថ្មី ស្វាមីស្រឡាញ់ថ្នាក់ថ្នមមួយជីវិតណា៎!',
+    time: 'ម្សិលមិញ',
+    likes: 16,
+    liked: false
+  },
+  {
+    id: 'w-5',
+    name: 'គឹម ហេង & គ្រួសារ',
+    relationship: 'សាច់ញាតិបងប្អូន',
+    message: 'សូមប្រសិទ្ធពរជ័យ បវរសួស្តី វិបុលសុខគ្រប់ប្រការដល់គូស្វាមីភរិយាថ្មី។ ស្រឡាញ់គ្នាលុះគ្រាអាវសាន្ត!',
+    time: 'ម្សិលមិញ',
+    likes: 12,
+    liked: false
+  }
+];
+
+function getStoredWishes() {
+  try {
+    const raw = localStorage.getItem('wedding_wishes_list_v1');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch (e) {
+    console.warn('localStorage read error:', e);
+  }
+  return DEFAULT_WISHES;
+}
+
+function saveWishes(wishes) {
+  try {
+    localStorage.setItem('wedding_wishes_list_v1', JSON.stringify(wishes));
+  } catch (e) {
+    console.warn('localStorage write error:', e);
+  }
+}
+
+let activeWishes = getStoredWishes();
+
+function renderWishes() {
+  const container = document.getElementById('wishesContainer');
+  const countEl = document.getElementById('wishesCountNumber');
+  if (!container) return;
+
+  if (countEl) countEl.textContent = activeWishes.length;
+
+  if (activeWishes.length === 0) {
+    container.innerHTML = '<div class="text-center py-8 text-[#d8c49a]/60 text-xs font-sans">មិនទាន់មានពាក្យជូនពរនៅឡើយទេ។ សូមក្លាយជាអ្នកជូនពរដំបូងគេ!</div>';
+    return;
+  }
+
+  container.innerHTML = activeWishes.map((w) => {
+    const firstChar = (w.name || 'ភ្').trim().charAt(0);
+    const relTag = w.relationship || 'មិត្តភក្តិ';
+    const isLiked = !!w.liked;
+    const likeCount = w.likes || 0;
+
+    return `
+      <div class="wish-card-enter bg-[#241e16]/85 hover:bg-[#241e16] border border-[#d8c49a]/25 hover:border-[#d8c49a]/45 rounded-xl sm:rounded-2xl p-4 transition-all shadow-sm">
+        <div class="flex items-start justify-between gap-3 mb-2">
+          <div class="flex items-center space-x-2.5">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#d8c49a] to-[#a38b5b] text-[#241e16] font-['Moulpali'] font-bold text-xs flex items-center justify-center shadow-sm shrink-0">
+              ${firstChar}
+            </div>
+            <div>
+              <h4 class="font-['Kantumruy_Pro'] font-medium text-xs sm:text-sm text-[#f7efdc] leading-tight">
+                ${w.name}
+              </h4>
+              <div class="flex items-center space-x-2 mt-0.5">
+                <span class="text-[10px] text-[#d8c49a] bg-[#d8c49a]/15 border border-[#d8c49a]/30 px-2 py-0.5 rounded-full font-['Kantumruy_Pro']">
+                  ${relTag}
+                </span>
+                <span class="text-[10px] text-[#e5dac3]/50 font-['Kantumruy_Pro']">
+                  ${w.time || 'ទើបតែផ្ញើ'}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" onclick="toggleWishLike('${w.id}')"
+            class="flex items-center space-x-1 text-xs px-2.5 py-1 rounded-full border transition-all cursor-pointer ${isLiked ? 'bg-rose-500/20 border-rose-400/50 text-rose-300' : 'bg-[#3b3326]/60 hover:bg-[#3b3326] border-[#d8c49a]/30 text-[#e5dac3]'}"
+            title="ចូលចិត្តពាក្យជូនពរនេះ">
+            <i data-lucide="heart" class="w-3.5 h-3.5 ${isLiked ? 'fill-rose-400 text-rose-400' : 'text-[#d8c49a]'}"></i>
+            <span class="text-[11px] font-sans font-medium">${likeCount}</span>
+          </button>
+        </div>
+
+        <p class="font-['Kantumruy_Pro'] text-xs sm:text-sm text-[#fffaf0]/95 leading-relaxed font-light pl-10 pr-2">
+          ${w.message}
+        </p>
+      </div>
+    `;
+  }).join('');
+
+  if (typeof lucide !== 'undefined' && lucide.createIcons) {
+    lucide.createIcons();
+  }
+}
+
+function insertQuickWish(text) {
+  const textarea = document.getElementById('wishMessage');
+  if (textarea) {
+    textarea.value = text;
+    textarea.focus();
+  }
+}
+
+function handleWishSubmit(e) {
+  e.preventDefault();
+  const nameInput = document.getElementById('wishSenderName');
+  const relInput = document.getElementById('wishRelationship');
+  const messageInput = document.getElementById('wishMessage');
+  const toast = document.getElementById('wishSuccessToast');
+
+  if (!nameInput || !messageInput) return;
+
+  const name = nameInput.value.trim();
+  const relationship = relInput ? relInput.value : 'មិត្តភក្តិទាំងសងខាង';
+  const message = messageInput.value.trim();
+
+  if (!name || !message) return;
+
+  const newWish = {
+    id: 'w-' + Date.now(),
+    name: name,
+    relationship: relationship,
+    message: message,
+    time: 'ទើបតែផ្ញើ (Just now)',
+    likes: 1,
+    liked: true
+  };
+
+  activeWishes.unshift(newWish);
+  saveWishes(activeWishes);
+  renderWishes();
+
+  // Reset form inputs
+  nameInput.value = '';
+  messageInput.value = '';
+
+  // Format message for Telegram
+  const telegramMessage = `🎉 សារជូនពរអាពាហ៍ពិពាហ៍ (Wedding Blessing) 🎉\n🤵 ភត សុភ័ក្រ & 👰 កេត សុភាវី\n-----------------------------------------\n👤 ពីភ្ញៀវ៖ ${name} (${relationship})\n💌 សារជូនពរ៖ ${message}\n-----------------------------------------\nសូមអរគុណ!`;
+
+  const tgUrl = 'https://t.me/tongkhai08?text=' + encodeURIComponent(telegramMessage);
+
+  // Automatically attempt to open Telegram
+  try {
+    window.open(tgUrl, '_blank');
+  } catch (_) {}
+
+  // Update button link inside toast
+  const tgBtn = document.getElementById('wishTelegramBtn');
+  if (tgBtn) {
+    tgBtn.href = tgUrl;
+  }
+
+  // Show Toast
+  if (toast) {
+    toast.classList.remove('hidden');
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+    setTimeout(() => {
+      toast.classList.add('hidden');
+    }, 12000);
+  }
+
+  // Scroll the wishes feed to top smoothly
+  const container = document.getElementById('wishesContainer');
+  if (container) {
+    container.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function toggleWishLike(id) {
+  const wish = activeWishes.find(w => w.id === id);
+  if (!wish) return;
+
+  if (wish.liked) {
+    wish.liked = false;
+    wish.likes = Math.max(0, (wish.likes || 1) - 1);
+  } else {
+    wish.liked = true;
+    wish.likes = (wish.likes || 0) + 1;
+  }
+
+  saveWishes(activeWishes);
+  renderWishes();
+}
+
+// Initial render of wishes on script load
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', renderWishes);
+} else {
+  renderWishes();
+}
