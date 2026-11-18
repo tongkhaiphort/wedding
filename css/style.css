@@ -33,7 +33,7 @@ html.lenis body {
   --color-rosegold-border: rgba(216, 196, 154, 0.45);
   --rosegold-solid: #d8c49a;
   --font-moul: 'Moul', cursive, serif;
-  --font-moulpali: 'Moulpali', cursive, serif;
+  --font-noto-serif-khmer: 'Noto Serif Khmer', serif;
   --font-body: 'Kantumruy Pro', sans-serif;
   --font-cormorant: 'Cormorant Garamond', serif;
   --font-script: 'Pinyon Script', cursive;
@@ -62,7 +62,7 @@ body {
 }
 
 .rosegold-foil-couple {
-  font-family: var(--font-moulpali);
+  font-family: var(--font-noto-serif-khmer);
   background: linear-gradient(135deg, #a38b5b 0%, #d8c49a 25%, #f7efdc 50%, #d8c49a 75%, #a38b5b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -80,7 +80,7 @@ body {
 }
 
 .rosegold-h2 {
-  font-family: var(--font-moulpali);
+  font-family: var(--font-noto-serif-khmer);
   background: linear-gradient(135deg, #a38b5b 0%, #d8c49a 25%, #f7efdc 50%, #d8c49a 75%, #a38b5b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -91,7 +91,7 @@ body {
 
 /* Light section foil heading (contrasts on blush paper) */
 .rosegold-h2-dark {
-  font-family: var(--font-moulpali);
+  font-family: var(--font-noto-serif-khmer);
   background: linear-gradient(135deg, #3b3326 0%, #524735 30%, #7c8b6a 70%, #3b3326 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

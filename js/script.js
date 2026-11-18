@@ -1128,7 +1128,7 @@ function renderWishes() {
       <div class="wish-card-enter bg-[#241e16]/85 hover:bg-[#241e16] border border-[#d8c49a]/25 hover:border-[#d8c49a]/45 rounded-xl sm:rounded-2xl p-4 transition-all shadow-sm">
         <div class="flex items-start justify-between gap-3 mb-2">
           <div class="flex items-center space-x-2.5">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#d8c49a] to-[#a38b5b] text-[#241e16] font-['Moulpali'] font-bold text-xs flex items-center justify-center shadow-sm shrink-0">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#d8c49a] to-[#a38b5b] text-[#241e16] font-['Noto_Serif_Khmer'] font-bold text-xs flex items-center justify-center shadow-sm shrink-0">
               ${firstChar}
             </div>
             <div>
