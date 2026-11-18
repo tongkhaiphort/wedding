@@ -144,7 +144,7 @@ const I18N = {
     wish_msg_label: "សារជូនពរ / Your Message",
     wish_send_btn: "ផ្ញើសារជូនពរ · Send Wish (1 លើកប៉ុណ្ណោះ)",
     wish_sent_title: "លោកអ្នកបានផ្ញើសារជូនពររួចរាល់ហើយ",
-    wish_tg_btn: "ផ្ញើទៅកាន់ Telegram (@tongkhai08)",
+    wish_tg_btn: "ផ្ញើទៅកាន់ Telegram (@pheavii)",
     wish_other_num: "ចូលដោយលេខទូរស័ព្ទផ្សេង (Sign in with another number)",
     video_title: "វីដេអូអនុស្សាវរីយ៍អាពាហ៍ពិពាហ៍",
 
@@ -257,7 +257,7 @@ const I18N = {
     wish_msg_label: "Your Wedding Blessing",
     wish_send_btn: "Submit Blessing (Once Only)",
     wish_sent_title: "You Have Submitted Your Wedding Wish",
-    wish_tg_btn: "Send via Telegram (@tongkhai08)",
+    wish_tg_btn: "Send via Telegram (@pheavii)",
     wish_other_num: "Sign in with another phone number",
     video_title: "Pre-Wedding Memorial Story Video",
 
@@ -1649,7 +1649,7 @@ function updateWishUIState() {
 
       if (resendBtn) {
         const tgMsg = `🎉 សារជូនពរអាពាហ៍ពិពាហ៍ (Wedding Blessing) 🎉\n🤵 ភត សុភ័ក្រ & 👰 កេត សុភាវី\n-----------------------------------------\n👤 ពីភ្ញៀវ៖ ${existingWish.name} (${existingWish.relationship || 'ភ្ញៀវ'})\n📞 លេខទូរស័ព្ទ៖ ${existingWish.phone || currentGuest.phone}\n💌 សារជូនពរ៖ ${existingWish.message}\n-----------------------------------------\nសូមអរគុណ!`;
-        resendBtn.href = 'https://t.me/tongkhai08?text=' + encodeURIComponent(tgMsg);
+        resendBtn.href = 'https://t.me/pheavii?text=' + encodeURIComponent(tgMsg);
       }
     } else {
       // Step 2: Write Wish Form
@@ -1756,7 +1756,7 @@ function handleWishSubmit(e) {
 
   // Telegram direct URL
   const telegramMessage = `🎉 សារជូនពរអាពាហ៍ពិពាហ៍ (Wedding Blessing) 🎉\n🤵 ភត សុភ័ក្រ & 👰 កេត សុភាវី\n-----------------------------------------\n👤 ពីភ្ញៀវ៖ ${currentGuest.name} (${relationship})\n📞 លេខទូរស័ព្ទ៖ ${currentGuest.phone}\n💌 សារជូនពរ៖ ${message}\n-----------------------------------------\nសូមអរគុណ!`;
-  const tgUrl = 'https://t.me/tongkhai08?text=' + encodeURIComponent(telegramMessage);
+  const tgUrl = 'https://t.me/pheavii?text=' + encodeURIComponent(telegramMessage);
 
   try {
     window.open(tgUrl, '_blank');
