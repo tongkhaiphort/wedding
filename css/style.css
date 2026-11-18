@@ -16,6 +16,47 @@ html.lenis body {
   overflow: hidden;
 }
 
+/* ── Prevent pinch-to-zoom, auto-zoom & horizontal drift on mobile ────────────── */
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+  touch-action: pan-y;
+  -ms-touch-action: pan-y;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: #3b3326;
+  color: #fffaf0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  touch-action: pan-y;
+  -ms-touch-action: pan-y;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Ensure no section or container can cause horizontal scroll / zoom out */
+section, footer, header {
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+/* Prevent iOS Safari from auto-zooming when focusing inputs (< 16px causes auto-zoom) */
+@media screen and (max-width: 768px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+
 :root {
   --color-deep: #3b3326;
   --color-paper: #efe6d2;

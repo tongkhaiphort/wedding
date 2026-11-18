@@ -1,5 +1,34 @@
 lucide.createIcons();
 
+
+// Prevent pinch-to-zoom, multi-touch zoom and double-tap zoom on mobile
+document.addEventListener('gesturestart', function(e) { e.preventDefault(); }, { passive: false });
+document.addEventListener('gesturechange', function(e) { e.preventDefault(); }, { passive: false });
+document.addEventListener('gestureend', function(e) { e.preventDefault(); }, { passive: false });
+
+document.addEventListener('touchstart', function(e) {
+  if (e.touches && e.touches.length > 1) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+document.addEventListener('touchmove', function(e) {
+  if (e.touches && e.touches.length > 1) {
+    e.preventDefault();
+  }
+}, { passive: false });
+
+let lastTouchEndTime = 0;
+document.addEventListener('touchend', function(e) {
+  const now = Date.now();
+  if (now - lastTouchEndTime <= 300) {
+    if (!e.target.closest('button, a, input, select, textarea, [onclick]')) {
+      e.preventDefault();
+    }
+  }
+  lastTouchEndTime = now;
+}, { passive: false });
+
 let isEnvelopeOpened = false;
 let isPlayingAudio = false;
 const bgm = document.getElementById('weddingBgm');
