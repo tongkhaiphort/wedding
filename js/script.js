@@ -1720,7 +1720,7 @@ function handleWishSubmit(e) {
   } catch (_) {}
 
   if (typeof window.burstFlowerPetals === 'function') {
-    window.burstFlowerPetals(window.innerWidth / 2, window.innerHeight * 0.6, 30);
+    window.burstFlowerPetals(window.innerWidth / 2, window.innerHeight * 0.6, 14);
   }
 
   // Transition to Step 3 (already sent)
@@ -1760,7 +1760,7 @@ if (document.readyState === 'loading') {
 
   const pointer = { x: -9999, y: -9999 };
   const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768;
-  const MAX_PETALS = isMobile ? 24 : 45;
+  const MAX_PETALS = isMobile ? 9 : 16;
   const particles = [];
 
   const TYPE_DIST = ['rose', 'rose', 'rose', 'gold', 'blossom'];
@@ -1771,24 +1771,25 @@ if (document.readyState === 'loading') {
     const baseSize = (type === 'blossom' ? 10 : 14) + Math.random() * 6;
 
     let x, y, vx, vy;
+    const slowBaseVy = (0.24 + Math.random() * 0.32) * z;
     if (burst) {
-      x = burstX + (Math.random() - 0.5) * 40;
-      y = burstY + (Math.random() - 0.5) * 40;
+      x = burstX + (Math.random() - 0.5) * 30;
+      y = burstY + (Math.random() - 0.5) * 30;
       const angle = Math.random() * Math.PI * 2;
-      const speed = (2.5 + Math.random() * 5.5) * (z * 0.9);
+      const speed = (1.2 + Math.random() * 2.2) * (z * 0.85);
       vx = Math.cos(angle) * speed;
-      vy = Math.sin(angle) * speed - 1.5;
+      vy = Math.sin(angle) * speed - 0.8;
     } else {
       x = Math.random() * (width + 60) - 30;
       y = -30 - Math.random() * (height * 0.3);
-      vx = (Math.random() - 0.5) * 0.9;
-      vy = (0.75 + Math.random() * 1.35) * z;
+      vx = (Math.random() - 0.5) * 0.35;
+      vy = slowBaseVy;
     }
 
     return {
       x, y, z,
       vx, vy,
-      baseVy: (0.75 + Math.random() * 1.35) * z,
+      baseVy: slowBaseVy,
       type,
       size: baseSize * z,
       width: (type === 'blossom' ? baseSize : baseSize * 0.85) * z,
@@ -1798,13 +1799,13 @@ if (document.readyState === 'loading') {
       rotX: Math.random() * Math.PI * 2,
       rotY: Math.random() * Math.PI * 2,
       rotZ: Math.random() * Math.PI * 2,
-      vRotX: (Math.random() - 0.5) * 0.038,
-      vRotY: (Math.random() - 0.5) * 0.038,
-      vRotZ: (Math.random() - 0.5) * 0.022,
+      vRotX: (Math.random() - 0.5) * 0.014,
+      vRotY: (Math.random() - 0.5) * 0.014,
+      vRotZ: (Math.random() - 0.5) * 0.008,
       phase: Math.random() * Math.PI * 2,
-      swayAmp: 0.9 + Math.random() * 1.3,
+      swayAmp: 0.6 + Math.random() * 0.8,
       isBurst: burst,
-      burstDecay: burst ? (0.94 + Math.random() * 0.03) : 1
+      burstDecay: burst ? (0.91 + Math.random() * 0.02) : 1
     };
   }
 
@@ -1933,8 +1934,8 @@ if (document.readyState === 'loading') {
         }
       }
 
-      const sway = Math.sin(timeSec * 1.4 + p.phase) * p.swayAmp * (p.z * 0.8);
-      p.x += (p.vx + sway + scrollWind * 0.6);
+      const sway = Math.sin(timeSec * 0.65 + p.phase) * (p.swayAmp * 0.65) * (p.z * 0.8);
+      p.x += (p.vx + sway + scrollWind * 0.35);
       p.y += p.vy;
 
       const dx = p.x - pointer.x;
@@ -1955,7 +1956,8 @@ if (document.readyState === 'loading') {
         } else {
           p.x = Math.random() * (width + 60) - 30;
           p.y = -35;
-          p.vx = (Math.random() - 0.5) * 0.9;
+          p.vx = (Math.random() - 0.5) * 0.35;
+          p.vy = p.baseVy;
           p.rotX = Math.random() * Math.PI * 2;
           p.rotY = Math.random() * Math.PI * 2;
           p.rotZ = Math.random() * Math.PI * 2;
@@ -2001,7 +2003,7 @@ if (document.readyState === 'loading') {
     }
   }
 
-  window.burstFlowerPetals = function(x, y, count = 35) {
+  window.burstFlowerPetals = function(x, y, count = 12) {
     if (!isEnabled) return;
     const cx = x !== undefined ? x : width / 2;
     const cy = y !== undefined ? y : height * 0.45;
@@ -2031,7 +2033,7 @@ if (document.readyState === 'loading') {
 
     if (isEnabled) {
       start();
-      window.burstFlowerPetals(window.innerWidth / 2, window.innerHeight * 0.4, 25);
+      window.burstFlowerPetals(window.innerWidth / 2, window.innerHeight * 0.4, 12);
     }
   };
 
@@ -2064,8 +2066,8 @@ if (document.readyState === 'loading') {
   window.addEventListener('click', (e) => {
     const tag = e.target && e.target.tagName ? e.target.tagName.toLowerCase() : '';
     if (tag !== 'button' && tag !== 'a' && tag !== 'input' && tag !== 'select' && tag !== 'textarea') {
-      if (isEnabled && Math.random() < 0.45) {
-        window.burstFlowerPetals(e.clientX, e.clientY, 5);
+      if (isEnabled && Math.random() < 0.25) {
+        window.burstFlowerPetals(e.clientX, e.clientY, 1);
       }
     }
   }, { passive: true });
