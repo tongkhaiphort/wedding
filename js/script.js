@@ -798,6 +798,38 @@ function updatePageProgress() {
 window.addEventListener('scroll', updatePageProgress, { passive: true });
 updatePageProgress();
 
+// ── Mobile Sidebar Dock ScrollSpy ─────────────────────────────────────────
+function updateSidebarActiveState() {
+  const sidebar = document.getElementById('mobileSidebarDock');
+  if (!sidebar) return;
+
+  const sections = [
+    { id: 'invitationSection', el: document.getElementById('invitationSection') },
+    { id: 'countdownSection', el: document.getElementById('countdownSection') },
+    { id: 'programmeSection', el: document.getElementById('programmeSection') },
+    { id: 'venueSection', el: document.getElementById('venueSection') }
+  ];
+
+  const scrollPos = window.scrollY + window.innerHeight * 0.4;
+  let activeId = null;
+
+  for (let i = sections.length - 1; i >= 0; i--) {
+    const s = sections[i];
+    if (s.el && scrollPos >= s.el.offsetTop) {
+      activeId = s.id;
+      break;
+    }
+  }
+
+  document.querySelectorAll('.sidebar-nav-btn').forEach(btn => {
+    const target = btn.getAttribute('data-sidebar-target');
+    btn.classList.toggle('active', target === activeId);
+  });
+}
+window.addEventListener('scroll', updateSidebarActiveState, { passive: true });
+updateSidebarActiveState();
+
+
 function copyInvitationLink() {
   navigator.clipboard.writeText(window.location.href);
   const textSpan = document.getElementById('copyLinkText');

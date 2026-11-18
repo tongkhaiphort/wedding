@@ -36,6 +36,65 @@
   <button aria-label="ត្រឡប់ទៅខាងលើ (Back to top)" id="backToTopBtn" onclick="scrollToTop()">
     <i class="w-5 h-5" data-lucide="chevron-up"></i>
   </button>
+  <!-- MOBILE FLOATING SIDEBAR DOCK (Quick Navigation on Phone - Icons Only) -->
+  <nav
+    id="mobileSidebarDock"
+    aria-label="Quick Mobile Navigation"
+    class="fixed right-2.5 sm:right-3.5 top-1/2 -translate-y-1/2 z-40 flex flex-col items-center gap-2 p-1.5 rounded-full bg-[#241e17]/85 border border-[#d8c49a]/40 shadow-[0_8px_25px_rgba(0,0,0,0.55)] backdrop-blur-md transition-all duration-500">
+    
+    <!-- 1. Invitation Section (មានកិត្តិយសសូមគោរពអញ្ជើញ) -->
+    <a
+      href="#invitationSection"
+      data-sidebar-target="invitationSection"
+      aria-label="មានកិត្តិយសសូមគោរពអញ្ជើញ (Formal Invitation)"
+      title="មានកិត្តិយសសូមគោរពអញ្ជើញ"
+      class="sidebar-nav-btn w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-[#d8c49a] hover:text-[#fffaf0] hover:bg-[#d8c49a]/20 active:scale-90 transition-all duration-300 relative group">
+      <i data-lucide="mail-open" class="w-4 h-4 sm:w-4.5 sm:h-4.5"></i>
+      <span class="pointer-events-none absolute right-12 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-[#241e17] text-[#d8c49a] text-[11px] font-['Kantumruy_Pro'] px-2.5 py-1 rounded-lg border border-[#d8c49a]/40 shadow-lg whitespace-nowrap hidden sm:block">
+        លិខិតអញ្ជើញ
+      </span>
+    </a>
+
+    <!-- 2. Countdown Section (រាប់ថយក្រោយឆ្ពោះទៅកាន់ថ្ងៃមង្គល) -->
+    <a
+      href="#countdownSection"
+      data-sidebar-target="countdownSection"
+      aria-label="រាប់ថយក្រោយឆ្ពោះទៅកាន់ថ្ងៃមង្គល (Countdown)"
+      title="រាប់ថយក្រោយឆ្ពោះទៅកាន់ថ្ងៃមង្គល"
+      class="sidebar-nav-btn w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-[#d8c49a] hover:text-[#fffaf0] hover:bg-[#d8c49a]/20 active:scale-90 transition-all duration-300 relative group">
+      <i data-lucide="clock" class="w-4 h-4 sm:w-4.5 sm:h-4.5"></i>
+      <span class="pointer-events-none absolute right-12 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-[#241e17] text-[#d8c49a] text-[11px] font-['Kantumruy_Pro'] px-2.5 py-1 rounded-lg border border-[#d8c49a]/40 shadow-lg whitespace-nowrap hidden sm:block">
+        រាប់ថយក្រោយ
+      </span>
+    </a>
+
+    <!-- 3. Programme Section (កម្មវិធី) -->
+    <a
+      href="#programmeSection"
+      data-sidebar-target="programmeSection"
+      aria-label="កម្មវិធីអាពាហ៍ពិពាហ៍ (Wedding Programme)"
+      title="កម្មវិធី"
+      class="sidebar-nav-btn w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-[#d8c49a] hover:text-[#fffaf0] hover:bg-[#d8c49a]/20 active:scale-90 transition-all duration-300 relative group">
+      <i data-lucide="calendar" class="w-4 h-4 sm:w-4.5 sm:h-4.5"></i>
+      <span class="pointer-events-none absolute right-12 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-[#241e17] text-[#d8c49a] text-[11px] font-['Kantumruy_Pro'] px-2.5 py-1 rounded-lg border border-[#d8c49a]/40 shadow-lg whitespace-nowrap hidden sm:block">
+        កម្មវិធី
+      </span>
+    </a>
+
+    <!-- 4. Location & Venue Section (ទីតាំងប្រារព្ធពិធី) -->
+    <a
+      href="#venueSection"
+      data-sidebar-target="venueSection"
+      aria-label="ទីតាំងប្រារព្ធពិធី (Venue & Location Map)"
+      title="ទីតាំងប្រារព្ធពិធី"
+      class="sidebar-nav-btn w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-[#d8c49a] hover:text-[#fffaf0] hover:bg-[#d8c49a]/20 active:scale-90 transition-all duration-300 relative group">
+      <i data-lucide="map-pin" class="w-4 h-4 sm:w-4.5 sm:h-4.5"></i>
+      <span class="pointer-events-none absolute right-12 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-[#241e17] text-[#d8c49a] text-[11px] font-['Kantumruy_Pro'] px-2.5 py-1 rounded-lg border border-[#d8c49a]/40 shadow-lg whitespace-nowrap hidden sm:block">
+        ទីតាំងប្រារព្ធពិធី
+      </span>
+    </a>
+
+  </nav>
   <!-- PERSISTENT TOP NAVIGATION BAR -->
   <header
     class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 md:px-12 py-3.5 transition-all duration-500 "
