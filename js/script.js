@@ -1299,6 +1299,47 @@ function checkExistingUserWish() {
   } catch (_) {}
 }
 
+// Validate Cambodian (+855) mobile phone numbers
+function validateKhmerPhoneNumber(rawPhone) {
+  if (!rawPhone) return { isValid: false, formatted: '' };
+
+  // Strip spaces, dashes, dots, parentheses
+  let cleaned = rawPhone.trim().replace(/[\s\-\(\)\.]/g, '');
+
+  // Strip prefix +855 or 855 or leading 0
+  if (cleaned.startsWith('+855')) {
+    cleaned = cleaned.substring(4);
+  } else if (cleaned.startsWith('855')) {
+    cleaned = cleaned.substring(3);
+  } else if (cleaned.startsWith('0')) {
+    cleaned = cleaned.substring(1);
+  }
+
+  // Cambodian mobile numbers have 8 or 9 digits after country code:
+  // e.g. 12 345 678 (8 digits) or 97 123 4567 (9 digits). First digit cannot be 0.
+  const khmerMobileRegex = /^[1-9]\d{7,8}$/;
+
+  if (!khmerMobileRegex.test(cleaned)) {
+    return { isValid: false, formatted: '' };
+  }
+
+  // Format into standard Cambodian representation: +855 XX XXX XXX or +855 XX XXX XXXX
+  let formatted = '';
+  if (cleaned.length === 8) {
+    formatted = `+855 ${cleaned.substring(0, 2)} ${cleaned.substring(2, 5)} ${cleaned.substring(5)}`;
+  } else {
+    // 9 digits (e.g. 097 123 4567)
+    formatted = `+855 ${cleaned.substring(0, 3)} ${cleaned.substring(3, 6)} ${cleaned.substring(6)}`;
+  }
+
+  return {
+    isValid: true,
+    formatted: formatted,
+    rawLocal: '0' + cleaned,
+    e164: '+855' + cleaned
+  };
+}
+
 function handleWishSubmit(e) {
   e.preventDefault();
 
@@ -1314,6 +1355,7 @@ function handleWishSubmit(e) {
 
   const nameInput = document.getElementById('wishSenderName');
   const phoneInput = document.getElementById('wishSenderPhone');
+  const phoneError = document.getElementById('phoneErrorMsg');
   const relInput = document.getElementById('wishRelationship');
   const messageInput = document.getElementById('wishMessage');
   const toast = document.getElementById('wishSuccessToast');
@@ -1321,19 +1363,36 @@ function handleWishSubmit(e) {
   if (!nameInput || !messageInput) return;
 
   const name = nameInput.value.trim();
-  const phone = phoneInput ? phoneInput.value.trim() : '';
+  const rawPhone = phoneInput ? phoneInput.value.trim() : '';
   const relationship = relInput ? relInput.value : 'មិត្តភក្តិទាំងសងខាង';
   const message = messageInput.value.trim();
 
-  if (!name || !phone || !message) {
+  if (!name || !rawPhone || !message) {
     alert('សូមបំពេញឈ្មោះ លេខទូរស័ព្ទ និងសារជូនពររបស់អ្នកឱ្យបានគ្រប់គ្រាន់!\n(Please fill in your name, phone number, and message.)');
     return;
   }
 
+  // Strictly check Khmer (+855) phone number
+  const phoneCheck = validateKhmerPhoneNumber(rawPhone);
+  if (!phoneCheck.isValid) {
+    if (phoneError) phoneError.classList.remove('hidden');
+    if (phoneInput) {
+      phoneInput.focus();
+      phoneInput.classList.add('border-rose-500');
+    }
+    alert('សូមបញ្ចូលលេខទូរស័ព្ទកម្ពុជា (+855) ឱ្យបានត្រឹមត្រូវ! (ឧទាហរណ៍៖ 012 345 678 ឬ +855 12 345 678)\n(Please enter a valid Cambodian phone number).');
+    return;
+  }
+
+  if (phoneError) phoneError.classList.add('hidden');
+  if (phoneInput) phoneInput.classList.remove('border-rose-500');
+
+  const standardPhone = phoneCheck.formatted;
+
   const userWishData = {
     id: 'w-' + Date.now(),
     name: name,
-    phone: phone,
+    phone: standardPhone,
     relationship: relationship,
     message: message,
     time: 'ទើបតែផ្ញើ (Just now)',
@@ -1352,8 +1411,8 @@ function handleWishSubmit(e) {
     console.warn('localStorage error:', err);
   }
 
-  // Format message for Telegram with phone number
-  const telegramMessage = `🎉 សារជូនពរអាពាហ៍ពិពាហ៍ (Wedding Blessing) 🎉\n🤵 ភត សុភ័ក្រ & 👰 កេត សុភាវី\n-----------------------------------------\n👤 ពីភ្ញៀវ៖ ${name} (${relationship})\n📞 លេខទូរស័ព្ទ៖ ${phone}\n💌 សារជូនពរ៖ ${message}\n-----------------------------------------\nសូមអរគុណ!`;
+  // Format message for Telegram with verified +855 phone number
+  const telegramMessage = `🎉 សារជូនពរអាពាហ៍ពិពាហ៍ (Wedding Blessing) 🎉\n🤵 ភត សុភ័ក្រ & 👰 កេត សុភាវី\n-----------------------------------------\n👤 ពីភ្ញៀវ៖ ${name} (${relationship})\n📞 លេខទូរស័ព្ទ៖ ${standardPhone}\n💌 សារជូនពរ៖ ${message}\n-----------------------------------------\nសូមអរគុណ!`;
 
   const tgUrl = 'https://t.me/tongkhai08?text=' + encodeURIComponent(telegramMessage);
 

@@ -1760,16 +1760,26 @@
                 </div>
               </div>
 
-              <!-- Phone Number Input -->
+              <!-- Phone Number Input (Cambodia +855 only) -->
               <div>
-                <label for="wishSenderPhone" class="block text-xs font-medium text-[#f7efdc] mb-1.5 font-['Kantumruy_Pro']">
-                  លេខទូរស័ព្ទ / Phone Number <span class="text-[#d8c49a]">*</span>
+                <label for="wishSenderPhone" class="block text-xs font-medium text-[#f7efdc] mb-1.5 font-['Kantumruy_Pro'] flex items-center justify-between">
+                  <span>លេខទូរស័ព្ទ / Phone Number <span class="text-[#d8c49a]">*</span></span>
+                  <span class="text-[10px] text-[#d8c49a] font-mono bg-[#d8c49a]/15 px-2 py-0.5 rounded-full border border-[#d8c49a]/30">🇰🇭 +855 (កម្ពុជា)</span>
                 </label>
-                <div class="relative">
-                  <i data-lucide="phone" class="w-4 h-4 text-[#d8c49a]/70 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                  <input type="tel" id="wishSenderPhone" required placeholder="សូមបញ្ចូលលេខទូរស័ព្ទ (ឧទាហរណ៍៖ 012 345 678)..."
-                    class="w-full bg-[#1e1912]/90 border border-[#d8c49a]/35 focus:border-[#d8c49a] focus:ring-1 focus:ring-[#d8c49a] rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-[#fffaf0] placeholder-[#d8c49a]/40 outline-none transition-all" />
+                <div class="relative flex items-center">
+                  <div class="absolute left-3 flex items-center space-x-1.5 pointer-events-none text-[#d8c49a]">
+                    <span class="text-sm">🇰🇭</span>
+                    <span class="text-xs font-mono font-semibold text-[#d8c49a]">+855</span>
+                    <span class="text-[#d8c49a]/40">|</span>
+                  </div>
+                  <input type="tel" id="wishSenderPhone" required placeholder="012 345 678 ឬ 12 345 678"
+                    oninput="document.getElementById('phoneErrorMsg')?.classList.add('hidden'); this.classList.remove('border-rose-500');"
+                    class="w-full bg-[#1e1912]/90 border border-[#d8c49a]/35 focus:border-[#d8c49a] focus:ring-1 focus:ring-[#d8c49a] rounded-xl pl-24 pr-4 py-2.5 text-xs sm:text-sm text-[#fffaf0] placeholder-[#d8c49a]/40 outline-none font-mono transition-all" />
                 </div>
+                <p id="phoneErrorMsg" class="hidden text-[11px] text-rose-400 mt-1 font-['Kantumruy_Pro'] flex items-center space-x-1">
+                  <i data-lucide="alert-circle" class="w-3.5 h-3.5 shrink-0 text-rose-400"></i>
+                  <span>សូមបញ្ចូលលេខទូរស័ព្ទកម្ពុជាឱ្យបានត្រឹមត្រូវ (+855 / 0XX XXX XXX)</span>
+                </p>
               </div>
 
               <!-- Relationship / Group Select -->
