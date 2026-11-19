@@ -1362,22 +1362,26 @@ function initGalleryMotion() {
   const items = Array.from(gal.querySelectorAll('.gallery-item'));
   if (!items.length) return;
 
-  // Pre-hide, then reveal in coordinated batches as the grid scrolls into view
+  // On mobile phones, keep native display for silky 60/120fps scrolling with zero blur overhead
+  if (isPhone || isWeakDevice) {
+    gsap.set(items, { opacity: 1, y: 0, scale: 1, clearProps: 'all' });
+    return;
+  }
+
+  // Desktop: smooth coordinated reveal
   try {
-    const softBlur = isWeakDevice ? null : 'blur(6px)';
-    if (softBlur) gsap.set(items, { opacity: 0, y: 35, scale: 0.95, filter: softBlur });
-    else gsap.set(items, { opacity: 0, y: 35, scale: 0.95 });
+    gsap.set(items, { opacity: 0, y: 28, scale: 0.96 });
     ScrollTrigger.batch(items, {
       start: 'top 92%',
       once: true,
-      interval: 0.08,
+      interval: 0.06,
       batchMax: 6,
-      onEnter: (batch) => gsap.to(batch, Object.assign({
+      onEnter: (batch) => gsap.to(batch, {
         opacity: 1, y: 0, scale: 1,
-        duration: 0.8, ease: 'power3.out',
-        overwrite: true, stagger: 0.08,
-        clearProps: 'transform,filter',
-      }, softBlur ? { filter: 'blur(0px)' } : null)),
+        duration: 0.65, ease: 'power3.out',
+        overwrite: true, stagger: 0.06,
+        clearProps: 'transform',
+      }),
     });
   } catch (e) {
     console.warn('Gallery batch error:', e);

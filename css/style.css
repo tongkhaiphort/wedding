@@ -733,6 +733,9 @@ body.intro-active {
 
 .gallery-item {
   break-inside: avoid-column;
+  content-visibility: auto;
+  contain-intrinsic-size: 200px 300px;
+  transform: translateZ(0);
   page-break-inside: avoid;
   -webkit-column-break-inside: avoid;
   display: inline-block;
