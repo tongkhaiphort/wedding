@@ -844,15 +844,19 @@ function updatePageProgress() {
 window.addEventListener('scroll', updatePageProgress, { passive: true });
 updatePageProgress();
 
-// ── Floating Bottom Navigation Dock (Facebook-style Island Dock) ─────────
+// ── Floating Bottom Navigation Dock (Royal Island Navigation Bar) ──
 function updateBottomNavVisibility() {
   const dock = document.getElementById('floatingBottomDock');
   if (!dock) return;
 
   const isIntro = document.body.classList.contains('intro-active') || document.documentElement.classList.contains('intro-active');
   const scrollY = window.scrollY || window.pageYOffset || 0;
-  // Don't show on first page: wait until user scrolls down past ~320px
-  const threshold = Math.min(360, window.innerHeight * 0.42);
+  
+  // "dont show on first page wait scroll down then did it"
+  const coverHero = document.getElementById('coverHeroScreen');
+  const coverHeight = coverHero ? coverHero.offsetHeight : window.innerHeight;
+  // Threshold: must scroll past the first page (at least 72% down cover screen)
+  const threshold = Math.max(480, coverHeight * 0.72);
   const shouldShow = !isIntro && scrollY > threshold;
 
   dock.classList.toggle('show', shouldShow);
@@ -861,32 +865,42 @@ function updateBottomNavVisibility() {
     const sections = [
       { id: 'coverHeroScreen', el: document.getElementById('coverHeroScreen') },
       { id: 'invitationSection', el: document.getElementById('invitationSection') },
+      { id: 'coupleSection', el: document.getElementById('coupleSection') },
       { id: 'countdownSection', el: document.getElementById('countdownSection') },
       { id: 'programmeSection', el: document.getElementById('programmeSection') },
-      { id: 'venueSection', el: document.getElementById('venueSection') }
+      { id: 'gallerySection', el: document.getElementById('gallerySection') },
+      { id: 'venueSection', el: document.getElementById('venueSection') },
+      { id: 'giftSection', el: document.getElementById('giftSection') },
+      { id: 'wishesSection', el: document.getElementById('wishesSection') }
     ];
 
-    const scrollPos = scrollY + window.innerHeight * 0.38;
-    let activeId = 'invitationSection';
+    const scrollPos = scrollY + window.innerHeight * 0.45;
+    let activeTarget = 'invitationSection';
 
     for (let i = sections.length - 1; i >= 0; i--) {
       const s = sections[i];
       if (s.el && scrollPos >= s.el.offsetTop) {
-        activeId = s.id;
+        if (s.id === 'coupleSection') {
+          activeTarget = 'invitationSection';
+        } else if (s.id === 'gallerySection') {
+          activeTarget = 'programmeSection';
+        } else if (s.id === 'giftSection' || s.id === 'wishesSection') {
+          activeTarget = 'venueSection';
+        } else {
+          activeTarget = s.id;
+        }
         break;
       }
     }
 
-    document.querySelectorAll('.dock-nav-btn').forEach(btn => {
+    document.querySelectorAll('#floatingBottomDock [data-dock-target]').forEach(btn => {
       const target = btn.getAttribute('data-dock-target');
-      btn.classList.toggle('active', target === activeId);
+      btn.classList.toggle('active', target === activeTarget);
     });
   }
 }
 window.addEventListener('scroll', updateBottomNavVisibility, { passive: true });
 updateBottomNavVisibility();
-
-
 function copyInvitationLink() {
   navigator.clipboard.writeText(window.location.href);
   const textSpan = document.getElementById('copyLinkText');
@@ -1362,31 +1376,8 @@ function initGalleryMotion() {
   const items = Array.from(gal.querySelectorAll('.gallery-item'));
   if (!items.length) return;
 
-  // On mobile phones, keep native display for silky 60/120fps scrolling with zero blur overhead
-  if (isPhone || isWeakDevice) {
-    gsap.set(items, { opacity: 1, y: 0, scale: 1, clearProps: 'all' });
-    return;
-  }
-
-  // Desktop: smooth coordinated reveal
-  try {
-    gsap.set(items, { opacity: 0, y: 28, scale: 0.96 });
-    ScrollTrigger.batch(items, {
-      start: 'top 92%',
-      once: true,
-      interval: 0.06,
-      batchMax: 6,
-      onEnter: (batch) => gsap.to(batch, {
-        opacity: 1, y: 0, scale: 1,
-        duration: 0.65, ease: 'power3.out',
-        overwrite: true, stagger: 0.06,
-        clearProps: 'transform',
-      }),
-    });
-  } catch (e) {
-    console.warn('Gallery batch error:', e);
-    try { gsap.set(items, { opacity: 1, y: 0, scale: 1, clearProps: 'all' }); } catch (_) { }
-  }
+  // Ensure all items are immediately visible with zero delay
+  gsap.set(items, { opacity: 1, y: 0, scale: 1, clearProps: 'all' });
 
   // One-time gold sheen sweep across the grid as it first enters (desktop only)
   try {
@@ -1399,13 +1390,11 @@ function initGalleryMotion() {
         trigger: grid, start: 'top 76%', once: true,
         onEnter() {
           sheen.style.animation = 'gallerySheenSweep 1.5s ease-out forwards';
-          sheen.addEventListener('animationend', () => sheen.remove(), { once: true });
+          setTimeout(() => { if (sheen.parentNode) sheen.remove(); }, 1800);
         },
       });
     }
-  } catch (e) {
-    console.warn('Gallery sheen error:', e);
-  }
+  } catch (e) { console.warn('Gallery sheen error:', e); }
 }
 
 function spawnGoldDust() {
