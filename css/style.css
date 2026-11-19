@@ -703,53 +703,51 @@ body.intro-active {
   transform: translateY(-5px);
 }
 
-/* ── Section 8: gallery — Masonry layout with full portrait & landscape view ── */
-#gallerySection .gallery-grid {
-  position: relative;
-  column-count: 2;
-  column-gap: 0.75rem;
+/* ── Section 8: Pre-Wedding Photo Gallery (True Responsive Flex Masonry) ── */
+.gallery-masonry {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  gap: 0.65rem;
+}
+
+.gallery-col {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  min-width: 0;
 }
 
 @media (min-width: 640px) {
-  #gallerySection .gallery-grid {
-    column-count: 2;
-    column-gap: 1rem;
+  .gallery-masonry {
+    gap: 1rem;
+  }
+  .gallery-col {
+    gap: 1rem;
   }
 }
 
 @media (min-width: 768px) {
-  #gallerySection .gallery-grid {
-    column-count: 3;
-    column-gap: 1.25rem;
+  .gallery-masonry {
+    gap: 1.25rem;
   }
-}
-
-@media (min-width: 1024px) {
-  #gallerySection .gallery-grid {
-    column-count: 4;
-    column-gap: 1.25rem;
+  .gallery-col {
+    gap: 1.25rem;
   }
 }
 
 .gallery-item {
-  break-inside: avoid-column;
-  page-break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-  display: inline-block;
+  display: block;
   width: 100%;
-  margin-bottom: 0.75rem;
+  position: relative;
+  border-radius: 0.875rem;
   transform: translateZ(0);
 }
 
 @media (min-width: 640px) {
   .gallery-item {
-    margin-bottom: 1rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .gallery-item {
-    margin-bottom: 1.25rem;
+    border-radius: 1rem;
   }
 }
 

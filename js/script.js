@@ -1370,7 +1370,6 @@ function initHeroMotion() {
 
 // ── 6b. Section 8: gallery cascade (coordinated, smooth) ──────────────────
 function initGalleryMotion() {
-  if (!motionOK || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   const gal = document.getElementById('gallerySection');
   if (!gal) return;
   const items = Array.from(gal.querySelectorAll('.gallery-item'));
@@ -1379,10 +1378,48 @@ function initGalleryMotion() {
   // Ensure all items are immediately visible with zero delay
   gsap.set(items, { opacity: 1, y: 0, scale: 1, clearProps: 'all' });
 
+  // Responsive Masonry for Tablet & Desktop (> 768px)
+  const container = document.getElementById('galleryMasonry');
+  if (container) {
+    const allGalleryItems = Array.from(container.querySelectorAll('.gallery-item'));
+    
+    function adaptColumns() {
+      const w = window.innerWidth;
+      // On mobile (< 768px), HTML is already pre-built as 2 balanced columns
+      const targetCols = w >= 1024 ? 4 : (w >= 768 ? 3 : 2);
+      const currentCols = container.querySelectorAll('.gallery-col').length;
+      
+      if (currentCols === targetCols) return;
+
+      container.innerHTML = '';
+      const cols = [];
+      for (let c = 0; c < targetCols; c++) {
+        const col = document.createElement('div');
+        col.className = 'gallery-col flex-1 flex flex-col gap-2.5 sm:gap-4 md:gap-5 min-w-0';
+        container.appendChild(col);
+        cols.push(col);
+      }
+
+      allGalleryItems.forEach((item, idx) => {
+        cols[idx % targetCols].appendChild(item);
+      });
+    }
+
+    // Only adapt on desktop/tablet to keep mobile paint instant
+    if (window.innerWidth >= 768) {
+      adaptColumns();
+    }
+
+    window.addEventListener('resize', () => {
+      clearTimeout(window._masonryResizeTimer);
+      window._masonryResizeTimer = setTimeout(adaptColumns, 150);
+    }, { passive: true });
+  }
+
   // One-time gold sheen sweep across the grid as it first enters (desktop only)
   try {
-    const grid = gal.querySelector('.gallery-grid');
-    if (grid && !isWeakDevice && !isPhone) {
+    const grid = gal.querySelector('.gallery-masonry');
+    if (grid && isDesktop) {
       const sheen = document.createElement('div');
       sheen.id = 'gallerySheen';
       grid.appendChild(sheen);
