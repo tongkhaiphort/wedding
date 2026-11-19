@@ -703,9 +703,53 @@ body.intro-active {
   transform: translateY(-5px);
 }
 
-/* ── Section 8: gallery — one-time gold sheen sweep after the cascade ── */
+/* ── Section 8: gallery — Masonry layout with full portrait & landscape view ── */
 #gallerySection .gallery-grid {
   position: relative;
+  column-count: 2;
+  column-gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  #gallerySection .gallery-grid {
+    column-count: 2;
+    column-gap: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  #gallerySection .gallery-grid {
+    column-count: 3;
+    column-gap: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  #gallerySection .gallery-grid {
+    column-count: 4;
+    column-gap: 1.25rem;
+  }
+}
+
+.gallery-item {
+  break-inside: avoid-column;
+  page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .gallery-item {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .gallery-item {
+    margin-bottom: 1.25rem;
+  }
 }
 
 #gallerySheen {

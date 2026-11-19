@@ -81,7 +81,7 @@ const I18N = {
     groom_father: "លោក ទី ភត",
     groom_mother: "និងលោកស្រី គង់ សឿន",
     bride_father: "លោក កេត សុជាតិ",
-    bride_mother: "និងលោកស្រី នួន នាវ័ន្ត",
+    bride_mother: "និងលោកស្រី ងួន នាវ័ន្ត",
 
     // Countdown
     countdown_title: "រាប់ថយក្រោយឆ្ពោះទៅកាន់ថ្ងៃមង្គល",
@@ -92,18 +92,41 @@ const I18N = {
     countdown_ics: "កត់ត្រាក្នុងប្រតិទិន (.ics)",
 
     // Programme
-    programme_title: "កម្មវិធីសិរីមង្គលអាពាហ៍ពិពាហ៍",
+    programme_title: "កម្មវិធីអាពាហ៍ពិពាហ៍",
     programme_desc: "កម្មវិធីសិរីមង្គលអាពាហ៍ពិពាហ៍តាមប្រពៃណីទំនៀមទម្លាប់ខ្មែរ",
-    prog_m1_title: "ពិធីហែជំនូនចូលរោងជ័យ",
-    prog_m1_desc: "ក្បួនហែជំនូន និងផ្លែឈើ៣៦មុខ ដើម្បីគោរពដល់មាតាបិតា និងចាស់ទុំទាំងសងខាង",
-    prog_m2_title: "ពិធីសែនព្រេន ជើងការ និងកាត់សក់បង្កក់សិរី",
-    prog_m2_desc: "ពិធីកាត់សក់កម្ចាត់ភាពអពមង្គល និងទទួលពរជ័យសិរីសួស្តីពីជីដូនជីតា",
-    prog_m3_title: "ពិធីពិសាភោជនាហារពេលថ្ងៃត្រង់",
-    prog_m3_desc: "ទទួលភ្ញៀវកិត្តិយស និងញាតិមិត្តជិតឆ្ងាយពិសាអាហារពេលថ្ងៃត្រង់នៅគេហដ្ឋានរោងជ័យ",
-    prog_m4_title: "ពិធីបង្វិលពពិល",
-    prog_m4_desc: "ពិធីសក្ការៈបង្វិលពពិល ៧ ជុំ ដើម្បីប្រសិទ្ធពរជ័យ ភាពរុងរឿង និងសេចក្តីស្ងប់ក្នុងជីវិត",
-    prog_m5_title: "ពិធីទទួលបដិសណ្ឋារកិច្ច និងពិសាភោជនាហារពេលល្ងាច",
-    prog_m5_desc: "ពិធីជប់លៀងអាពាហ៍ពិពាហ៍យ៉ាងមហោឡារិក នៅបាត់ដំបងសុីធីហល៍ (Battambang City Hall)",
+    prog_day1_header: "កម្មវិធីថ្ងៃទី១៖ ថ្ងៃសៅរ៍ ទី១៩ ខែធ្នូ ឆ្នាំ២០២៦",
+    prog_d1_1_time: "ម៉ោង ០៩:០០ ព្រឹក",
+    prog_d1_1_title: "ពិធីសែនក្រុងពាលី",
+    prog_d1_2_time: "ម៉ោង ១០:០០ ព្រឹក",
+    prog_d1_2_title: "ពិធីកាត់សក់បង្កក់សិរី",
+    prog_d1_3_time: "ម៉ោង ០១:០០ ល្ងាច",
+    prog_d1_3_title: "ពិធីសូត្រមន្តចម្រើនព្រះបរិត្ត",
+    prog_d1_4_time: "ម៉ោង ០៤:០០ ល្ងាច",
+    prog_d1_4_title: "ពិធីជាវខាន់ស្លា",
+    prog_d1_5_time: "ម៉ោង ០៥:០០ ល្ងាច",
+    prog_d1_5_title: "អញ្ជើញភ្ញៀវកិត្តិយសពិសាអាហារពេលល្ងាច",
+
+    prog_day2_header: "កម្មវិធីថ្ងៃទី២៖ ថ្ងៃអាទិត្យ ទី២០ ខែធ្នូ ឆ្នាំ២០២៦",
+    prog_d2_1_time: "ម៉ោង ០៥:៤៥ ព្រឹក",
+    prog_d2_1_title: "ពិធីសំពះពាលា",
+    prog_d2_2_time: "ម៉ោង ០៦:០០ ព្រឹក",
+    prog_d2_2_title: "ជួបជុំភ្ញៀវកិត្តិយសរៀបចំពិធីហែកំណត់",
+    prog_d2_3_time: "ម៉ោង ០៧:០០ ព្រឹក",
+    prog_d2_3_title: "ពិធីហែជំនូនកំណត់ចូលរោងជ័យ",
+    prog_d2_4_time: "ម៉ោង ០៧:៣០ ព្រឹក",
+    prog_d2_4_title: "អញ្ជើញភ្ញៀវកិត្តិយសពិសាអាហារពេលព្រឹក",
+    prog_d2_5_time: "ម៉ោង ០៨:០០ ព្រឹក",
+    prog_d2_5_title: "ពិធីនិយាយជើងការ រៀបរាប់ផ្លែឈើពិសាស្លាកំណត់",
+    prog_d2_6_time: "ម៉ោង ០៩:០០ ព្រឹក",
+    prog_d2_6_title: "ពិធីពាក់ចិញ្ចៀន",
+    prog_d2_7_time: "ម៉ោង ០៩:៣០ ព្រឹក",
+    prog_d2_7_title: "ពិធីសែនកុងម៉ា",
+    prog_d2_8_time: "ម៉ោង ១០:០០ ព្រឹក",
+    prog_d2_8_title: "ពិធីសំពះផ្ទឹម សែនចងដៃ បង្វិលពពិលបាចផ្កាស្លា និង ព្រះថោងតោងស្បៃនាងនាគ",
+    prog_d2_9_time: "ម៉ោង ១២:០០ ថ្ងៃត្រង់",
+    prog_d2_9_title: "ពិសាអាហារថ្ងៃត្រង់",
+    prog_d2_10_time: "ម៉ោង ០៥:០០ ល្ងាច",
+    prog_d2_10_title: "ពិធីទទួលបដិសណ្ឋារកិច្ចភ្ញៀវកិត្តិយសពិសាភោជនាហារពេលល្ងាច (នៅបាត់ដំបងស៊ីធីហល៍ អគារ B ដោយមេត្រីភាព) ។",
 
     // Story
     story_title: "ដំណើរ<br class=\"hidden sm:inline\" />នៃក្តីស្រឡាញ់",
@@ -194,7 +217,7 @@ const I18N = {
     groom_father: "Mr. Ty Phort",
     groom_mother: "& Mrs. Kong Soeun",
     bride_father: "Mr. Keth Socheat",
-    bride_mother: "& Mrs. Nuon Neavon",
+    bride_mother: "& Mrs. Nguon Neavon",
 
     // Countdown
     countdown_title: "Countdown to The Blessed Day",
@@ -207,16 +230,39 @@ const I18N = {
     // Programme
     programme_title: "Wedding Programme & Rituals",
     programme_desc: "Traditional Khmer Wedding Ceremony & Evening Banquet Schedule",
-    prog_m1_title: "Dowry & Engagement Procession",
-    prog_m1_desc: "Traditional procession of 36 fruit trays honoring parents, ancestors, and elders",
-    prog_m2_title: "Hair Cutting & Cleansing Blessing Ritual",
-    prog_m2_desc: "Sacred cleansing ceremony to wash away misfortune and receive elders' holy blessings",
-    prog_m3_title: "Midday Family Celebration Feast",
-    prog_m3_desc: "Welcoming honored guests, family, and close friends for lunch at the wedding residence",
-    prog_m4_title: "Sacred Candle Rotation Ceremony (Ga-Vil Popil)",
-    prog_m4_desc: "Passing 7 sacred candles in circles to bless the union with peace, harmony, and prosperity",
-    prog_m5_title: "Evening Grand Banquet Reception",
-    prog_m5_desc: "Grand celebratory dinner reception and toast to the newlyweds at Battambang City Hall",
+    prog_day1_header: "Day 1: Saturday, 19 December 2026",
+    prog_d1_1_time: "09:00 AM",
+    prog_d1_1_title: "Groundbreaking & Krong Pali Ritual",
+    prog_d1_2_time: "10:00 AM",
+    prog_d1_2_title: "Hair Cutting & Cleansing Blessing Ritual",
+    prog_d1_3_time: "01:00 PM",
+    prog_d1_3_title: "Monks Chanting & Buddhist Blessing",
+    prog_d1_4_time: "04:00 PM",
+    prog_d1_4_title: "Cheav Khan Sla Betel Nut Ritual",
+    prog_d1_5_time: "05:00 PM",
+    prog_d1_5_title: "Evening Dinner for Honored Guests",
+
+    prog_day2_header: "Day 2: Sunday, 20 December 2026",
+    prog_d2_1_time: "05:45 AM",
+    prog_d2_1_title: "Dawn Reverence Ceremony (Sampeah Phea Lea)",
+    prog_d2_2_time: "06:00 AM",
+    prog_d2_2_title: "Guests Gathering for Procession",
+    prog_d2_3_time: "07:00 AM",
+    prog_d2_3_title: "Dowry & Fruits Procession to Wedding Hall",
+    prog_d2_4_time: "07:30 AM",
+    prog_d2_4_title: "Morning Breakfast for Honored Guests",
+    prog_d2_5_time: "08:00 AM",
+    prog_d2_5_title: "Matchmaker Presentation & Betel Offering",
+    prog_d2_6_time: "09:00 AM",
+    prog_d2_6_title: "Wedding Ring Exchange Ceremony",
+    prog_d2_7_time: "09:30 AM",
+    prog_d2_7_title: "Ancestor Reverence (Kong Ma) Ritual",
+    prog_d2_8_time: "10:00 AM",
+    prog_d2_8_title: "Nuptial Blessing, Wrist Tying, Candle Rotation & Scarf Ritual",
+    prog_d2_9_time: "12:00 PM",
+    prog_d2_9_title: "Midday Celebration Feast",
+    prog_d2_10_time: "05:00 PM",
+    prog_d2_10_title: "Grand Banquet Reception (Battambang City Hall, Building B)",
 
     // Story
     story_title: "Our Love<br class=\"hidden sm:inline\" />Story",
@@ -1202,30 +1248,21 @@ function initSectionReveals() {
     }
   } catch (e) { console.warn('Countdown reveal error:', e); }
 
-  // SECTION 6: Ceremony Programme — milestones alternate from left/right
+  // SECTION 6: Ceremony Programme — Day Cards and Milestones
   try {
     const prog = one('#programmeSection');
     if (prog) {
-      reveal(one('#programmeSection .text-center.mb-16'), { y: 32, blur: 6 }, prog, 'top 85%');
-      const milestones = q('#programmeSection .space-y-12 > div');
+      reveal(one('#programmeSection .text-center'), { y: 32, blur: 6 }, prog, 'top 85%');
+      const dayCards = q('#programmeSection .prog-day-card');
+      dayCards.forEach(c => {
+        reveal(c, { y: 36, opacity: 0, blur: 4, duration: 0.8 }, c, 'top 88%');
+      });
+      const milestones = q('#programmeSection .prog-milestone');
       milestones.forEach((m, i) => {
-        const fromVars = isDesktop
-          ? { x: (i % 2 === 0 ? -54 : 54), opacity: 0, blur: 6, duration: 0.9 }
-          : { y: 34, opacity: 0, blur: 5, duration: 0.9 };
-        reveal(m, fromVars, m, 'top 88%');
-        const badge = one('.rounded-full', m);
-        if (badge) reveal(badge, { scale: 0, duration: 0.6, ease: 'back.out(1.8)' }, m, 'top 88%');
+        reveal(m, { y: 20, opacity: 0, duration: 0.6, delay: (i % 5) * 0.05 }, m, 'top 92%');
       });
     }
   } catch (e) { console.warn('Programme reveal error:', e); }
-
-  // SECTION 7: Love Story header
-  try {
-    const story = one('#loveStorySection') || one('#storySection');
-    if (story) {
-      reveal(one('#loveStorySection .story-header, #storySection .text-center'), { y: 32, blur: 6 }, story, 'top 85%');
-    }
-  } catch (e) { console.warn('Story reveal error:', e); }
 
   // SECTION 8: Pre-Wedding Photo Gallery Header
   try {
